@@ -13,6 +13,6 @@ const styles = {
         backgroundColor: 'blue',
         color: 'white',
         borderRadius: '10px',
-        width: 10
+        width: 10,
     }   
 }
