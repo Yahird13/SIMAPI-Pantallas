@@ -14,5 +14,5 @@ const styles = {
         color: 'white',
         borderRadius: '10px',
         width: 10,
-    }   
+    }
 }
