@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MyNavbar from './componets/Navbar';
 import './App.css';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';//npm install react-router-dom
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
           <Route path={"/"} element={<MyNavbar/>}/>{/* se crea la ruta, la cual se va a mostrar en el path especificado y renderizara el elemento especificado */}
         </Routes>
       </Router>
+
     );
 
 }
