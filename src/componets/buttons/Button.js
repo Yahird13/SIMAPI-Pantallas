@@ -1,15 +1,21 @@
 import React from 'react'
 import { createBrowserHistory } from 'history';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Button(props) {
   const history = createBrowserHistory();
-  const handleClick = () => {
-    history.push(props.link);
+  /* const handleClick = () => {
+    props.onClick();
+    history.push(props.path);
     window.location.reload();
-  }
+  } */
   return (
     <>
-        <button style={Object.assign({}, styles.button, props.style)} onClick={handleClick}>{props.text}</button>
+        <button 
+        style={Object.assign({}, styles.button, props.style)} 
+        onClick={props.onClick} >
+          {!props.text ? <FontAwesomeIcon icon={props.icon} size={props.iconSize}/> : props.text}
+        </button>
     </>
   )
 }
