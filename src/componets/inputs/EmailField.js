@@ -20,6 +20,8 @@ const style = {
         backgroundColor: 'transparent',
         height: 70,
         width: '100%', 
+        outline: 'none',
+        color: 'white',
     },
     backgroundStyle: {
         backgroundColor: C_SECUNDARIO,
