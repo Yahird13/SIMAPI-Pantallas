@@ -3,21 +3,23 @@ import { Link } from 'react-router-dom'
 import SettingsButton from '../buttons/SettingsButton'
 import { C_PRIMARIO } from '../colors' 
 import LogoutButton from '../buttons/LogoutButton'
+import IconContainer from '../containers/IconContainer'
+import { getContrastColor } from '../utils/ColorInvert' 
+
 
 export default function SimapiNavbar(props) {
     let navbarItems = props.navbarItems
+    const textColorBackgroundInvert = getContrastColor(C_PRIMARIO)
   return (
     <nav style={styles.navbar}>
-        <div style={styles.logoContainer}>
-
-        </div>
+        <IconContainer style={styles.logoContainer} image={"https://www.hnm.org.mx/img/hnm.png"}/>
         <SettingsButton style={styles.settingsButton}/>
         <div style={styles.divLinks}>
             <ul style={styles.ul}>
                 {navbarItems ? navbarItems.map((item, index) => {
                     return(
                         <li key={index}>
-                            <Link to={item.path} style={styles.Link}>{item.text}</Link>
+                            <Link to={item.path} style={{textDecoration: 'none',color: textColorBackgroundInvert,fontWeight: 'bold',fontSize: '24px',}}>{item.text}</Link>
                         </li>
                     )
                 }): null}
@@ -53,16 +55,9 @@ const styles = {
         listStyle: 'none',
         overflow: 'hidden',
     },
-    Link: {
-        textDecoration: 'none',
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: '24px',
-    },
     logoContainer: {
-        width: '10%',
-        height: '100%',
-        border: '1px solid black',
+        width: 100,
+        height: 100,
     },
     divLinks: {
         paddingRight: '50px',
@@ -73,7 +68,6 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: C_PRIMARIO,
-        color: 'black',
         borderRadius: '15px',
         fontWeight: 'bold',
         border: 'none',

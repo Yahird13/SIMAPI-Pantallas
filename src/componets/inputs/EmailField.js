@@ -8,9 +8,11 @@ export default function EmailField(props) {
   return (
     <TextField 
     type={"email"} 
+    id={"email"}
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
+    rightIconBackgroundColor={C_SECUNDARIO}
     iconStyle={style.icon}
     placeholder={"Correo Electrónico"} iconSize={"2xl"}/>
   )
@@ -23,7 +25,6 @@ const style = {
         height: 70,
         width: '100%', 
         outline: 'none',
-        color: 'white',
         fontSize: '20px',
         paddingLeft: 20,
     },
@@ -34,7 +35,7 @@ const style = {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        //boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     icon: {
         backgroundColor: C_TERCIARIO,

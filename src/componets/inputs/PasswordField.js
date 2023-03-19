@@ -22,6 +22,7 @@ export default function EmailField(props) {
   return (
     <TextField 
     type={showPass ? "text" : "password"} 
+    id={"password"}
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
@@ -31,7 +32,8 @@ export default function EmailField(props) {
     rightIcon={rightIcon} 
     onClick={handleClick} 
     rightIconStyle={style.rightIcon}
-    rightIconSize={"2xl"}/>
+    rightIconSize={"2xl"}
+    rightIconBackgroundColor={C_SECUNDARIO}/>
   )
 }
 
@@ -42,7 +44,6 @@ const style = {
         height: 70,
         width: '86%', 
         outline: 'none',
-        color: 'white',
         fontSize: '20px',
         paddingLeft: 20,
     },
@@ -60,7 +61,7 @@ const style = {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        //boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     icon: {
         backgroundColor: C_TERCIARIO,
