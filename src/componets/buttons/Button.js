@@ -1,10 +1,10 @@
 import React from 'react'
-import { createBrowserHistory } from 'history';
+//import { createBrowserHistory } from 'history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getContrastColor } from '../utils/ColorInvert';
 
 export default function Button(props) {
-  const history = createBrowserHistory();
+  //const history = createBrowserHistory();
   let { style: { backgroundColor } = {} } = props;
   const textColorBackgroundInvert = backgroundColor ? getContrastColor(props.style.backgroundColor) : null;
   /* const handleClick = () => {
