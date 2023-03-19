@@ -8,6 +8,7 @@ export default function EmailField(props) {
   return (
     <TextField 
     type={"email"} 
+    id={"email"}
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
