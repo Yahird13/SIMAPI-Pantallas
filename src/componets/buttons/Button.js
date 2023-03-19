@@ -1,9 +1,12 @@
 import React from 'react'
 import { createBrowserHistory } from 'history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getContrastColor } from '../utils/ColorInvert';
 
 export default function Button(props) {
   const history = createBrowserHistory();
+  let { style: { backgroundColor } = {} } = props;
+  const textColorBackgroundInvert = backgroundColor ? getContrastColor(props.style.backgroundColor) : null;
   /* const handleClick = () => {
     props.onClick();
     history.push(props.path);
@@ -12,7 +15,7 @@ export default function Button(props) {
   return (
     <>
         <button 
-        style={Object.assign({}, styles.button, props.style)} 
+        style={{ ...styles.button, ...props.style, color: textColorBackgroundInvert}} 
         onClick={props.onClick} >
           {!props.text ? <FontAwesomeIcon icon={props.icon} size={props.iconSize}/> : props.text}
         </button>
@@ -22,7 +25,6 @@ export default function Button(props) {
 
 const styles = {
     button: {
-        color: 'black',
         borderRadius: '15px',
         width: 10,
         fontWeight: 'bold',

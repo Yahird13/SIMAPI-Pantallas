@@ -3,7 +3,7 @@ import TextField from './TextField'
 import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
 import "./style.css"
 
-export default function EmailField(props) {
+export default function PasswordField(props) {
   let iconShowPass = props.passIcons[0];
   let iconHidePass = props.passIcons[1];
 
@@ -31,7 +31,8 @@ export default function EmailField(props) {
     rightIcon={rightIcon} 
     onClick={handleClick} 
     rightIconStyle={style.rightIcon}
-    rightIconSize={"2xl"}/>
+    rightIconSize={"2xl"}
+    rightIconBackgroundColor={C_SECUNDARIO}/>
   )
 }
 
@@ -42,7 +43,6 @@ const style = {
         height: 70,
         width: '86%', 
         outline: 'none',
-        color: 'white',
         fontSize: '20px',
         paddingLeft: 20,
     },
@@ -60,7 +60,7 @@ const style = {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        //boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     icon: {
         backgroundColor: C_TERCIARIO,
