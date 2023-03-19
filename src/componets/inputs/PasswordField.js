@@ -22,6 +22,7 @@ export default function PasswordField(props) {
   return (
     <TextField 
     type={showPass ? "text" : "password"} 
+    id={"password"}
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
