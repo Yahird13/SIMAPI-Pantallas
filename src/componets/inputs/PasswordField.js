@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextField from './TextField'
 import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
 import "./style.css"
 
 export default function EmailField(props) {
+  let iconShowPass = props.passIcons[0];
+  let iconHidePass = props.passIcons[1];
+
+  const [showPass, setShowPass] = useState(false);
+  const [rightIcon, setRightIcon] = useState(iconShowPass);
+
+  const handleClick = () => {
+    setShowPass(!showPass);
+    if (showPass) {
+      setRightIcon(iconShowPass);
+    } else {
+      setRightIcon(iconHidePass);
+    }
+  }
+
   return (
     <TextField 
-    type={"email"} 
+    type={showPass ? "text" : "password"} 
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
     iconStyle={style.icon}
-    placeholder={"Correo Electrónico"} iconSize={"2xl"}/>
+    placeholder={"Contraseña"} 
+    iconSize={"2xl"} 
+    rightIcon={rightIcon} 
+    onClick={handleClick} 
+    rightIconStyle={style.rightIcon}
+    rightIconSize={"2xl"}/>
   )
 }
 
@@ -20,11 +40,18 @@ const style = {
         border: 'none',
         backgroundColor: 'transparent',
         height: 70,
-        width: '100%', 
+        width: '86%', 
         outline: 'none',
         color: 'white',
         fontSize: '20px',
         paddingLeft: 20,
+    },
+    rightIcon: {
+        height: 70,
+        width: 70,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     backgroundStyle: {
         backgroundColor: C_SECUNDARIO,
