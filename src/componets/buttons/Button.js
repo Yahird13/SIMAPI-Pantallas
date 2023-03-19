@@ -2,6 +2,8 @@ import React from 'react'
 //import { createBrowserHistory } from 'history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getContrastColor } from '../utils/ColorInvert';
+import IconContainer from '../containers/IconContainer';
+import { faBedPulse } from '@fortawesome/free-solid-svg-icons';
 
 export default function Button(props) {
   //const history = createBrowserHistory();
@@ -18,7 +20,9 @@ export default function Button(props) {
         style={{ ...styles.button, ...props.style, color: textColorBackgroundInvert}} 
         onClick={props.onClick} >
           {!props.text ? <FontAwesomeIcon icon={props.icon} size={props.iconSize}/> : props.text}
+          
         </button>
+        <IconContainer text={"Camilla"} camilla={true} colorAlert={'red'}  styleText={{fontSize: 10}} iconCamilla={ faBedPulse } size={"5x"} style={{height: 100, with: 100}}/>
     </>
   )
 }

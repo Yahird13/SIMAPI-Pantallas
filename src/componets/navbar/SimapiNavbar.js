@@ -12,7 +12,7 @@ export default function SimapiNavbar(props) {
     const textColorBackgroundInvert = getContrastColor(C_PRIMARIO)
   return (
     <nav style={styles.navbar}>
-        <IconContainer style={styles.logoContainer} image={"https://www.hnm.org.mx/img/hnm.png"}/>
+        <IconContainer style={styles.logoContainer} image={"https://www.hnm.org.mx/img/hnm.png"} text={"Hospital del niño"}/>
         <SettingsButton style={styles.settingsButton}/>
         <div style={styles.divLinks}>
             <ul style={styles.ul}>
@@ -58,6 +58,7 @@ const styles = {
     logoContainer: {
         width: 100,
         height: 100,
+        border: "1px solid black"
     },
     divLinks: {
         paddingRight: '50px',
