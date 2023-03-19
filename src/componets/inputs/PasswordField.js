@@ -3,7 +3,7 @@ import TextField from './TextField'
 import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
 import "./style.css"
 
-export default function EmailField(props) {
+export default function PasswordField(props) {
   let iconShowPass = props.passIcons[0];
   let iconHidePass = props.passIcons[1];
 

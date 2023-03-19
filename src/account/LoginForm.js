@@ -1,6 +1,10 @@
 import React from 'react';
 import Button from '../componets/buttons/Button';
 import { C_PRIMARIO } from '../componets/colors';
+import EmailField from '../componets/inputs/EmailField';
+import PasswordField from '../componets/inputs/PasswordField';
+import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 export const LoginForm = () => {
     return (
@@ -24,8 +28,7 @@ export const LoginForm = () => {
                         }}>Bienvenido a SIMAPI</text>
                     </div>
                     <div>
-                    <input type="email" id="email" name="email" />
-                    <input type="password" id="password" name="password" />
+                        <EmailField />
                     </div>
                 </div>
                 <div style={{
