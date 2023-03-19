@@ -11,5 +11,5 @@ export default function LogoutButton() {
 const style = {
     background: "#F00E0E",
     width: 100,
-    height: 115,
+    height: "100%",
 }
