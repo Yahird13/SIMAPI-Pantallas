@@ -3,3 +3,4 @@ const C_SECUNDARIO = "#385273";
 const C_TERCIARIO = "#00264D";
 
 export { C_PRIMARIO, C_SECUNDARIO, C_TERCIARIO };
+  

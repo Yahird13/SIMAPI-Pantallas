@@ -1,3 +1,4 @@
 ::placeholder {
     color: #ffffff;
+    -webkit-text-stroke: 0.3px black;
 }
