@@ -19,16 +19,30 @@ export const LoginForm = () => {
                     {
                         borderRadius: '15px',
                         backgroundColor: C_PRIMARIO,
-                        width: '775px',
+                        width: '675px',
                     }}>
                     <div style={{ padding: '20px', textAlign: 'center' }}>
                         <text style={{
                             fontWeight: 'bold',
-                            fontSize: '25px'
+                            fontSize: '30px'
                         }}>Bienvenido a SIMAPI</text>
                     </div>
                     <div>
-                        <EmailField />
+                        <div style={{
+                            display: 'flex',
+                            marginTop: '20px',
+                            justifyContent: 'center',
+                        }}>
+                            <EmailField icon={faEnvelope} />
+                        </div>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            marginTop: '40px',
+                            paddingBottom: '40px'
+                        }}>
+                            <PasswordField icon={faLock} passIcons={[faEye, faEyeSlash]} />
+                        </div>
                     </div>
                 </div>
                 <div style={{
