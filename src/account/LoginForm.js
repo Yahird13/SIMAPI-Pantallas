@@ -5,6 +5,8 @@ import EmailField from '../componets/inputs/EmailField';
 import PasswordField from '../componets/inputs/PasswordField';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import IconContainer from '../componets/containers/IconContainer';
+
 
 export const LoginForm = () => {
     return (
@@ -21,8 +23,15 @@ export const LoginForm = () => {
                         backgroundColor: C_PRIMARIO,
                         width: '675px',
                     }}>
-                    <div style={{ padding: '20px', textAlign: 'center' }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
+                    <IconContainer style={styles.logoContainer} image={"https://www.hnm.org.mx/img/hnm.png"}/>
+                    </div>
+                    <div style={{ paddingTop: '30px', textAlign: 'center' }}>
                         <text style={{
+                            marginTop: '40px',
                             fontWeight: 'bold',
                             fontSize: '30px'
                         }}>Bienvenido a SIMAPI</text>
