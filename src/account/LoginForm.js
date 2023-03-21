@@ -1,10 +1,10 @@
 import React from 'react';
 import Button from '../componets/buttons/Button';
-import { C_PRIMARIO } from '../componets/colors';
+import { C_PRIMARIO, C_TERCIARIO } from '../componets/colors';
 import EmailField from '../componets/inputs/EmailField';
 import PasswordField from '../componets/inputs/PasswordField';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import IconContainer from '../componets/containers/IconContainer';
 
 
@@ -17,19 +17,34 @@ export const LoginForm = () => {
             height: '100vh',
         }}>
             <div>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 1,
+                    
+                }}>
+                    <IconContainer icon={faUser} size={"8x"} style={{
+                        position: 'absolute',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        border: "1px solid C_TERCIARIO",
+                        borderRadius: "50%",
+                        width: 200,
+                        height: 200,
+                        backgroundColor: C_TERCIARIO
+                    }} />
+                </div>
+
                 <div style={
                     {
                         borderRadius: '15px',
                         backgroundColor: C_PRIMARIO,
                         width: '675px',
+                        height: '425px',
                     }}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}>
-                    <IconContainer style={styles.logoContainer} image={"https://www.hnm.org.mx/img/hnm.png"}/>
-                    </div>
-                    <div style={{ paddingTop: '30px', textAlign: 'center' }}>
+
+                    <div style={{ paddingTop: '130px', textAlign: 'center' }}>
                         <text style={{
                             marginTop: '40px',
                             fontWeight: 'bold',
