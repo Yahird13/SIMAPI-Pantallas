@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 //import { createBrowserHistory } from 'history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getContrastColor } from '../utils/ColorInvert';
@@ -8,9 +8,25 @@ import { faBedPulse } from '@fortawesome/free-solid-svg-icons';
 export default function Button(props) {
   //const history = createBrowserHistory();
   let { style: { backgroundColor } = {} } = props;
-  const textColorBackgroundInvert = backgroundColor ? getContrastColor(props.style.backgroundColor) : null;
-  let alert = props.alert ? 'red' : 'gray';
-  const [hovered, setHovered] = React.useState(false);
+  const { id } = props;
+  const textColorBackgroundInvert = backgroundColor ? getContrastColor( backgroundColor) : null;
+  const [hovered, setHovered] = useState(false);
+  const [alert, setAlert] = useState(props.alert);
+  const intervalRef = useRef(null);
+
+  turnOffAlert = () => {
+    clearInterval(intervalRef.current)
+    setAlert(false);
+    console.log("turnOffAlert");
+    console.log({idCamilla: id});
+  };
+  
+  useEffect(!alert ? () => {} :  () => {
+      intervalRef.current = setInterval(() => {
+        setAlert((prevState) => !prevState);
+      }, 250);
+      return () => clearInterval(intervalRef.current);
+  }, [])
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -30,6 +46,7 @@ export default function Button(props) {
   return (
     <>
         <button 
+        id={id}
         style={{ 
           ...styles.button, 
           ...props.style, 
@@ -45,9 +62,10 @@ export default function Button(props) {
           size={props.iconSize}/> : props.text}
           {props.camilla ? <IconContainer text={"Camilla"} 
           camilla={true} 
-          colorAlert={alert}  
+          colorAlert={alert ? 'red' : 'gray'}
+          iconColor={alert ? 'red' : 'black'}
           styleText={{fontSize: 10}} 
-          iconCamilla={ faBedPulse } 
+          iconCamilla={ faBedPulse }
           size={"2x"} 
           style={{
             height: 100, 
@@ -61,6 +79,8 @@ export default function Button(props) {
     </>
   )
 }
+
+export let turnOffAlert
 
 const styles = {
   button: {

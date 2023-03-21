@@ -43,9 +43,9 @@ export default function IconContainer(props) {
         {props.image && !props.icon ? <img src={props.image} alt="" width={"auto"} height={height-(height * 0.1)}/> : null}
       </div>
       <div align={"center"}>
-        {props.iconCamilla ? <FontAwesomeIcon icon={props.iconCamilla} size={props.size} style={{color: iconColor}}/> : null}
-        {props.text ? <p style={{...props.styleText, textAlign: "center", color: iconColor}}>{props.text}</p> : null}
-        {props.camilla ? <div style={styleDivCamilla}></div>: null}
+        {props.iconCamilla ? <FontAwesomeIcon icon={props.iconCamilla} size={props.size} style={{color: props.iconColor}}/> : null}
+        {props.text ? <p style={{...props.styleText, textAlign: "center", color: iconColor}} id={props.idText}>{props.text}</p> : null}
+        {props.camilla ? <div style={styleDivCamilla} id={props.idAlertaCamilla}></div>: null}
       </div>
     </div>
   )

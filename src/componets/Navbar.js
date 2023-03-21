@@ -8,7 +8,7 @@ import SimapiNavbar from './navbar/SimapiNavbar';
 import IconContainer from './containers/IconContainer';
 import { C_TERCIARIO, C_PRIMARIO } from './colors';
 import Button from './buttons/Button';
-import CamillaContainer from './containers/CamillaContainer';
+import { turnOffAlert } from './buttons/Button';
 
 export default function MyNavbar(){
 
@@ -23,10 +23,9 @@ export default function MyNavbar(){
                 <EmailField icon={ faEnvelope }/>
                 <PasswordField icon={ faLock } passIcons={[faEye,faEyeSlash]}/>
                 {/* <IconContainer text={"Camilla"} camilla={true} colorAlert={'red'}  styleText={{fontSize: 10}} iconCamilla={ faBedPulse } size={"5x"} style={{height: 100, with: 100}}/> */}
-                <Button camilla={true} onClick={() => console.log("presionado")} style={{marginLeft: 100, margin: 10}}/>
+                <Button camilla={true} style={{margin: 20}} onClick={() => {turnOffAlert()}} alert={true} id={'1'}/>
                 <IconContainer icon={ faUser } size={"5x"} style={{ border: "1px solid black", borderRadius: "50%", width: 200, height: 200, backgroundColor: C_TERCIARIO}}/>
                 <Button text={"Hola"} style={{backgroundColor: C_PRIMARIO,width: 423,height: 84,}}/>
-                <CamillaContainer/>
                 <div style={{height: "200%", width: "100%", backgroundColor: 'black'}}>
                     a
                     <br/>
