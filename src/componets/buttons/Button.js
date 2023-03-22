@@ -7,25 +7,25 @@ import { faBedPulse } from '@fortawesome/free-solid-svg-icons';
 
 export default function Button(props) {
   //const history = createBrowserHistory();
-  let { style: { backgroundColor } = {} } = props;
+  let { style: { backgroundColor } = {} } = props
   const { id } = props;
   const textColorBackgroundInvert = backgroundColor ? getContrastColor( backgroundColor) : null;
   const [hovered, setHovered] = useState(false);
   const [alert, setAlert] = useState(props.alert);
-  const intervalRef = useRef(null);
+  const ref = useRef(null);
 
   turnOffAlert = () => {
-    clearInterval(intervalRef.current)
+    clearInterval(ref.current)
     setAlert(false);
     console.log("turnOffAlert");
     console.log({idCamilla: id});
   };
   
   useEffect(!alert ? () => {} :  () => {
-      intervalRef.current = setInterval(() => {
+      ref.current = setInterval(() => {
         setAlert((prevState) => !prevState);
       }, 250);
-      return () => clearInterval(intervalRef.current);
+      return () => clearInterval(ref.current);
   }, [])
 
   const handleMouseEnter = () => {
@@ -44,8 +44,7 @@ export default function Button(props) {
     window.location.reload();
   } */
   return (
-    <>
-        <button 
+        <button
         id={id}
         style={{ 
           ...styles.button, 
@@ -54,13 +53,13 @@ export default function Button(props) {
           transform: `scale(${scale})`, 
           transition: 'transform 0.3s ease', 
           visibility: props.camilla ? 'hidden' : 'visible',}} 
-        onClick={props.onClick} 
+        onClick={turnOffAlert} 
         onMouseEnter={handleMouseEnter} 
         onMouseLeave={handleMouseLeave} >
           {!props.text && props.icon ? <FontAwesomeIcon 
           icon={props.icon} 
           size={props.iconSize}/> : props.text}
-          {props.camilla ? <IconContainer text={"Camilla"} 
+          {props.camilla ? <IconContainer text={props.textCamilla} 
           camilla={true} 
           colorAlert={alert ? 'red' : 'gray'}
           iconColor={alert ? 'red' : 'black'}
@@ -76,7 +75,6 @@ export default function Button(props) {
             visibility: 'visible',
             margin: 30}}/> :null}
         </button>
-    </>
   )
 }
 
@@ -84,8 +82,7 @@ export let turnOffAlert
 
 const styles = {
   button: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '15px',

@@ -14,7 +14,7 @@ export default function TextField(props) {
   return (
     <div style={props.backgroundStyle}>
         <i style={props.iconStyle}>{props.leftIcon ? <FontAwesomeIcon icon={props.leftIcon} size={props.iconSize} style={{color: iconColor}}/>: null}</i>
-        <input type={props.type} style={{...props.style, color: iconBackgroundColorInvert}} id={props.id} placeholder={props.placeholder}/>
+        <input type={props.type} style={{...props.style, color: iconBackgroundColorInvert}} id={props.id} placeholder={props.placeholder} value={props.value} />
         <i style={props.rightIconStyle} onClick={props.onClick}>{props.rightIcon ? <FontAwesomeIcon icon={props.rightIcon} size={props.rightIconSize} style={{color: iconBackgroundColorInvert}}/> : null}</i>
     </div>
   )

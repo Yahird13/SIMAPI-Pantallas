@@ -35,7 +35,7 @@ export default function SimapiNavbar(props) {
                         textDecoration: "none",
                         color: textColorBackgroundInvert,
                         fontWeight: "bold",
-                        fontSize: "24px",
+                        fontSize: "100%",
                         transform: `scale(${isHovered ? 1.1 : 1})`,
                         transition: "transform 0.3s ease",
                         display: "list-item",}}

@@ -40,12 +40,12 @@ export default function IconContainer(props) {
     <div style={styles}>
       <div style={styleDivIcon}>
         {props.icon && !props.image ? <FontAwesomeIcon icon={props.icon} size={props.size} style={{color: iconColor}}/> : null}
-        {props.image && !props.icon ? <img src={props.image} alt="" width={"auto"} height={height-(height * 0.1)}/> : null}
+        {props.image && !props.icon ? <img src={props.image} width={"auto"} height={100-(100 * 0.1)}/> : null}
       </div>
       <div align={"center"}>
         {props.iconCamilla ? <FontAwesomeIcon icon={props.iconCamilla} size={props.size} style={{color: props.iconColor}}/> : null}
         {props.text ? <p style={{...props.styleText, textAlign: "center", color: iconColor}} id={props.idText}>{props.text}</p> : null}
-        {props.camilla ? <div style={styleDivCamilla} id={props.idAlertaCamilla}></div>: null}
+        {/* props.camilla ? <div style={styleDivCamilla} id={props.idAlertaCamilla}></div>: null */}
       </div>
     </div>
   )
