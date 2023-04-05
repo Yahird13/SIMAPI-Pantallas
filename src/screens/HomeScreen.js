@@ -5,18 +5,11 @@ import { Select } from '@material-ui/core';
 
 export default function HomeScreen() {
 
-    const camillas = [
-        { idCamilla: 'camilla1', paciente: 'Diego', estado: false, expediente: 'expediente 1' },
-        { idCamilla: 'camilla2', paciente: 'Johana', estado: true, expediente: 'expediente 2' },
-        { idCamilla: 'camilla3', paciente: 'Juan', estado: false, expediente: 'expediente 3' },
-        { idCamilla: 'camilla4', paciente: 'Pedro', estado: true, expediente: 'expediente 4' },
-        { idCamilla: 'camilla5', paciente: 'Maria', estado: false, expediente: 'expediente 5' },
-        { idCamilla: 'camilla6', paciente: 'Luis', estado: true, expediente: 'expediente 6' },
-        { idCamilla: 'camilla7', paciente: 'Luisa', estado: false, expediente: 'expediente 7' },
-        { idCamilla: 'camilla8', paciente: 'Antionio', estado: true, expediente: 'expediente 8' },
-        { idCamilla: 'camilla9', paciente: 'Marcos', estado: false, expediente: 'expediente 9' },
-        { idCamilla: 'camilla10', paciente: 'Fernando', estado: true, expediente: 'expediente 10' },
-    ]
+    useEffect(() => {
+        if (!isUserAuthenticated()) {
+            window.location.href = "/";
+        }
+    }, []);
 
 
     return (
@@ -51,7 +44,7 @@ export default function HomeScreen() {
                     <option>Sala 4</option>
                     <option>Sala 5</option>
                 </select>
-                <CamillaContainer camillas={camillas} />
+                <CamillaContainer idIsla={''} idSala={''}/>
 
             </div>
         </div>
