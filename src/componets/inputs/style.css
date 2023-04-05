@@ -1,4 +1,7 @@
-::placeholder {
+.input-black::placeholder {
     color: #ffffff;
-    -webkit-text-stroke: 0.7px black;
+}
+
+.input-white::placeholder {
+    color: #000000;
 }

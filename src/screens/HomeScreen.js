@@ -18,6 +18,7 @@ export default function HomeScreen() {
         { idCamilla: 'camilla10', paciente: 'Fernando', estado: true, expediente: 'expediente 10' },
     ]
 
+
     return (
         <div>
             <SimapiNavbar navbarItems={[
