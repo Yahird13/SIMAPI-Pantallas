@@ -55,6 +55,16 @@ export default function UsersScreen() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                        <TableRow>
+                                <TableCell>1</TableCell>
+                                <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
+                                <TableCell>Enfermero</TableCell>
+                                <TableCell >
+                                <Button text={"Editar"} style={styles.btnEditarUsuario} path={"#"} />
+                                <Button text={"Eliminar"} style={styles.btnEliminarUsuario} path={"#"} />
+                                </TableCell>
+                            </TableRow>
+
                             {/* {props.data.map(row => (
                         <TableRow key={row.id}>
                             <TableCell>{row.no}</TableCell>
@@ -82,8 +92,27 @@ const styles = {
         position:'absolute',
         width:'200px',
         height:'50px',
-        backgroundColor: 'green',
+        borderRadius: '10px',
+        backgroundColor: '#3fad5e',
         top: '150px',
         right: '45px',
+    },
+
+    
+    btnEditarUsuario:{
+        color: 'black',
+        width: '100px',
+        borderRadius: '5px',
+       backgroundColor: '#FFFF00',
+        marginRight: '10px',
+    },
+
+
+
+    btnEliminarUsuario:{
+        color: 'black',
+        width: '120px',
+        borderRadius: '5px',
+       backgroundColor: '#FF0000',
     }
 }
