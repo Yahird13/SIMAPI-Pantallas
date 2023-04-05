@@ -11,6 +11,10 @@ import RecordScreen from './screens/tables/RecordScreen';
 import CamillasScreen from './screens/tables/CamillasScreen';
 import UsersScreen from './screens/tables/UsersScreen';
 import Navbar from '././componets/Navbar'
+import CrearUsuario from './screens/CrearUsuario';
+import CrearCamilla from './screens/CrearCamilla';
+import HistorialDetalles from './screens/HistorialDetalles';
+
 
 function App() {
     return (
@@ -22,11 +26,20 @@ function App() {
           <Route path={"/historial"} element={<RecordScreen/>}/>
           <Route path={"/camillas"} element={<CamillasScreen/>}/>
           <Route path={"/usuarios"} element={<UsersScreen/>}/>
+          <Route path={"/agregarUsuario"} element={<CrearUsuario/>}/>
+          <Route path={"/agregarCamilla"} element={<CrearCamilla/>}/>
+          <Route path={"/historialDetalle"} element={<HistorialDetalles/>}/>
           <Route path={"/pruebas"} element={<Navbar/>}/>
         </Routes>
       </Router>
 
     );
+
+
+
+
+
+
 
 }
 
