@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import SimapiNavbar from '../componets/navbar/SimapiNavbar';
 import CamillaContainer from '../componets/containers/CamillaContainer';
-import { Select } from '@material-ui/core';
-import { useEffect } from 'react';
 import { isUserAuthenticated } from '../auth/TokenValidate';
 import SimapiSelect from '../componets/select/SimapiSelect';
 
@@ -13,8 +11,6 @@ export default function HomeScreen() {
             window.location.href = "/";
         }
     }, []);
-
-
     return (
         <div>
             <SimapiNavbar navbarItems={[
