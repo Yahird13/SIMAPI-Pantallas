@@ -4,6 +4,7 @@ import CamillaContainer from '../componets/containers/CamillaContainer';
 import { Select } from '@material-ui/core';
 import { useEffect } from 'react';
 import { isUserAuthenticated } from '../auth/TokenValidate';
+import SimapiSelect from '../componets/select/SimapiSelect';
 
 export default function HomeScreen() {
 
@@ -32,20 +33,7 @@ export default function HomeScreen() {
                 borderRadius: '15px',
                 border: '5px solid black'
             }}>
-                <select style={{
-                    marginTop:'20px',
-
-                }}>
-                    <option>Isla 1</option>
-                    <option>Isla 2</option>
-                </select>
-                <select>
-                    <option>Sala 1</option>
-                    <option>Sala 2</option>
-                    <option>Sala 3</option>
-                    <option>Sala 4</option>
-                    <option>Sala 5</option>
-                </select>
+                {/* <SimapiSelect/> */}
                 <CamillaContainer idIsla={''} idSala={''}/>
 
             </div>
