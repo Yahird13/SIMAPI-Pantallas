@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SettingsButton from "../buttons/SettingsButton";
 import { C_PRIMARIO } from "../colors";
@@ -10,6 +10,7 @@ export default function SimapiNavbar(props) {
   const navbarItems = props.navbarItems;
   const textColorBackgroundInvert = getContrastColor(C_PRIMARIO);
   const [hoveredIndex, setHoveredIndex] = React.useState(-1);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
@@ -21,11 +22,16 @@ export default function SimapiNavbar(props) {
 
   return (
     <nav style={styles.navbar}>
-      <IconContainer style={styles.logoContainer} image={props.logo} styleText={{ fontSize: 10 }}/>
+      <IconContainer
+        style={styles.logoContainer}
+        image={props.logo}
+        styleText={{ fontSize: 10 }}
+      />
       <SettingsButton style={styles.settingsButton} />
       <div style={styles.divLinks}>
         <ul style={styles.ul}>
-          {navbarItems ? navbarItems.map((item, index) => {
+          {navbarItems
+            ? navbarItems.map((item, index) => {
                 const isHovered = hoveredIndex === index;
                 return (
                   <li key={index}>
@@ -38,17 +44,27 @@ export default function SimapiNavbar(props) {
                         fontSize: "100%",
                         transform: `scale(${isHovered ? 1.1 : 1})`,
                         transition: "transform 0.3s ease",
-                        display: "list-item",}}
+                        display: "list-item",
+                      }}
                       onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}>
+                      onMouseLeave={handleMouseLeave}
+                    >
                       {item.text}
                     </Link>
                   </li>
                 );
-              }) : null}
+              })
+            : null}
         </ul>
       </div>
-      <LogoutButton style={styles.logoutButton} />
+      <LogoutButton
+        style={styles.logoutButton}
+        onClick={() => {
+          localStorage.setItem("token", null);
+          localStorage.removeItem("token");
+          window.location.href = "/";
+        }}
+      />
     </nav>
   );
 }
@@ -101,9 +117,6 @@ const styles = {
     marginRight: "50px",
   },
   settingsButton: {
-    marginLeft: "50px",
-  },
-  logoutButton: {
     marginLeft: "50px",
   },
 };

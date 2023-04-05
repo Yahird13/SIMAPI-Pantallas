@@ -1,0 +1,9 @@
+.custom-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><polygon points="2 0, 0 4, 4 4"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%, center;
+    background-size: 10px 6px;
+}

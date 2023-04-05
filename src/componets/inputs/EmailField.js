@@ -1,20 +1,22 @@
 import React from 'react'
 import TextField from './TextField'
 import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
-import "./style.css"
+
 
 
 export default function EmailField(props) {
   return (
     <TextField 
     type={"email"} 
-    id={"email"}
+    id={props.id ? props.id : "email"}
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
     rightIconBackgroundColor={C_SECUNDARIO}
     iconStyle={style.icon}
-    placeholder={"Correo Electrónico"} iconSize={"2xl"}/>
+    placeholder={"Correo Electrónico"} iconSize={"2xl"}
+    onChange={props.onChange}
+    value={props.value}/>
   )
 }
 
@@ -27,6 +29,7 @@ const style = {
         outline: 'none',
         fontSize: '20px',
         paddingLeft: 20,
+        
     },
     backgroundStyle: {
         backgroundColor: C_SECUNDARIO,

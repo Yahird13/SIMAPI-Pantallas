@@ -1,0 +1,18 @@
+.blink {
+    animation: blink 0.5s none infinite ;
+}
+
+@keyframes blink {
+    0%{
+        color: black;
+    }
+    50%{
+        color: black;
+    }
+    51%{
+        color: red;
+    }
+    100%{
+        color: red;
+    }
+}

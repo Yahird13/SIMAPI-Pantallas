@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from './Button'
-import { faGear } from '@fortawesome/free-solid-svg-icons' //https://fontawesome.com/icons/
+import { faGear } from '@fortawesome/free-solid-svg-icons'
 
 export default function SettingsButton(props) {
   return (
-    <Button icon={ faGear } iconSize={"2xl"} style={Object.assign({}, style, props.style)} link={"#"}/>
+    <Button icon={ faGear } iconSize={"2xl"} style={Object.assign({}, style, props.style)} onClick={() => window.location.href='/configuracion'}/>
   )
 }
 
