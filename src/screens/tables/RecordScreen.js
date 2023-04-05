@@ -68,6 +68,16 @@ export default function RecordScreen() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                    <TableRow>
+                                <TableCell>1</TableCell>
+                                <TableCell>1/04/2023</TableCell>
+                                <TableCell>13:53 pm</TableCell>
+                                <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
+                                <TableCell>Camilla 3</TableCell>
+                                <TableCell >
+                                <Button text={"Detalles"} style={styles.btnDetallesHistorial} path={"#"} />
+                                </TableCell>
+                            </TableRow>
                         {/* {props.data.map(row => (
                         <TableRow key={row.id}>
                             <TableCell>{row.no}</TableCell>
@@ -87,4 +97,19 @@ export default function RecordScreen() {
             </div>
         </div >
     )
+}
+
+const styles = {
+
+    btnDetallesHistorial:{
+        color: 'black',
+        width: '120px',
+        borderRadius: '5px',
+       backgroundColor: '#0000FF',
+        marginRight: '10px',
+    }
+
+
+
+    
 }

@@ -66,6 +66,16 @@ export default function CamillasScreen() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                        <TableRow>
+                                <TableCell>1</TableCell>
+                                <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
+                                <TableCell>NOSE9384777</TableCell>
+                                <TableCell>Sala 3</TableCell>
+                                <TableCell >
+                                <Button text={"Editar"} style={styles.btnEditarCamilla} path={"#"} />
+                                <Button text={"Eliminar"} style={styles.btnEliminarCamilla} path={"#"} />
+                                </TableCell>
+                            </TableRow>
                             {/* {props.data.map(row => (
                         <TableRow key={row.id}>
                             <TableCell>{row.no}</TableCell>
@@ -93,8 +103,27 @@ const styles = {
         position:'absolute',
         width:'200px',
         height:'50px',
-        backgroundColor: 'green',
+        borderRadius: '10px',
+        backgroundColor: '#3fad5e',
         top: '150px',
         right: '45px',
+    },
+
+    btnEditarCamilla:{
+        color: 'black',
+        width: '100px',
+        borderRadius: '5px',
+       backgroundColor: '#FFFF00',
+        marginRight: '10px',
+    },
+
+    btnEliminarCamilla:{
+        color: 'black',
+        width: '120px',
+        borderRadius: '5px',
+       backgroundColor: '#FF0000',
     }
+
+
+    
 }
