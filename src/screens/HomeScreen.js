@@ -2,6 +2,8 @@ import React from 'react';
 import SimapiNavbar from '../componets/navbar/SimapiNavbar';
 import CamillaContainer from '../componets/containers/CamillaContainer';
 import { Select } from '@material-ui/core';
+import { useEffect } from 'react';
+import { isUserAuthenticated } from '../auth/TokenValidate';
 
 export default function HomeScreen() {
 

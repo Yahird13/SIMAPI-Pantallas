@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import SimapiNavbar from '../../componets/navbar/SimapiNavbar'
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@material-ui/core';//instalar con yarn add @material-ui/core
 import { isUserAuthenticated } from '../../auth/TokenValidate'; 
+import Button from '../../componets/buttons/Button';
 
 
 export default function RecordScreen() {
