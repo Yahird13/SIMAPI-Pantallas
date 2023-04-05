@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import TextField from './TextField'
 import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
-import "./style.css"
+
 
 export default function EmailField(props) {
   let iconShowPass = props.passIcons[0];
@@ -22,7 +22,7 @@ export default function EmailField(props) {
   return (
     <TextField 
     type={showPass ? "text" : "password"} 
-    id={"password"}
+    id={props.id ? props.id : "password"}
     leftIcon={props.icon} 
     style={style.input} 
     backgroundStyle={style.backgroundStyle}
@@ -33,7 +33,9 @@ export default function EmailField(props) {
     onClick={handleClick} 
     rightIconStyle={style.rightIcon}
     rightIconSize={"2xl"}
-    rightIconBackgroundColor={C_SECUNDARIO}/>
+    rightIconBackgroundColor={C_SECUNDARIO}
+    onChange={props.onChange}
+    value={props.value}/>
   )
 }
 

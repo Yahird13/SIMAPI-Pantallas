@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import SimapiNavbar from '../../componets/navbar/SimapiNavbar'
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@material-ui/core';//instalar con yarn add @material-ui/core
 import Button from '../../componets/buttons/Button';
+import { isUserAuthenticated } from '../../auth/TokenValidate'; 
 
 export default function CamillasScreen() {
+    useEffect(() => {
+        if (!isUserAuthenticated()) {
+            window.location.href = "/";
+        }
+    }, []);
     return (
         <div>
-            <SimapiNavbar navbarItems={[
+            <SimapiNavbar logo={"https://www.hnm.org.mx/img/hnm.png"} navbarItems={[
                 { path: "/inicio", text: "Inicio" },
                 { path: "/camillas", text: "Camillas" },
                 { path: "/usuarios", text: "Usuarios" },

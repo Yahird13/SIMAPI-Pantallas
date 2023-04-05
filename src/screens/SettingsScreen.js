@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SimapiNavbar from '../componets/navbar/SimapiNavbar';
 import Button from '../componets/buttons/Button';
 import { C_PRIMARIO } from '../componets/colors';
+import { isUserAuthenticated } from '../auth/TokenValidate';
 
 export default function SettingsScreen() {
+    useEffect(() => {
+        if (!isUserAuthenticated()) {
+            window.location.href = "/";
+        }
+    }, []);
 
         const [image, setImage] = useState(null);
 
