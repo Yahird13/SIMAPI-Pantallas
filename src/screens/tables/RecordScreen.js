@@ -76,7 +76,7 @@ export default function RecordScreen() {
                                 <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
                                 <TableCell>Camilla 3</TableCell>
                                 <TableCell >
-                                <Button text={"Detalles"} style={styles.btnDetallesHistorial} path={"#"} />
+                                <Button text={"Detalles"} style={styles.btnDetallesHistorial} onClick={() => window.location.href='/detallesHistorial'} />
                                 </TableCell>
                             </TableRow>
                         {/* {props.data.map(row => (

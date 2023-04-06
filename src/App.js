@@ -13,9 +13,9 @@ import UsersScreen from './screens/tables/UsersScreen';
 import Navbar from '././componets/Navbar'
 import InsertUser from './screens/cruds/InsertUser';
 import InsertCamilla from './screens/cruds/InsertCamilla';
-import HistorialDetalles from './screens/HistorialDetalles';
 import EditUser from './screens/cruds/EditUser';
 import EditCamilla from './screens/cruds/EditCamilla';
+import DetailsHistory from './screens/cruds/DetailsHistory';
 
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
           <Route path={"/editarUsuario"} element={<EditUser/>}/>
           <Route path={"/agregarCamilla"} element={<InsertCamilla/>}/>
           <Route path={"/editarCamilla"} element={<EditCamilla/>}/>
-          <Route path={"/historialDetalle"} element={<HistorialDetalles/>}/>
+          <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
           <Route path={"/pruebas"} element={<Navbar/>}/>
         </Routes>
       </Router>
