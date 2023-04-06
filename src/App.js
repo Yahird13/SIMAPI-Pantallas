@@ -11,9 +11,11 @@ import RecordScreen from './screens/tables/RecordScreen';
 import CamillasScreen from './screens/tables/CamillasScreen';
 import UsersScreen from './screens/tables/UsersScreen';
 import Navbar from '././componets/Navbar'
-import CrearUsuario from './screens/CrearUsuario';
-import CrearCamilla from './screens/CrearCamilla';
-import HistorialDetalles from './screens/HistorialDetalles';
+import InsertUser from './screens/cruds/InsertUser';
+import InsertCamilla from './screens/cruds/InsertCamilla';
+import EditUser from './screens/cruds/EditUser';
+import EditCamilla from './screens/cruds/EditCamilla';
+import DetailsHistory from './screens/cruds/DetailsHistory';
 
 
 function App() {
@@ -26,21 +28,16 @@ function App() {
           <Route path={"/historial"} element={<RecordScreen/>}/>
           <Route path={"/camillas"} element={<CamillasScreen/>}/>
           <Route path={"/usuarios"} element={<UsersScreen/>}/>
-          <Route path={"/agregarUsuario"} element={<CrearUsuario/>}/>
-          <Route path={"/agregarCamilla"} element={<CrearCamilla/>}/>
-          <Route path={"/historialDetalle"} element={<HistorialDetalles/>}/>
+          <Route path={"/agregarUsuario"} element={<InsertUser/>}/>
+          <Route path={"/editarUsuario"} element={<EditUser/>}/>
+          <Route path={"/agregarCamilla"} element={<InsertCamilla/>}/>
+          <Route path={"/editarCamilla"} element={<EditCamilla/>}/>
+          <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
           <Route path={"/pruebas"} element={<Navbar/>}/>
         </Routes>
       </Router>
 
     );
-
-
-
-
-
-
-
 }
 
 export default App;

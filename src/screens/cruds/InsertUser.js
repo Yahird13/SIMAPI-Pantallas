@@ -1,10 +1,10 @@
 import React from 'react'
-import SimapiNavbar from '../../src/componets/navbar/SimapiNavbar'
-import Button from '../componets/buttons/Button';
+import SimapiNavbar from '../../componets/navbar/SimapiNavbar'
+import Button from '../../componets/buttons/Button';
 import { Formik } from 'formik';
 
 
-export default function CrearUsuario() {
+export default function InsertUser() {
   return (
     <div>
       <SimapiNavbar navbarItems={[
@@ -25,62 +25,62 @@ export default function CrearUsuario() {
         <div style={{ paddingLeft: '25px', paddingTop: '20px' }}>
           <label style={{
             fontStyle: 'bold',
-            fontSize: '30px',
+            fontSize: '40px',
             paddingRight: '150px',
             marginBottom: '20px',
           }}>Creación de nuevo usuario</label><br />
           <label style={{
-            fontSize: '30px',
+            fontSize: '35px',
             paddingRight: '250px',
             marginBottom: '20px',
           }}>Nombre:</label>
           <input type='text' style={{
-            fontSize: '25px',
-            width: '500px',
+            fontSize:'30px',
+            width: '700px',
             marginBottom: '20px',
           }}></input><br />
           <label style={{
             fontStyle: 'bold',
-            fontSize: '30px',
+            fontSize: '35px',
             paddingRight: '235px',
             marginBottom: '20px',
           }}>Apellidos:</label>
           <input type='text' style={{
-            fontSize: '25px',
-            width: '500px',
+            fontSize: '30px',
+            width: '700px',
             marginBottom: '20px',
           }}></input><br />
           <label style={{
             fontStyle: 'bold',
-            fontSize: '30px',
-            paddingRight: '260px',
+            fontSize: '35px',
+            paddingRight: '273px',
             marginBottom: '20px',
           }}>Correo:</label>
           <input type='text' style={{
-            fontSize: '25px',
-            width: '500px',
+            fontSize: '30px',
+            width: '700px',
             marginBottom: '20px',
           }}></input><br />
           <label style={{
             fontStyle: 'bold',
-            fontSize: '30px',
-            paddingRight: '210px',
+            fontSize: '35px',
+            paddingRight: '206px',
             marginBottom: '20px',
           }}>Contraseña:</label>
           <input type='text' style={{
-            fontSize: '25px',
-            width: '500px',
+            fontSize: '30px',
+            width: '700px',
             marginBottom: '20px',
           }}></input><br />
           <label style={{
             fontStyle: 'bold',
-            fontSize: '30px',
-            paddingRight: '310px',
+            fontSize: '35px',
+            paddingRight: '332px',
             marginBottom: '20px',
           }}>Rol:</label>
           <select style={{
-            fontSize: '25px',
-            width: '500px',
+            fontSize: '30px',
+            width: '700px',
             marginBottom: '20px',
           }}>
             <option>Seleccione un rol</option>
@@ -109,9 +109,10 @@ export default function CrearUsuario() {
 
 const styles = {
   btnGuardarUsuario: {
+    fontSize: '30px',
     position: 'absolute',
-    width: '220px',
-    height: '50px',
+    width: '400px',
+    height: '75px',
     borderRadius: '10px',
     backgroundColor: '#3fad5e',
     bottom: '40px',
