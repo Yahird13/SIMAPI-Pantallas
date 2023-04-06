@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../componets/buttons/Button';
-import { C_PRIMARIO, C_TERCIARIO } from '../componets/colors';
+import { C_PRIMARIO, C_TERCIARIO } from '../componets/Colors';
 import EmailField from '../componets/inputs/EmailField';
 import PasswordField from '../componets/inputs/PasswordField';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
@@ -17,7 +17,7 @@ export const LoginForm = () => {
     const Swal = require('sweetalert2')
 
     useEffect(() => {
-        if (isUserAuthenticated()) {
+        if (!isUserAuthenticated()) {
             window.location.href = "/inicio";
         }
     }, []);
@@ -28,7 +28,8 @@ export const LoginForm = () => {
     }
 
     return (
-        <Formik initialValues={initialValues} onSubmit={() => {
+        <Formik initialValues={initialValues} onSubmit={
+            () => {
             if (email === '' || password === ''){
                 Swal.fire({
                     icon: 'error',
@@ -36,7 +37,7 @@ export const LoginForm = () => {
                     text: 'Campos obligatorios'
                 })
             } else {
-            fetch("http://localhost:8080/api/auth/login", {
+            fetch("http://localhost:8080/api/auth/institucion", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,8 +49,7 @@ export const LoginForm = () => {
                 })
                 .then((response) => {
                     if (!response.ok) {
-                        localStorage.setItem("token", null);
-                        localStorage.removeItem("token");
+                        localStorage.setItem("estado", false);
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -61,7 +61,15 @@ export const LoginForm = () => {
                     }
                 })
                 .then((datos) => {
-                    localStorage.setItem("token", datos.data.token);
+                    localStorage.setItem("estado", datos.data.estado);
+                    localStorage.setItem("idInstitucion", datos.data.idInstitucion);
+                    localStorage.setItem("logo", datos.data.logo);
+                    localStorage.setItem("correo", datos.data.correo);
+                    localStorage.setItem("password", password);
+                    localStorage.setItem("nombre", datos.data.nombre);
+                    localStorage.setItem("cantidadCamillas", datos.data.cantidadCamillas);
+                    localStorage.setItem("cantidadDeSalas", datos.data.cantidadDeSalas);
+                    localStorage.setItem("cantidadDeIslas", datos.data.cantidadDeIslas);
                     window.location.href = "/inicio";
                 })
                 .catch((error) => console.log(error));
@@ -87,18 +95,18 @@ export const LoginForm = () => {
                             position: 'absolute',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            border: "1px solid C_TERCIARIO",
+                            border: "1px solid #00264D",
                             borderRadius: "50%",
                             width: 200,
                             height: 200,
-                            backgroundColor: C_TERCIARIO
+                            backgroundColor: '#00264D'
                         }} />
                     </div>
 
                     <div style={
                         {
                             borderRadius: '15px',
-                            backgroundColor: C_PRIMARIO,
+                            backgroundColor: '#A3B2CF',
                             width: '675px',
                             height: '425px',
                         }}>
@@ -144,7 +152,7 @@ export const LoginForm = () => {
 
 const styles = {
     btnIniciarSesion: {
-        backgroundColor: C_PRIMARIO,
+        backgroundColor: '#A3B2CF',
         width: 423,
         height: 84,
     }

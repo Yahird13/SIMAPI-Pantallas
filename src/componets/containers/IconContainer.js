@@ -40,7 +40,7 @@ export default function IconContainer(props) {
     <div style={styles} align={'center'}>
       <div style={styleDivIcon} align={'center'}>
         {props.icon && !props.image ? <FontAwesomeIcon icon={props.icon} size={props.size} style={{color: iconColor}}/> : null}
-        {props.image && !props.icon ? <img src={props.image} width={"auto"} height={100-(100 * 0.1)}/> : null}
+        {props.image && !props.icon ? <img src={props.image} width={100-(100 * 0.1)} height={100-(100 * 0.1)}/> : null}
       </div>
       <div align={"center"}>
         {props.iconCamilla ? <FontAwesomeIcon icon={props.iconCamilla} className={props.className} size={props.size} style={{color: props.iconColor, marginLeft: '-75%'}}/> : null}

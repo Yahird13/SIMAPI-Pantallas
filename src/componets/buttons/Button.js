@@ -36,7 +36,7 @@ export default function Button(props) {
           transform: `scale(${scale})`, 
           transition: 'transform 0.3s ease', 
           visibility: props.camilla ? 'hidden' : 'visible',}} 
-        onClick={props.onClick} 
+        onClick={props.onClick ? props.onClick : null} 
         onMouseEnter={handleMouseEnter} 
         onMouseLeave={handleMouseLeave}
         type={props.type}>

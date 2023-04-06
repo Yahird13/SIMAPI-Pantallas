@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SettingsButton from "../buttons/SettingsButton";
-import { C_PRIMARIO } from "../colors";
 import LogoutButton from "../buttons/LogoutButton";
 import IconContainer from "../containers/IconContainer";
 import { getContrastColor } from "../utils/ColorInvert";
+import { C_PRIMARIO } from "../Colors";
 
 export default function SimapiNavbar(props) {
+
   const navbarItems = props.navbarItems;
   const textColorBackgroundInvert = getContrastColor(C_PRIMARIO);
   const [hoveredIndex, setHoveredIndex] = React.useState(-1);
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [logo, setLogo] = useState(localStorage.getItem("logo"));
+
+  useEffect(() => {
+    const Interval = setInterval(() => {
+    setLogo(localStorage.getItem("logo"));
+    }, 500);
+    return () => clearInterval(Interval);
+  }, [logo]);
 
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
@@ -24,7 +32,7 @@ export default function SimapiNavbar(props) {
     <nav style={styles.navbar}>
       <IconContainer
         style={styles.logoContainer}
-        image={props.logo}
+        image={logo}
         styleText={{ fontSize: 10 }}
       />
       <SettingsButton style={styles.settingsButton} />
@@ -60,8 +68,15 @@ export default function SimapiNavbar(props) {
       <LogoutButton
         style={styles.logoutButton}
         onClick={() => {
-          localStorage.setItem("token", null);
-          localStorage.removeItem("token");
+          localStorage.setItem("estado", false);
+          localStorage.removeItem("idInstitucion");
+          localStorage.removeItem("logo");
+          localStorage.removeItem("correo");
+          localStorage.removeItem("password");
+          localStorage.removeItem("nombre");
+          localStorage.removeItem("cantidadCamillas");
+          localStorage.removeItem("cantidadDeSalas");
+          localStorage.removeItem("cantidadDeIslas");
           window.location.href = "/";
         }}
       />
@@ -107,8 +122,8 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: C_PRIMARIO,
     borderRadius: "15px",
+    backgroundColor: C_PRIMARIO,
     fontWeight: "bold",
     border: "none",
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",

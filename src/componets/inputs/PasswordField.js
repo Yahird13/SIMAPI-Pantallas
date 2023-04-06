@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import TextField from './TextField'
-import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
+import { C_SECUNDARIO, C_TERCIARIO } from '../Colors'
 
 
 export default function EmailField(props) {
@@ -33,7 +33,7 @@ export default function EmailField(props) {
     onClick={handleClick} 
     rightIconStyle={style.rightIcon}
     rightIconSize={"2xl"}
-    rightIconBackgroundColor={C_SECUNDARIO}
+    rightIconBackgroundColor={'#385273'}
     onChange={props.onChange}
     value={props.value}/>
   )
@@ -57,7 +57,7 @@ const style = {
         justifyContent: 'center',
     },
     backgroundStyle: {
-        backgroundColor: C_SECUNDARIO,
+        backgroundColor: '#385273',
         height: 70,
         width: 500, 
         display: 'flex', 
@@ -66,7 +66,7 @@ const style = {
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     icon: {
-        backgroundColor: C_TERCIARIO,
+        backgroundColor: '#00264D',
         height: 70,
         width: 70,
         display: 'flex',
