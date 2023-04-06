@@ -18,7 +18,7 @@ export default function UsersScreen() {
                 { path: "/usuarios", text: "Usuarios" },
                 { path: "/historial", text: "Historial" }]} />
 
-            <Button text={"Agregar Usuario"} style={styles.btnAgregarUsuario} path={"#"} />
+            <Button text={"Agregar Usuario"} style={styles.btnAgregarUsuario} onClick={() => window.location.href='/agregarUsuario'} />
 
             <div style={{
                 position: 'fixed',
@@ -66,7 +66,7 @@ export default function UsersScreen() {
                                 <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
                                 <TableCell>Enfermero</TableCell>
                                 <TableCell >
-                                <Button text={"Editar"} style={styles.btnEditarUsuario} path={"#"} />
+                                <Button text={"Editar"} style={styles.btnEditarUsuario} onClick={() => window.location.href='/EditarUsuario'}  />
                                 <Button text={"Eliminar"} style={styles.btnEliminarUsuario} path={"#"} />
                                 </TableCell>
                             </TableRow>

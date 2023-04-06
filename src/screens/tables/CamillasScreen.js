@@ -18,7 +18,7 @@ export default function CamillasScreen() {
                 { path: "/usuarios", text: "Usuarios" },
                 { path: "/historial", text: "Historial" }]} />
 
-            <Button text={"Agregar Camilla"} style={styles.btnAgregarCamilla} path={"#"} />
+            <Button text={"Agregar Camilla"} style={styles.btnAgregarCamilla} onClick={() => window.location.href='/agregarCamilla'}/>
 
             <div style={{
                 position: 'fixed',
@@ -72,7 +72,7 @@ export default function CamillasScreen() {
                                 <TableCell>NOSE9384777</TableCell>
                                 <TableCell>Sala 3</TableCell>
                                 <TableCell >
-                                <Button text={"Editar"} style={styles.btnEditarCamilla} path={"#"} />
+                                <Button text={"Editar"} style={styles.btnEditarCamilla} onClick={() => window.location.href='/editarCamilla'} />
                                 <Button text={"Eliminar"} style={styles.btnEliminarCamilla} path={"#"} />
                                 </TableCell>
                             </TableRow>
