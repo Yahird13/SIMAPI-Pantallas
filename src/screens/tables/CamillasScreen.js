@@ -45,7 +45,7 @@ export default function CamillasScreen() {
           style={{
             borderRadius: "15px",
             border: "5px solid black",
-            minHeight: 400,
+            minHeight: 415,
             width: "100%",
           }}
         >

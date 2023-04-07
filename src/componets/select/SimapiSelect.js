@@ -1,8 +1,13 @@
 import React from 'react'
 
 export default function SimapiSelect(props) {
+
+  const { width, height } = props.style
+
   return (
-    <div style={{...props.style, ...styles.div}}>
+    <div style={{...props.style, ...styles.div, 
+      width: width ? width : 150,
+      height: height ? height : 40,}}>
       <select style={{
         outline: 'none',
         border: 'none',
@@ -25,8 +30,6 @@ const styles = {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      width: 150,
-      height: 40,
       backgroundColor: 'white',
       border: '2px solid black',
       outline: 'none',

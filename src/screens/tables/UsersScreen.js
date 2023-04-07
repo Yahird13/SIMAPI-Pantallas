@@ -54,7 +54,7 @@ export default function UsersScreen() {
           style={{
             borderRadius: "15px",
             border: "5px solid black",
-            minHeight: 400,
+            minHeight: 415,
             width: "100%",
           }}
         >
@@ -98,7 +98,7 @@ export default function UsersScreen() {
                     <Button
                       text={"Editar"}
                       style={styles.btnEditarUsuario}
-                      onClick={() => (window.location.href = "/EditarUsuario")}
+                      onClick={() => (window.location.href = "/editarUsuario")}
                     />
                     <Button
                       text={"Eliminar"}
@@ -135,19 +135,17 @@ const styles = {
   btnAgregarUsuario: {
     width: "200px",
     height: "50px",
-    borderRadius: "10px",
     backgroundColor: "#3fad5e",
   },
 
   btnEditarUsuario: {
     width: "100px",
-    borderRadius: "5px",
     backgroundColor: "#FFFF00",
+    marginRight: "10px",
   },
 
   btnEliminarUsuario: {
     width: "120px",
-    borderRadius: "5px",
     backgroundColor: "#FF0000",
   },
 };

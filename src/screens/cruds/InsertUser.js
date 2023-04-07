@@ -2,119 +2,211 @@ import React from 'react'
 import SimapiNavbar from '../../componets/navbar/SimapiNavbar'
 import Button from '../../componets/buttons/Button';
 import { Formik } from 'formik';
+import SimapiSelect from '../../componets/select/SimapiSelect';
 
 
 export default function InsertUser() {
   return (
     <div>
-      <SimapiNavbar navbarItems={[
-        { path: "/inicio", text: "Inicio" },
-        { path: "/camillas", text: "Camillas" },
-        { path: "/usuarios", text: "Usuarios" },
-        { path: "/historial", text: "Historial" }]} />
+      <SimapiNavbar
+        navbarItems={[
+          { path: "/inicio", text: "Inicio" },
+          { path: "/camillas", text: "Camillas" },
+          { path: "/usuarios", text: "Usuarios" },
+          { path: "/historial", text: "Historial" },
+        ]}
+      />
+      <div
+        style={{
+          width: "94%",
+          margin: "3%",
+          marginTop: "12%",
+          borderRadius: "15px",
+          border: "5px solid black",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ padding: "2%", width: "100%" }}>
+          <div style={{ paddingLeft: "2%", paddingTop: "1%" }}>
+            <label
+              style={{
+                fontStyle: "bold",
+                fontSize: "30px",
+              }}
+            >
+              Creación de usuario
+            </label>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "30px",
+              }}
+            >
+              <div style={{ width: "20%" }}>
+                <label
+                  style={{
+                    fontSize: "25px",
+                  }}
+                >
+                  Nombre:
+                </label>
+              </div>
+              <div style={{ width: "80%" }}>
+                <input
+                  type="text"
+                  style={{
+                    fontSize: "20px",
+                    width: "100%",
+                  }}
+                />
+              </div>
+            </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <div style={{ width: "20%" }}>
+                <label
+                  style={{
+                    fontSize: "25px",
+                  }}
+                >
+                  Apellidos:
+                </label>
+              </div>
+              <div style={{ width: "80%" }}>
+                <input
+                  type="text"
+                  style={{
+                    fontSize: "20px",
+                    width: "100%",
+                  }}
+                />
+              </div>
+            </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <div style={{ width: "20%" }}>
+                <label
+                  style={{
+                    fontSize: "25px",
+                  }}
+                >
+                  Correo:
+                </label>
+              </div>
+              <div style={{ width: "80%" }}>
+                <input
+                  type="text"
+                  style={{
+                    fontSize: "20px",
+                    width: "100%",
+                  }}
+                />
+              </div>
+            </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <div style={{ width: "20%" }}>
+                <label
+                  style={{
+                    fontSize: "25px",
+                  }}
+                >
+                  Contraseña:
+                </label>
+              </div>
+              <div style={{ width: "80%" }}>
+                <input
+                  type="text"
+                  style={{
+                    fontSize: "20px",
+                    width: "100%",
+                  }}
+                />
+              </div>
+            </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <div style={{ width: "20%" }}>
+                <label
+                  style={{
+                    fontSize: "25px",
+                  }}
+                >
+                  Rol:
+                </label>
+              </div>
+              <div style={{ width: "80%" }}>
+                <SimapiSelect style={{
+                    fontSize: "20px",
+                    width: "100%",
+                  }} options={[
+                    {value: '', label: 'Seleccione un rol'},
+                    {value: '1', label: 'Administrador'},
+                    {value: '2', label: 'Usuario'},
+                  ]}/>
+              </div>
+            </div>
+          </div>
 
-      <div style={{
-        position: 'fixed',
-        bottom: '45px',
-        right: '45px',
-        left: '45px',
-        top: '175px',
-        borderRadius: '15px',
-        border: '5px solid black'
-      }}>
-        <div style={{ paddingLeft: '25px', paddingTop: '20px' }}>
-          <label style={{
-            fontStyle: 'bold',
-            fontSize: '40px',
-            paddingRight: '150px',
-            marginBottom: '20px',
-          }}>Creación de nuevo usuario</label><br />
-          <label style={{
-            fontSize: '35px',
-            paddingRight: '250px',
-            marginBottom: '20px',
-          }}>Nombre:</label>
-          <input type='text' style={{
-            fontSize:'30px',
-            width: '700px',
-            marginBottom: '20px',
-          }}></input><br />
-          <label style={{
-            fontStyle: 'bold',
-            fontSize: '35px',
-            paddingRight: '235px',
-            marginBottom: '20px',
-          }}>Apellidos:</label>
-          <input type='text' style={{
-            fontSize: '30px',
-            width: '700px',
-            marginBottom: '20px',
-          }}></input><br />
-          <label style={{
-            fontStyle: 'bold',
-            fontSize: '35px',
-            paddingRight: '273px',
-            marginBottom: '20px',
-          }}>Correo:</label>
-          <input type='text' style={{
-            fontSize: '30px',
-            width: '700px',
-            marginBottom: '20px',
-          }}></input><br />
-          <label style={{
-            fontStyle: 'bold',
-            fontSize: '35px',
-            paddingRight: '206px',
-            marginBottom: '20px',
-          }}>Contraseña:</label>
-          <input type='text' style={{
-            fontSize: '30px',
-            width: '700px',
-            marginBottom: '20px',
-          }}></input><br />
-          <label style={{
-            fontStyle: 'bold',
-            fontSize: '35px',
-            paddingRight: '332px',
-            marginBottom: '20px',
-          }}>Rol:</label>
-          <select style={{
-            fontSize: '30px',
-            width: '700px',
-            marginBottom: '20px',
-          }}>
-            <option>Seleccione un rol</option>
-            <option>Administrador</option>
-            <option>Enfermera</option>
-          </select>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "5%",
+            }}
+          >
+            <Button
+              text={"Guardar Usuario"}
+              style={styles.btnGuardarUsuario}
+              onClick={() => {}}
+            />
+          </div>
         </div>
-
-
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: '30%',
-        }}>
-          <Button text={"Guardar Usuario"} style={styles.btnGuardarUsuario} path={"#"} />
-        </div>
-
-
-
       </div>
-
     </div>
-  )
+  );
 }
 
 const styles = {
   btnGuardarUsuario: {
-    fontSize: '30px',
-    position: 'absolute',
-    width: '400px',
-    height: '75px',
-    borderRadius: '10px',
-    backgroundColor: '#3fad5e',
-    bottom: '40px',
-  }
-}
+    fontSize: "30px",
+    width: "400px",
+    height: "75px",
+    backgroundColor: "#3fad5e",
+  },
+};

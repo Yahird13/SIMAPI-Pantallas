@@ -34,7 +34,7 @@ export default function RecordScreen() {
           marginTop: "12%",
           borderRadius: "15px",
           border: "5px solid black",
-          minHeight: 500,
+          minHeight: 490,
         }}
       >
         <div
