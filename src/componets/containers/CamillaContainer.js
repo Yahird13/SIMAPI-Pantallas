@@ -32,8 +32,8 @@ export default function CamillaContainer(props) {
   }, [camillas]);
 
   return (
-    <div style={{margin: '5%', marginTop: '3%'}}>
-      <div style={{display: 'flex', alignContent: 'right', justifyContent: 'right'}}>
+    <div style={{margin: '3%', marginBottom: 0}}>
+      <div style={{display: 'flex', alignContent: 'right', justifyContent: 'right', marginTop: '3%'}}>
         <SimapiSelect style={{marginRight: '5%'}} />
         <SimapiSelect style={{marginRight: '5%'}}/>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../componets/buttons/Button';
-import { C_PRIMARIO, C_TERCIARIO } from '../componets/Colors';
+//import { C_PRIMARIO, C_TERCIARIO } from '../componets/colors';
 import EmailField from '../componets/inputs/EmailField';
 import PasswordField from '../componets/inputs/PasswordField';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';

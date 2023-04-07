@@ -6,7 +6,7 @@ import EmailField from './inputs/EmailField';
 import PasswordField from './inputs/PasswordField';
 import SimapiNavbar from './navbar/SimapiNavbar';
 import IconContainer from './containers/IconContainer';
-import { C_PRIMARIO, C_SECUNDARIO, C_TERCIARIO } from './Colors';
+import { C_PRIMARIO, C_SECUNDARIO, C_TERCIARIO } from './colors';
 import Button from './buttons/Button';
 import CamillaContainer from './containers/CamillaContainer';
 import SimapiSelect from './select/SimapiSelect';

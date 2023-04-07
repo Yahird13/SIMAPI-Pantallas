@@ -1,6 +1,6 @@
 import React from 'react'
 import TextField from './TextField'
-import { C_SECUNDARIO, C_TERCIARIO } from '../Colors'
+import { C_SECUNDARIO, C_TERCIARIO } from '../colors'
 
 
 

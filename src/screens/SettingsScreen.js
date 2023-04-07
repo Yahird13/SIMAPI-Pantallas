@@ -135,7 +135,7 @@ export default function SettingsScreen() {
 
       <div
         style={{
-          width: "95%",
+          width: "94%",
           margin: "3%",
           marginTop: "12%",
           borderRadius: "15px",

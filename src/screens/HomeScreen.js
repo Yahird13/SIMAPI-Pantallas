@@ -65,16 +65,13 @@ export default function HomeScreen() {
 
       <div
         style={{
-          position: "fixed",
-          bottom: "45px",
-          right: "45px",
-          left: "45px",
-          top: "175px",
+          margin: "5%",
+          marginTop: "12%",
           borderRadius: "15px",
           border: "5px solid black",
+          minHeight: 300,
         }}
       >
-        {/* <SimapiSelect/> */}
         <CamillaContainer idIsla={""} idSala={""} />
       </div>
     </div>

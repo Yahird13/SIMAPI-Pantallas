@@ -4,7 +4,7 @@ import SettingsButton from "../buttons/SettingsButton";
 import LogoutButton from "../buttons/LogoutButton";
 import IconContainer from "../containers/IconContainer";
 import { getContrastColor } from "../utils/ColorInvert";
-import { C_PRIMARIO } from "../Colors";
+import { C_PRIMARIO } from "../colors";
 
 export default function SimapiNavbar(props) {
 
@@ -89,7 +89,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "130px",
+    height: "20%",
     width: "100%",
     paddingTop: 10,
     paddingLeft: 10,
