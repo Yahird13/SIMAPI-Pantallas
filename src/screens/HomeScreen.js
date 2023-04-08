@@ -24,13 +24,10 @@ export default function HomeScreen() {
       )
         .then((response) => response.json())
         .then((data) => {
-          const datos = data.data;
+          const datos = data.data.data;
           lastColorPrimario = localStorage.getItem("colorPrimario");
           lastColorSecundario = localStorage.getItem("colorSecundario");
           lastColorTerciario = localStorage.getItem("colorTerciario");
-          localStorage.setItem("colorPrimario", datos.colorPrimario);
-          localStorage.setItem("colorSecundario", datos.colorSecundario);
-          localStorage.setItem("colorTerciario", datos.colorTerciario);
           if (lastColorPrimario !== localStorage.getItem('colorPrimario')) {
             window.location.reload()
           }
@@ -47,11 +44,11 @@ export default function HomeScreen() {
     return () => clearInterval(Interval);
   }, []);
   
-  useEffect(() => {
+/*   useEffect(() => {
     if (!isUserAuthenticated()) {
         window.location.href = "/";
     }
-  })
+  }) */
 
   return (
     <div>
