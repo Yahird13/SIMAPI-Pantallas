@@ -38,7 +38,7 @@ export const LoginFormAdmin = () => {
                         text: 'Campos obligatorios'
                     })
                 } else {
-                    fetch(`${pathContext}/api/auth/institucion`, {
+                    fetch(`${pathContext}/api/auth/login`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -50,7 +50,6 @@ export const LoginFormAdmin = () => {
                     })
                         .then((response) => {
                             if (!response.ok) {
-                                localStorage.setItem("estado", false);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
@@ -62,15 +61,13 @@ export const LoginFormAdmin = () => {
                             }
                         })
                         .then((datos) => {
-                            localStorage.setItem("estado", datos.data.estado);
-                            localStorage.setItem("idInstitucion", datos.data.idInstitucion);
-                            localStorage.setItem("logo", datos.data.logo);
                             localStorage.setItem("correo", datos.data.correo);
                             localStorage.setItem("password", password);
                             localStorage.setItem("nombre", datos.data.nombre);
-                            localStorage.setItem("cantidadCamillas", datos.data.cantidadCamillas);
-                            localStorage.setItem("cantidadDeSalas", datos.data.cantidadDeSalas);
-                            localStorage.setItem("cantidadDeIslas", datos.data.cantidadDeIslas);
+                            localStorage.setItem("apellidos", datos.data.apellidos);
+                            localStorage.setItem("idUsuario", datos.data.idUsuario);
+                            localStorage.setItem("rol", datos.data.rol);
+                            localStorage.setItem("token", datos.data.token);
                             window.location.href = "/inicio";
                         })
                         .catch((error) => console.log(error));
