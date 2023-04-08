@@ -6,6 +6,7 @@ import { Formik, Form } from "formik";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import Swal from "sweetalert2";
+import { pathContext } from '../utils/PathContext'
 
 const C_PRIMARIO = localStorage.getItem("colorPrimario");
 const C_SECUNDARIO = localStorage.getItem("colorSecundario");
@@ -31,7 +32,7 @@ export default function SettingsScreen() {
   useEffect(() => {
     const Interval = setInterval(() => {
       fetch(
-        `http://localhost:8080/api/auth/colores/${localStorage.getItem(
+        `${pathContext}/api/auth/colores/${localStorage.getItem(
           "idInstitucion"
         )}`,
         {
@@ -62,7 +63,7 @@ export default function SettingsScreen() {
         })
         .catch((error) => console.log(error));
 
-        /* fetch('http://localhost:8080/api/auth/institucion', {
+        /* fetch(`${pathContext}/api/auth/institucion`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ export default function SettingsScreen() {
           initialValues={{ c_primario: "", c_secundario: "", c_terciario: "" }}
           onSubmit={() => {
             fetch(
-              `http://localhost:8080/api/auth/colores/${localStorage.getItem(
+              `${pathContext}/api/auth/colores/${localStorage.getItem(
                 "idInstitucion"
               )}`,
               {
@@ -292,7 +293,7 @@ export default function SettingsScreen() {
                   })
                   .then((imageUrl) => {
                     console.log(imageUrl)
-                    fetch("http://localhost:8080/api/auth/login", {
+                    fetch(`${pathContext}/api/auth/login`, {
                         method: "POST",
                         headers: {
                           "Content-Type": "application/json",
@@ -306,7 +307,7 @@ export default function SettingsScreen() {
                         .then((data) => {
                           const token = data.data.token;
                           fetch(
-                            `http://localhost:8080/api/institucion/${localStorage.getItem(
+                            `${pathContext}/api/institucion/${localStorage.getItem(
                               "idInstitucion"
                             )}`,
                             {

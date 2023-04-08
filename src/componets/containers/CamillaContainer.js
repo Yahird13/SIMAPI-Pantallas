@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import CamillaButton from "../buttons/CamillaButton";
 import Swal from "sweetalert2";
 import SimapiSelect from "../select/SimapiSelect";
+import { pathContext } from "../../utils/PathContext";
 
 export default function CamillaContainer(props) {
   const [camillas, setCamillas] = useState([]);
 
   const fetchCamillas = () => {
-    fetch("http://localhost:8080/api/auth/camillas", {
+    fetch(`${pathContext}/api/auth/camillas`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +72,7 @@ export default function CamillaContainer(props) {
                               `Por favor, ingrese los datos`
                             );
                           } else {
-                            fetch("http://localhost:8080/api/auth/login", {
+                            fetch(`${pathContext}/api/auth/login`, {
                               method: "POST",
                               headers: {
                                 "Content-Type": "application/json",
@@ -105,7 +106,7 @@ export default function CamillaContainer(props) {
                                   console.log(datos.data);
                                   if(datos.data.rol == 'E'){
                                     fetch(
-                                      `http://localhost:8080/api/auth/camillas/${item.idCamillas}`,
+                                      `${pathContext}/api/auth/camillas/${item.idCamillas}`,
                                       {
                                         method: "PUT",
                                         headers: {

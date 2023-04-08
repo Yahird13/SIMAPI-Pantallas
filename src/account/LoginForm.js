@@ -8,7 +8,8 @@ import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import IconContainer from '../componets/containers/IconContainer';
 import { Form, Formik } from 'formik';
 import Swal from 'sweetalert2';
-import { isUserAuthenticated } from '../auth/TokenValidate'; 
+import { isUserAuthenticated } from '../auth/TokenValidate';
+import { pathContext } from '../utils/PathContext'
 
 
 export const LoginForm = () => {
@@ -37,7 +38,7 @@ export const LoginForm = () => {
                     text: 'Campos obligatorios'
                 })
             } else {
-            fetch("http://localhost:8080/api/auth/institucion", {
+            fetch(`${pathContext}/api/auth/institucion`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -123,7 +124,7 @@ export const LoginForm = () => {
                                 marginTop: '20px',
                                 justifyContent: 'center',
                             }}>
-                                <EmailField icon={faEnvelope} id={"email"} value={email} onChange={(text) => {setEmail(text.nativeEvent.srcElement.value); /* console.log(text.nativeEvent.srcElement.value) */}}/>
+                                <EmailField icon={faEnvelope} id={"email"} value={email} onChange={(e) => {setEmail(e.target.value); /* console.log(e.target.value) */}}/>
                             </div>
                             <div style={{
                                 display: 'flex',
@@ -131,7 +132,7 @@ export const LoginForm = () => {
                                 marginTop: '40px',
                                 paddingBottom: '40px'
                             }}>
-                                <PasswordField icon={faLock} passIcons={[faEye, faEyeSlash]} value={password} id={"password"} onChange={(text) => {setPassword(text.nativeEvent.srcElement.value); /* console.log(text.nativeEvent.srcElement.value) */}}/>
+                                <PasswordField icon={faLock} passIcons={[faEye, faEyeSlash]} value={password} id={"password"} onChange={(e) => {setPassword(e.target.value); /* console.log(e.target.value) */}}/>
                             </div>
                         </div>
                     </div>

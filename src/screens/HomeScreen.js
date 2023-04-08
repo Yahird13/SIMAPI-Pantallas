@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import SimapiNavbar from "../componets/navbar/SimapiNavbar";
 import CamillaContainer from "../componets/containers/CamillaContainer";
 import { isUserAuthenticated } from "../auth/TokenValidate";
+import { pathContext } from "../utils/PathContext";
 
 let lastColorPrimario = '';
 let lastColorSecundario = '';
@@ -11,7 +12,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const Interval = setInterval(() => {
       fetch(
-        `http://localhost:8080/api/auth/colores/${localStorage.getItem(
+        `${pathContext}/api/auth/colores/${localStorage.getItem(
           "idInstitucion"
         )}`,
         {

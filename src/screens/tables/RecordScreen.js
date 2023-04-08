@@ -119,7 +119,6 @@ const styles = {
   btnDetallesHistorial: {
     color: "black",
     width: "120px",
-    borderRadius: "5px",
     backgroundColor: "#0000FF",
     marginRight: "10px",
   },

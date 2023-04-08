@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
 import SimapiNavbar from "../../componets/navbar/SimapiNavbar";
-import {
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Typography,
-} from "@material-ui/core"; //instalar con yarn add @material-ui/core
+import { Table, TableHead, TableBody, TableRow, TableCell, Typography, } from "@material-ui/core"; //instalar con yarn add @material-ui/core
 import Button from "../../componets/buttons/Button";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
 
@@ -68,22 +61,38 @@ export default function UsersScreen() {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       No.
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Nombre
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Rol
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Acciones
                     </Typography>
                   </TableCell>
@@ -91,37 +100,45 @@ export default function UsersScreen() {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
-                  <TableCell>Enfermero</TableCell>
                   <TableCell>
+                    <label style={styles.center}>
+                      1
+                    </label>
+                  </TableCell>
+                  <TableCell>
+                    <label style={styles.center}>
+                      Yahir Alberto Diaz Gonzalez
+                    </label>
+                  </TableCell>
+                  <TableCell>
+                    <label style={styles.center}>
+                      Enfermera
+                    </label>
+                  </TableCell>
+                  <TableCell style={styles.center}>
+                    <Button
+                      text={"Detalles"}
+                      style={styles.btnDetallesUsuario}
+                      onClick={() =>{
+                        window.location.href = "/detallesUsuario"
+                      }}
+                    />
                     <Button
                       text={"Editar"}
                       style={styles.btnEditarUsuario}
-                      onClick={() => (window.location.href = "/editarUsuario")}
+                      onClick={() => {
+                        window.location.href = "/editarUsuario"
+                      }}
                     />
                     <Button
                       text={"Eliminar"}
                       style={styles.btnEliminarUsuario}
-                      path={"#"}
+                      onClick={() => {
+                        window.location.href = "/eliminarUsuario"
+                      }}
                     />
                   </TableCell>
                 </TableRow>
-
-                {/* {props.data.map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.no}</TableCell>
-                            <TableCell>{row.fecha}</TableCell>
-                            <TableCell>{row.hora}</TableCell>
-                            <TableCell>{row.paciente}</TableCell>
-                            <TableCell>{row.camilla}</TableCell>
-                            <TableCell>
-                                <IconButton onClick={() => props.onEdit(row.id)}><Edit /></IconButton>
-                                <IconButton onClick={() => props.onEdit(row.id)}><Edit /></IconButton>
-                                <IconButton onClick={() => props.onDelete(row.id)}><Delete /></IconButton>
-                            </TableCell>
-                        </TableRow>
-                    ))} */}
               </TableBody>
             </Table>
           </div>
@@ -137,15 +154,24 @@ const styles = {
     height: "50px",
     backgroundColor: "#3fad5e",
   },
-
   btnEditarUsuario: {
     width: "100px",
     backgroundColor: "#FFFF00",
     marginRight: "10px",
   },
-
   btnEliminarUsuario: {
     width: "120px",
     backgroundColor: "#FF0000",
+    marginRight: "10px",
+  },
+  btnDetallesUsuario: {
+    width: "120px",
+    backgroundColor: "#1B8CF4",
+    marginRight: "10px",
+  },
+  center: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 };

@@ -11,7 +11,7 @@ import RecordScreen from './screens/tables/RecordScreen';
 import CamillasScreen from './screens/tables/CamillasScreen';
 import UsersScreen from './screens/tables/UsersScreen';
 import Navbar from '././componets/Navbar'
-import InsertUser from './screens/cruds/InsertUser';
+import User from './screens/cruds/User';
 import InsertCamilla from './screens/cruds/InsertCamilla';
 import EditUser from './screens/cruds/EditUser';
 import EditCamilla from './screens/cruds/EditCamilla';
@@ -28,8 +28,9 @@ function App() {
           <Route path={"/historial"} element={<RecordScreen/>}/>
           <Route path={"/camillas"} element={<CamillasScreen/>}/>
           <Route path={"/usuarios"} element={<UsersScreen/>}/>
-          <Route path={"/agregarUsuario"} element={<InsertUser/>}/>
-          <Route path={"/editarUsuario"} element={<EditUser/>}/>
+          <Route path={"/agregarUsuario"} element={<User/>}/>
+          <Route path={"/editarUsuario"} element={<User mode={'edit'}/>}/>
+          <Route path={"/detallesUsuario"} element={<User mode={'details'}/>}/>
           <Route path={"/agregarCamilla"} element={<InsertCamilla/>}/>
           <Route path={"/editarCamilla"} element={<EditCamilla/>}/>
           <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
