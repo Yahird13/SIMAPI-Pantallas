@@ -16,6 +16,7 @@ import InsertCamilla from './screens/cruds/InsertCamilla';
 import EditUser from './screens/cruds/EditUser';
 import EditCamilla from './screens/cruds/EditCamilla';
 import DetailsHistory from './screens/cruds/DetailsHistory';
+import LoginAdminScreen from './screens/LoginAdminScreen';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path={"/editarCamilla"} element={<EditCamilla/>}/>
           <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
           <Route path={"/pruebas"} element={<Navbar/>}/>
+          <Route path={"/admin"} element={<LoginAdminScreen/>}/>
         </Routes>
       </Router>
 
