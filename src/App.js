@@ -35,7 +35,8 @@ function App() {
           <Route path={"/agregarCamilla"} element={<InsertCamilla/>}/>
           <Route path={"/editarCamilla"} element={<EditCamilla/>}/>
           <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
-          <Route path={"/pruebas"} element={<Navbar/>}/>
+{/*           <Route path={"/crearInstitucion"} element={<____/>}/>
+          <Route path={"/editarInstitucion"} element={<____ mode={'edit'}/>}/> */}
           <Route path={"/admin"} element={<LoginAdminScreen/>}/>
         </Routes>
       </Router>
