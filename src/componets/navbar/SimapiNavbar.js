@@ -68,15 +68,7 @@ export default function SimapiNavbar(props) {
       <LogoutButton
         style={styles.logoutButton}
         onClick={() => {
-          localStorage.setItem("estado", false);
-          localStorage.removeItem("idInstitucion");
-          localStorage.removeItem("logo");
-          localStorage.removeItem("correo");
-          localStorage.removeItem("password");
-          localStorage.removeItem("nombre");
-          localStorage.removeItem("cantidadCamillas");
-          localStorage.removeItem("cantidadDeSalas");
-          localStorage.removeItem("cantidadDeIslas");
+          localStorage.clear();
           window.location.href = "/";
         }}
       />

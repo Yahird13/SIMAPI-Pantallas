@@ -9,11 +9,11 @@ let lastColorSecundario = '';
 let lastColorTerciario = '';
 
 export default function HomeScreen() {
-/*   useEffect(() => {
+  useEffect(() => {
     if (!isUserAuthenticated()) {
         window.location.href = "/";
     }
-  }) */
+  })
 
   return (
     <div>

@@ -11,20 +11,11 @@ export default function CamillaButton(props) {
   let { style: { backgroundColor } = {} } = props
   const { id, estadoCamilla } = props;
   const textColorBackgroundInvert = backgroundColor ? getContrastColor( backgroundColor) : null;
-  const [hovered, setHovered] = useState(false);
   const [isAlertActive, setIsAlertActive] = useState(props.alert);
 
   useEffect(() => {
     setIsAlertActive(props.alert)
   }, [props.alert])
-
-  const handleMouseEnter = () => {
-    setHovered(true);
-  };
-  const handleMouseLeave = () => {
-    setHovered(false);
-  };
-  const scale = hovered ? 1.1 : 1;
 
   return (
         <button
@@ -32,14 +23,10 @@ export default function CamillaButton(props) {
         id={id}
         style={{ 
           ...styles.button, 
-          color: estadoCamilla ? textColorBackgroundInvert: 'gray', 
-          transform:`scale(${scale})`, 
-          transition:'transform 0.3s ease', 
+          color: estadoCamilla ? textColorBackgroundInvert: 'gray',
           visibility:'hidden',
           margin: "25%"}} 
-        onClick={props.onClick} 
-        onMouseEnter={handleMouseEnter} 
-        onMouseLeave={handleMouseLeave} >
+        onClick={props.onClick} >
           <IconContainer text={estadoCamilla ? props.textCamilla: 'No disponible'} 
           camilla={true} 
           iconColor={estadoCamilla ? 'black': 'gray'}
