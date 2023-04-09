@@ -75,11 +75,10 @@ export const LoginForm = () => {
               localStorage.setItem("cantidadCamillas",datos.data.cantidadCamillas);
               localStorage.setItem("cantidadDeSalas",datos.data.cantidadDeSalas);
               localStorage.setItem("cantidadDeIslas",datos.data.cantidadDeIslas)
-              console.log(datos.data)
               localStorage.setItem("colorPrimario",datos.data.color.colorPrimario);
               localStorage.setItem("colorSecundario", datos.data.color.colorSecundario);
               localStorage.setItem("colorTerciario", datos.data.color.colorTerciario);
-              window.location.href = "/inicio";
+              window.location.href = "/admin";
             })
             .catch((error) => console.log(error));
         }
