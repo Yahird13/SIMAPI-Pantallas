@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SimapiNavbar from "../../componets/navbar/SimapiNavbar";
 import Button from "../../componets/buttons/Button";
 import { Formik, Form } from "formik";
@@ -10,25 +10,37 @@ import { pathContext } from "../../utils/PathContext";
 export default function User(props) {
   const { mode } = props;
   let user = {}
-
-  if (mode === "edit" || mode === "details") {
-    fetch(`${pathContext}/usuarios/${localStorage.getItem("idUsuario")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      user = data.data;
-      console.log(user);
-    })
-  }
   const [nombre, setNombre] = useState(user.nombre ? user.nombre : "");
   const [apellidos, setApellidos] = useState(user.apellidos ? user.apellidos : "");
   const [correo, setCorreo] = useState(user.correo ? user.correo : "");
   const [password, setPassword] = useState(user.password ? user.password : "");
   const [rol, setRol] = useState(user.rol ? user.rol : "");
+
+  if (mode === "edit" || mode === "details") {
+    fetch(
+      `${pathContext}/api/usuarios/${localStorage.getItem("idUsuarioEdit")}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+      .then((response) => {
+        return response.json()
+      })
+      .then((datos) => {
+        user = datos.data;
+        setNombre(user.nombre)
+        setApellidos(user.apellidos)
+        setCorreo(user.correo)
+        setPassword(user.password)
+        setRol(user.rol)
+        return user;
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div>
@@ -63,7 +75,12 @@ export default function User(props) {
                 fontSize: "30px",
               }}
             >
-              {mode === 'edit' ? 'Edición': mode === 'details' ? 'Detalles' : 'Creación'} de usuario
+              {mode === "edit"
+                ? "Edición"
+                : mode === "details"
+                ? "Detalles"
+                : "Creación"}{" "}
+              de usuario
             </label>
             <br />
             <Formik
@@ -79,7 +96,7 @@ export default function User(props) {
                   title: "Datos",
                   text: `Nombre: ${nombre} Apellidos: ${apellidos} Correo: ${correo} Password: ${password} Rol: ${rol}`,
                 });
-                localStorage.setItem("idUsuario", "");
+                localStorage.setItem("idUsuarioEdit", "");
               }}
             >
               <Form>
@@ -104,7 +121,8 @@ export default function User(props) {
                     <TextField
                       type="text"
                       style={styles.input}
-                      defaultValue={nombre}
+                      value={nombre ? nombre : ""}
+                      disabled={mode === "details"}
                       onChange={(e) => setNombre(e.target.value)}
                     />
                   </div>
@@ -131,7 +149,8 @@ export default function User(props) {
                     <TextField
                       type="text"
                       style={styles.input}
-                      defaultValue={apellidos}
+                      value={apellidos ? apellidos : ""}
+                      disabled={mode === "details"}
                       onChange={(e) => setApellidos(e.target.value)}
                     />
                   </div>
@@ -158,7 +177,8 @@ export default function User(props) {
                     <TextField
                       type="email"
                       style={styles.input}
-                      defaultValue={correo}
+                      value={correo ? correo : ""}
+                      disabled={mode === "details"}
                       onChange={(e) => setCorreo(e.target.value)}
                     />
                   </div>
@@ -183,9 +203,10 @@ export default function User(props) {
                   </div>
                   <div style={{ width: "80%" }}>
                     <TextField
-                      type="text"
+                      type="password"
                       style={styles.input}
-                      defaultValue={password}
+                      value={mode === "details" ? password ? password : "●●●●●●●●●●" : password ? password : ""}
+                      disabled={mode === "details"}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
@@ -215,7 +236,8 @@ export default function User(props) {
                         paddingTop: 0,
                         paddingBottom: 0,
                       }}
-                      selectValue={rol}
+                      disabled={mode === "details"}
+                      selectValue={rol ? rol : ""}
                       placeholder="Selecciona un rol"
                       onChange={(e) => setRol(e.target.value)}
                       options={[
@@ -234,9 +256,10 @@ export default function User(props) {
                   }}
                 >
                   <Button
-                    text={"Guardar Usuario"}
+                    text={mode === "details" ? "Atrás" : "Guardar Usuario"}
                     style={styles.btnGuardarUsuario}
-                    type={"submit"}
+                    type={mode === "details" ? "button" : "submit"}
+                    onClick={mode === "details" ? () => {window.location.href = "/usuarios"} : () => {}}
                   />
                 </div>
               </Form>
@@ -259,7 +282,7 @@ const styles = {
     fontSize: "20px",
     width: "100%",
     outline: "none",
-    border: "2px solid black",
+    border: "2px solid",
     padding: "10px",
     height: "55px",
   },

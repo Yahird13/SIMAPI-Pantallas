@@ -10,10 +10,10 @@ export default function EmailField(props) {
     type={"email"} 
     id={props.id ? props.id : "email"}
     leftIcon={props.icon} 
-    style={style.input} 
+    style={{...style.input, backgroundColor: props.backgroundColor}} 
     backgroundStyle={style.backgroundStyle}
-    rightIconBackgroundColor={'#385273'}
-    iconStyle={style.icon}
+    rightIconBackgroundColor={props.rightIconBackgroundColor}
+    iconStyle={{...style.icon, backgroundColor: props.leftIconBackgroundColor}}
     placeholder={"Correo Electrónico"} iconSize={"2xl"}
     onChange={props.onChange}
     value={props.value}/>

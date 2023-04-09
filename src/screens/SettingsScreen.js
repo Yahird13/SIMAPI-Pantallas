@@ -6,7 +6,7 @@ import { Formik, Form } from "formik";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import Swal from "sweetalert2";
-import { pathContext } from '../utils/PathContext'
+import { pathContext } from "../utils/PathContext";
 
 const C_PRIMARIO = localStorage.getItem("colorPrimario");
 const C_SECUNDARIO = localStorage.getItem("colorSecundario");
@@ -32,9 +32,7 @@ export default function SettingsScreen() {
   useEffect(() => {
     const Interval = setInterval(() => {
       fetch(
-        `${pathContext}/api/auth/colores/${localStorage.getItem(
-          "idInstitucion"
-        )}`,
+        `${pathContext}/api/auth/colores/${localStorage.getItem("idColores")}`,
         {
           method: "GET",
           headers: {
@@ -63,7 +61,7 @@ export default function SettingsScreen() {
         })
         .catch((error) => console.log(error));
 
-        /* fetch(`${pathContext}/api/auth/institucion`, {
+      /* fetch(`${pathContext}/api/auth/institucion`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -117,10 +115,14 @@ export default function SettingsScreen() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setFile(file);
-    setImageName(file.name);
-    const imageUrl = URL.createObjectURL(file);
-    setImage(imageUrl);
+    if (file) {
+      setFile(file);
+      setImageName(file.name);
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+    } else {
+      setImage(null);
+    }
   };
 
   return (
@@ -148,7 +150,7 @@ export default function SettingsScreen() {
           onSubmit={() => {
             fetch(
               `${pathContext}/api/auth/colores/${localStorage.getItem(
-                "idInstitucion"
+                "idColores"
               )}`,
               {
                 method: "PUT",
@@ -156,6 +158,7 @@ export default function SettingsScreen() {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                  idInstitucion: localStorage.getItem("idInstitucion"),
                   colorPrimario: c_primario,
                   colorSecundario: c_secundario,
                   colorTerciario: c_terciario,
@@ -267,7 +270,9 @@ export default function SettingsScreen() {
           onSubmit={() => {
             if (file) {
               setUploading(true);
-              const storageRef = storage.ref(`logos/${localStorage.getItem("idInstitucion")+imageName}`);
+              const storageRef = storage.ref(
+                `logos/${localStorage.getItem("idInstitucion") + imageName}`
+              );
               const uploadTask = storageRef.put(file);
 
               uploadTask.on(
@@ -286,56 +291,50 @@ export default function SettingsScreen() {
                 },
                 () => {
                   // Obtiene la URL de descarga del archivo subido
-                  uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    setUploading(false);
-                    setImageUrl(downloadURL);
-                    return downloadURL;
-                  })
-                  .then((imageUrl) => {
-                    console.log(imageUrl)
-                    fetch(`${pathContext}/api/auth/login`, {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          correo: "correo121@correo.correo",
-                          password: "1212",
-                        }),
-                      })
+                  uploadTask.snapshot.ref
+                    .getDownloadURL()
+                    .then((downloadURL) => {
+                      setUploading(false);
+                      setImageUrl(downloadURL);
+                      return downloadURL;
+                    })
+                    .then((imageUrl) => {
+                      fetch(
+                        `${pathContext}/api/institucion/${localStorage.getItem(
+                          "idInstitucion"
+                        )}`,
+                        {
+                          method: "PUT",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${localStorage.getItem(
+                              "token"
+                            )}`,
+                          },
+                          body: JSON.stringify({
+                            nombre: localStorage.getItem("nombre"),
+                            correo: localStorage.getItem("correo"),
+                            password: localStorage.getItem("password"),
+                            logo: imageUrl,
+                            cantidadCamillas: parseInt(
+                              localStorage.getItem("cantidadCamillas")
+                            ),
+                            cantidadDeSalas: parseInt(
+                              localStorage.getItem("cantidadDeSalas")
+                            ),
+                            cantidadDeIslas: parseInt(
+                              localStorage.getItem("cantidadDeIslas")
+                            ),
+                          }),
+                        }
+                      )
                         .then((response) => response.json())
                         .then((data) => {
-                          const token = data.data.token;
-                          fetch(
-                            `${pathContext}/api/institucion/${localStorage.getItem(
-                              "idInstitucion"
-                            )}`,
-                            {
-                              method: "PUT",
-                              headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${token}`,
-                              },
-                              body: JSON.stringify({
-                                nombre: localStorage.getItem("nombre"),
-                                correo: localStorage.getItem("correo"),
-                                password: localStorage.getItem("password"),
-                                logo: imageUrl,
-                                cantidadCamillas: parseInt(localStorage.getItem("cantidadCamillas")),
-                                cantidadDeSalas: parseInt(localStorage.getItem("cantidadDeSalas")),
-                                cantidadDeIslas: parseInt(localStorage.getItem("cantidadDeIslas")),
-                              }),
-                            }
-                          )
-                            .then((response) => response.json())
-                            .then((data) => {
-                              console.log(data);
-                              localStorage.setItem("logo", imageUrl);
-                            })
-                            .catch((error) => console.log(error));
+                          console.log(data);
+                          localStorage.setItem("logo", imageUrl);
                         })
                         .catch((error) => console.log(error));
-                  });
+                    });
                 }
               );
             } else {

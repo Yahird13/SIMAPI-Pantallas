@@ -71,10 +71,11 @@ export const LoginForm = () => {
               localStorage.setItem("logo", datos.data.logo);
               localStorage.setItem("correo", datos.data.correo);
               localStorage.setItem("password", password);
-              localStorage.setItem("nombre", datos.data.nombre);
+              localStorage.setItem("nombreEmpresa", datos.data.nombre);
               localStorage.setItem("cantidadCamillas",datos.data.cantidadCamillas);
               localStorage.setItem("cantidadDeSalas",datos.data.cantidadDeSalas);
-              localStorage.setItem("cantidadDeIslas",datos.data.cantidadDeIslas)
+              localStorage.setItem("cantidadDeIslas",datos.data.cantidadDeIslas);
+              localStorage.setItem("idColores", datos.data.color.idColores);
               localStorage.setItem("colorPrimario",datos.data.color.colorPrimario);
               localStorage.setItem("colorSecundario", datos.data.color.colorSecundario);
               localStorage.setItem("colorTerciario", datos.data.color.colorTerciario);
@@ -149,6 +150,8 @@ export const LoginForm = () => {
                   icon={faEnvelope}
                   id={"email"}
                   value={email}
+                  backgroundColor={"#385273"}
+                  leftIconBackgroundColor={"#00264D"}
                   onChange={(e) => {
                     setEmail(e.target.value); /* console.log(e.target.value) */
                   }}
@@ -167,6 +170,9 @@ export const LoginForm = () => {
                   passIcons={[faEye, faEyeSlash]}
                   value={password}
                   id={"password"}
+                  backgroundColor={"#385273"}
+                  leftIconBackgroundColor={"#00264D"}
+                  rightIconBackgroundColor={"#00264D"}
                   onChange={(e) => {
                     setPassword(
                       e.target.value

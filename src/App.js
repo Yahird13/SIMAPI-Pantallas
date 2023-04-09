@@ -14,7 +14,7 @@ import Navbar from '././componets/Navbar'
 import User from './screens/cruds/User';
 import InsertCamilla from './screens/cruds/InsertCamilla';
 import EditUser from './screens/cruds/EditUser';
-import EditCamilla from './screens/cruds/EditCamilla';
+import Camilla from './screens/cruds/Camilla';
 import DetailsHistory from './screens/cruds/DetailsHistory';
 import LoginAdminScreen from './screens/LoginAdminScreen';
 
@@ -33,7 +33,7 @@ function App() {
           <Route path={"/editarUsuario"} element={<User mode={'edit'}/>}/>
           <Route path={"/detallesUsuario"} element={<User mode={'details'}/>}/>
           <Route path={"/agregarCamilla"} element={<InsertCamilla/>}/>
-          <Route path={"/editarCamilla"} element={<EditCamilla/>}/>
+          <Route path={"/editarCamilla"} element={<Camilla/>}/>
           <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
           <Route path={"/pruebas"} element={<Navbar/>}/>
           <Route path={"/admin"} element={<LoginAdminScreen/>}/>

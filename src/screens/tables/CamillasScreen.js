@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SimapiNavbar from "../../componets/navbar/SimapiNavbar";
 import {
   Table,
@@ -10,12 +10,26 @@ import {
 } from "@material-ui/core"; //instalar con yarn add @material-ui/core
 import Button from "../../componets/buttons/Button";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
+import { pathContext } from "../../utils/PathContext";
 
 export default function CamillasScreen() {
+  const [camillas, setCamillas] = useState([]);
+
   useEffect(() => {
     if (!isUserAuthenticated()) {
       window.location.href = "/";
     }
+
+    fetch(`${pathContext}/api/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((datos) => setCamillas(datos.data))
+      .catch((error) => console.log(error));
   }, []);
   return (
     <div>
@@ -31,15 +45,20 @@ export default function CamillasScreen() {
       <div
         style={{
           margin: "5%",
-          marginTop: "12%",
+          marginTop: 0,
         }}
       >
-        <div style={{ width: "100%", marginBottom: 25, display: 'flex', alignContent: 'center', alignItems: 'center', justifyContent: 'right' }}>
-          <Button
-            text={"Agregar Camilla"}
-            style={styles.btnAgregarCamilla}
-            onClick={() => (window.location.href = "/agregarCamilla")}
-          />
+        <div
+          style={{
+            width: "100%",
+            marginBottom: 25,
+            display: "flex",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "right",
+            marginTop: "12%",
+          }}
+        >
         </div>
         <div
           style={{
@@ -85,38 +104,32 @@ export default function CamillasScreen() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell>Yahir Alberto Diaz Gonzalez</TableCell>
-                  <TableCell>NOSE9384777</TableCell>
-                  <TableCell>Sala 3</TableCell>
-                  <TableCell>
-                    <Button
-                      text={"Editar"}
-                      style={styles.btnEditarCamilla}
-                      onClick={() => (window.location.href = "/editarCamilla")}
-                    />
-                    <Button
-                      text={"Eliminar"}
-                      style={styles.btnEliminarCamilla}
-                      path={"#"}
-                    />
-                  </TableCell>
-                </TableRow>
-                {/* {props.data.map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.no}</TableCell>
-                            <TableCell>{row.fecha}</TableCell>
-                            <TableCell>{row.hora}</TableCell>
-                            <TableCell>{row.paciente}</TableCell>
-                            <TableCell>{row.camilla}</TableCell>
-                            <TableCell>
-                                <IconButton onClick={() => props.onEdit(row.id)}><Edit /></IconButton>
-                                <IconButton onClick={() => props.onEdit(row.id)}><Edit /></IconButton>
-                                <IconButton onClick={() => props.onDelete(row.id)}><Delete /></IconButton>
-                            </TableCell>
-                        </TableRow>
-                    ))} */}
+                {camillas ? (
+                  camillas.map((item, index) => {
+                    return (
+                      <TableRow key={index}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{item.nombre ? item.nombre : 'No asignada'}</TableCell>
+                        <TableCell>{item.numeroExpediente}</TableCell>
+                        <TableCell>Sala 3</TableCell>
+                        <TableCell>
+                          <Button
+                            text={"Editar"}
+                            style={styles.btnEditarCamilla}
+                            onClick={(e) =>{
+                              localStorage.setItem("idCamillaEdit", item.idCamillas)
+                              window.location.href = "/editarCamilla"
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <TableRow>
+                    <TableCell>No hay camillas</TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </div>

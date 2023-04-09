@@ -8,10 +8,11 @@ export default function CamillaContainer(props) {
   const [camillas, setCamillas] = useState([]);
 
   const fetchCamillas = () => {
-    fetch(`${pathContext}/api/auth/camillas`, {
+    fetch(`${pathContext}/api/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
       .then((response) => {
@@ -50,6 +51,7 @@ export default function CamillaContainer(props) {
       >
         {camillas
           ? camillas.map((item, index) => {
+            {console.log(item.estadoAlarma)}
               return (
                 <CamillaButton
                   key={index}
