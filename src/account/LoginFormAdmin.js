@@ -83,6 +83,9 @@ export const LoginFormAdmin = () => {
               localStorage.setItem("idUsuarioLogin", datos.data.idUsuario);
               localStorage.setItem("rol", datos.data.rol);
               localStorage.setItem("token", datos.data.token);
+              localStorage.setItem("colorPrimario", datos.data.colores.colorPrimario);
+              localStorage.setItem("colorSecundario", datos.data.colores.colorSecundario);
+              localStorage.setItem("colorTerciario", datos.data.colores.colorTerciario);
               window.location.href = "/inicio";
             })
             .catch((error) => console.log(error));
