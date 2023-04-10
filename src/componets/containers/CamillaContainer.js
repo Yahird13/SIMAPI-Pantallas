@@ -51,7 +51,6 @@ export default function CamillaContainer(props) {
       >
         {camillas
           ? camillas.map((item, index) => {
-            {console.log(item.estadoAlarma)}
               return (
                 <CamillaButton
                   key={index}

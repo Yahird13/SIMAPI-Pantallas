@@ -12,11 +12,11 @@ import { isUserAuthenticated } from "../../auth/TokenValidate";
 import Button from "../../componets/buttons/Button";
 
 export default function RecordScreen() {
-  useEffect(() => {
+  //useEffect(() => {
     if (!isUserAuthenticated()) {
-      window.location.href = "/";
+      window.location.replace("/");
     }
-  }, []);
+  //}, []);
   return (
     <div>
       <SimapiNavbar
@@ -89,7 +89,7 @@ export default function RecordScreen() {
                     text={"Detalles"}
                     style={styles.btnDetallesHistorial}
                     onClick={() =>
-                      (window.location.href = "/detallesHistorial")
+                      (window.location.replace("/detallesHistorial"))
                     }
                   />
                 </TableCell>

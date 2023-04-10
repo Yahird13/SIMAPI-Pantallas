@@ -4,7 +4,7 @@ import { faGear } from '@fortawesome/free-solid-svg-icons'
 
 export default function SettingsButton(props) {
   return (
-    <Button icon={ faGear } iconSize={"2xl"} style={Object.assign({}, style, props.style)} onClick={() => window.location.href='/configuracion'}/>
+    <Button icon={ faGear } iconSize={"2xl"} style={Object.assign({}, style, props.style)} onClick={() => window.location.replace('/configuracion')}/>
   )
 }
 

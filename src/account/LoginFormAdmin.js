@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import { isUserAuthenticated } from "../auth/TokenValidate";
 import { pathContext } from "../utils/PathContext";
 import { getContrastColor } from "../componets/utils/ColorInvert";
+import { isInstitutionAuthenticated } from "../auth/InstitutionValidate";
 
 const C_PRIMARIO = localStorage.getItem("colorPrimario")
   ? localStorage.getItem("colorPrimario")
@@ -31,11 +32,14 @@ export const LoginFormAdmin = () => {
   const [password, setPassword] = useState("");
   const Swal = require("sweetalert2");
 
-  useEffect(() => {
-    if (!isUserAuthenticated()) {
-      window.location.href = "/inicio";
+  //useEffect(() => {
+    if (isUserAuthenticated()) {
+      window.location.replace("/inicio");
     }
-  }, []);
+    if(!isInstitutionAuthenticated()){
+      window.location.replace("/");
+    }
+  //}, []);
 
   const initialValues = {
     email: "",
@@ -43,6 +47,15 @@ export const LoginFormAdmin = () => {
   };
 
   return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        margin: "1%",
+      }}
+    >
     <Formik
       initialValues={initialValues}
       onSubmit={() => {
@@ -83,10 +96,10 @@ export const LoginFormAdmin = () => {
               localStorage.setItem("idUsuarioLogin", datos.data.idUsuario);
               localStorage.setItem("rol", datos.data.rol);
               localStorage.setItem("token", datos.data.token);
-              localStorage.setItem("colorPrimario", datos.data.colores.colorPrimario);
-              localStorage.setItem("colorSecundario", datos.data.colores.colorSecundario);
-              localStorage.setItem("colorTerciario", datos.data.colores.colorTerciario);
-              window.location.href = "/inicio";
+              //localStorage.setItem("colorPrimario", datos.data.colores.colorPrimario);
+              //localStorage.setItem("colorSecundario", datos.data.colores.colorSecundario);
+              //localStorage.setItem("colorTerciario", datos.data.colores.colorTerciario);
+              window.location.replace("/inicio");
             })
             .catch((error) => console.log(error));
         }
@@ -97,9 +110,7 @@ export const LoginFormAdmin = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: "100vh",
-          width: "100vw",
-          overflow: "hidden",
+          alignContent: "center",
         }}
       >
         <Form>
@@ -108,14 +119,13 @@ export const LoginFormAdmin = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              zIndex: 1,
+              marginBottom: "-100px",
             }}
           >
             <IconContainer
               icon={faUser}
               size={"8x"}
               style={{
-                position: "absolute",
                 justifyContent: "center",
                 alignItems: "center",
                 border: "1px solid" + C_TERCIARIO,
@@ -193,8 +203,8 @@ export const LoginFormAdmin = () => {
           </div>
           <div
             style={{
-              display: "flex",
-              marginTop: "40px",
+              display: "grid",
+              marginTop: "20px",
               flexDirection: "center",
               alignItems: "center",
               justifyContent: "center",
@@ -205,10 +215,24 @@ export const LoginFormAdmin = () => {
               style={styles.btnIniciarSesion}
               type={"submit"}
             />
+            <Button
+              text={`Salir de ${localStorage.getItem("nombreEmpresa") ? localStorage.getItem("nombreEmpresa") : "tu empresa"}`}
+              style={{
+                backgroundColor: C_SECUNDARIO,
+                width: 423,
+                height: 84,
+                marginTop: 20,
+              }}
+              onClick={() => {
+                localStorage.clear();
+                window.location.replace("/");
+              }}
+            />
           </div>
         </Form>
       </div>
     </Formik>
+    </div>
   );
 };
 

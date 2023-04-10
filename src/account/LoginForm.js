@@ -3,28 +3,22 @@ import Button from "../componets/buttons/Button";
 //import { C_PRIMARIO, C_TERCIARIO } from '../componets/colors';
 import EmailField from "../componets/inputs/EmailField";
 import PasswordField from "../componets/inputs/PasswordField";
-import {
-  faEnvelope,
-  faEye,
-  faEyeSlash,
-} from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import IconContainer from "../componets/containers/IconContainer";
 import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
-import { isUserAuthenticated } from "../auth/TokenValidate";
 import { pathContext } from "../utils/PathContext";
+import { isInstitutionAuthenticated } from "../auth/InstitutionValidate";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Swal = require("sweetalert2");
 
-  useEffect(() => {
-    if (!isUserAuthenticated()) {
-      window.location.href = "/inicio";
-    }
-  }, []);
+  if(isInstitutionAuthenticated()){
+    window.location.replace("/admin");
+  }
 
   const initialValues = {
     email: "",
@@ -69,17 +63,15 @@ export const LoginForm = () => {
               localStorage.setItem("estado", datos.data.estado);
               localStorage.setItem("idInstitucion", datos.data.idInstitucion);
               localStorage.setItem("logo", datos.data.logo);
-              localStorage.setItem("correo", datos.data.correo);
-              localStorage.setItem("password", password);
               localStorage.setItem("nombreEmpresa", datos.data.nombre);
-              localStorage.setItem("cantidadCamillas",datos.data.cantidadCamillas);
-              localStorage.setItem("cantidadDeSalas",datos.data.cantidadDeSalas);
-              localStorage.setItem("cantidadDeIslas",datos.data.cantidadDeIslas);
+              //localStorage.setItem("cantidadCamillas",datos.data.cantidadCamillas);
+              //localStorage.setItem("cantidadDeSalas",datos.data.cantidadDeSalas);
+              //localStorage.setItem("cantidadDeIslas",datos.data.cantidadDeIslas);
               localStorage.setItem("idColores", datos.data.color.idColores);
               localStorage.setItem("colorPrimario",datos.data.color.colorPrimario);
               localStorage.setItem("colorSecundario", datos.data.color.colorSecundario);
               localStorage.setItem("colorTerciario", datos.data.color.colorTerciario);
-              window.location.href = "/admin";
+              window.location.replace("/admin");
             })
             .catch((error) => console.log(error));
         }
@@ -90,8 +82,6 @@ export const LoginForm = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: "100vh",
-          width: "100vw",
           overflow: "hidden",
         }}
       >
@@ -101,14 +91,13 @@ export const LoginForm = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              zIndex: 1,
+              marginBottom: "-100px",
             }}
           >
             <IconContainer
               icon={faUser}
               size={"8x"}
               style={{
-                position: "absolute",
                 justifyContent: "center",
                 alignItems: "center",
                 border: "1px solid #00264D",
@@ -152,6 +141,7 @@ export const LoginForm = () => {
                   value={email}
                   backgroundColor={"#385273"}
                   leftIconBackgroundColor={"#00264D"}
+                  rightIconBackgroundColor={"#00264D"}
                   onChange={(e) => {
                     setEmail(e.target.value); /* console.log(e.target.value) */
                   }}

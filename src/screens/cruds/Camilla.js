@@ -6,8 +6,16 @@ import SimapiSelect from "../../componets/select/SimapiSelect";
 import TextField from "../../componets/inputs/TextField";
 import Swal from "sweetalert2";
 import { pathContext } from "../../utils/PathContext";
+import { isUserAuthenticated } from "../../auth/TokenValidate";
 
 export default function Camilla(props) {
+
+  //useEffect(() => {
+    if (!isUserAuthenticated()) {
+      window.location.replace("/");
+    }
+  //}, []);
+
   const { mode } = props;
   const [expediente, setExpediente] = useState("");
   const [paciente, setPaciente] = useState("");
@@ -302,9 +310,20 @@ export default function Camilla(props) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    justifyContent: "space-between",
                     margin: "5%",
                   }}
                 >
+                  <Button
+                    text={"Atrás"}
+                    style={styles.btnAtras}
+                    type={"button"}
+                    onClick={() => {
+                      localStorage.removeItem("idCamillaEdit");
+                      window.location.replace("/camillas");
+                    }}
+                  />
+
                   <Button
                     text={mode === "details" ? "Atrás" : "Guardar Usuario"}
                     style={styles.btnGuardarCamilla}
@@ -312,7 +331,7 @@ export default function Camilla(props) {
                     onClick={
                       mode === "details"
                         ? () => {
-                            window.location.href = "/usuarios";
+                            window.location.replace("/usuarios");
                           }
                         : () => {}
                     }
@@ -347,5 +366,12 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     marginTop: "20px",
-  }
+  },
+  btnAtras: {
+    fontSize: "30px",
+    width: "400px",
+    height: "75px",
+    //color gris
+    backgroundColor: "#a9a9a9",
+  },
 };

@@ -26,6 +26,12 @@ export default function SettingsScreen() {
     appId: "1:512626367595:web:159e9c3b9693650244a52e",
   };
 
+  //useEffect(() => {
+  if (!isUserAuthenticated()) {
+    window.location.replace("/");
+  }
+  //}, []);
+
   firebase.initializeApp(firebaseConfig);
   const storage = firebase.storage();
 
@@ -103,12 +109,6 @@ export default function SettingsScreen() {
     setC_terciario(event.target.value);
   };
 
-  useEffect(() => {
-    if (!isUserAuthenticated()) {
-      window.location.href = "/";
-    }
-  }, []);
-
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState("");
   const [file, setFile] = useState(null);
@@ -120,7 +120,34 @@ export default function SettingsScreen() {
       setImageName(file.name);
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const img = new Image();
+        img.onload = function () {
+          const ratio = img.width / img.height;
+          if (ratio <= 0.9 || ratio >= 1.1) {
+            Swal.fire({
+              title: "Atención!",
+              text: "Se recomienda que la relación de aspecto de la imagen sea 1:1 (imagen cuadrada) para evitar deformaciones",
+              icon: "warning",
+            });
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      if (file.width !== file.height) {
+        Swal.fire({
+          title: "Atención!",
+          text: "Se recomienda que la relación de aspecto de la imagen sea 1:1 (imagen cuadrada) para evitar deformaciones",
+          icon: "warning",
+        });
+      }
     } else {
+      setFile(null);
+      setImageName("");
       setImage(null);
     }
   };

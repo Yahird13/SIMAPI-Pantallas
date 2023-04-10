@@ -14,6 +14,7 @@ code {
 
 html {
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {

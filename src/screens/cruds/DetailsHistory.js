@@ -245,7 +245,7 @@ export default function DetailsHistory() {
             <Button
               text={"Regresar"}
               style={styles.btnGuardarUsuario}
-              onClick={() => window.location.href = "/historial"}
+              onClick={() => window.location.replace("/historial")}
             />
           </div>
         </div>

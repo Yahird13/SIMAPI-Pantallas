@@ -1,15 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SimapiNavbar from "../../componets/navbar/SimapiNavbar";
-import { Table, TableHead, TableBody, TableRow, TableCell, Typography, } from "@material-ui/core"; //instalar con yarn add @material-ui/core
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
+} from "@material-ui/core"; //instalar con yarn add @material-ui/core
 import Button from "../../componets/buttons/Button";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
+import { pathContext } from "../../utils/PathContext";
+import Swal from "sweetalert2";
 
 export default function UsersScreen() {
-  useEffect(() => {
-    if (!isUserAuthenticated()) {
-      window.location.href = "/";
+  const [usuarios, setUsuarios] = useState([]);
+
+  //useEffect(() => {
+  if (!isUserAuthenticated()) {
+    window.location.replace("/");
+  }
+
+  fetch(
+    `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
+      "idInstitucion"
+    )}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
     }
-  }, []);
+  )
+    .then((response) => response.json())
+    .then((datos) => {
+      setUsuarios(datos.data);
+    })
+    .catch((error) => console.log(error));
+  //}, []);
   return (
     <div>
       <SimapiNavbar
@@ -39,7 +68,7 @@ export default function UsersScreen() {
           <Button
             text={"Agregar Usuario"}
             style={styles.btnAgregarUsuario}
-            onClick={() => (window.location.href = "/agregarUsuario")}
+            onClick={() => window.location.replace("/agregarUsuario")}
           />
         </div>
 
@@ -99,46 +128,124 @@ export default function UsersScreen() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <label style={styles.center}>
-                      1
-                    </label>
-                  </TableCell>
-                  <TableCell>
-                    <label style={styles.center}>
-                      Yahir Alberto Diaz Gonzalez
-                    </label>
-                  </TableCell>
-                  <TableCell>
-                    <label style={styles.center}>
-                      Enfermera
-                    </label>
-                  </TableCell>
-                  <TableCell style={styles.center}>
-                    <Button
-                      text={"Detalles"}
-                      style={styles.btnDetallesUsuario}
-                      onClick={() =>{
-                        window.location.href = "/detallesUsuario"
-                      }}
-                    />
-                    <Button
-                      text={"Editar"}
-                      style={styles.btnEditarUsuario}
-                      onClick={() => {
-                        window.location.href = "/editarUsuario"
-                      }}
-                    />
-                    <Button
-                      text={"Eliminar"}
-                      style={styles.btnEliminarUsuario}
-                      onClick={() => {
-                        window.location.href = "/eliminarUsuario"
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
+                {usuarios
+                  ? usuarios.map((item, index) => {
+                      return (
+                        <TableRow key={index}>
+                          <TableCell>
+                            <label
+                              style={{ ...styles.center, fontSize: "17px" }}
+                            >
+                              {index + 1}
+                            </label>
+                          </TableCell>
+                          <TableCell>
+                            <label
+                              style={{ ...styles.center, fontSize: "17px" }}
+                            >
+                              {`${item.nombre} ${item.apellidos}`}
+                            </label>
+                          </TableCell>
+                          <TableCell>
+                            <label
+                              style={{ ...styles.center, fontSize: "17px" }}
+                            >
+                              {item.rol === "E"
+                                ? "Enfermera/o"
+                                : item.rol === "A"
+                                ? "Administrador"
+                                : null}
+                            </label>
+                          </TableCell>
+                          <TableCell
+                            style={{ ...styles.center, fontSize: "17px" }}
+                          >
+                            <Button
+                              text={"Detalles"}
+                              style={styles.btnDetallesUsuario}
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "idUsuarioEdit",
+                                  item.idUsuario
+                                );
+                                window.location.replace("/detallesUsuario");
+                              }}
+                            />
+                            <Button
+                              text={"Editar"}
+                              style={styles.btnEditarUsuario}
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "idUsuarioEdit",
+                                  item.idUsuario
+                                );
+                                window.location.replace("/editarUsuario");
+                              }}
+                            />
+                            <Button
+                              text={"Eliminar"}
+                              style={styles.btnEliminarUsuario}
+                              onClick={() => {
+                                Swal.fire({
+                                  title: "¿Estás seguro?",
+                                  text: "¡No podrás revertir esto!",
+                                  icon: "warning",
+                                  showCancelButton: true,
+                                  confirmButtonColor: "#3085d6",
+                                  cancelButtonColor: "#d33",
+                                  confirmButtonText: "¡Sí, bórralo!",
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    fetch(
+                                      `${pathContext}/api/usuarios/${item.idUsuario}`,
+                                      {
+                                        method: "DELETE",
+                                        headers: {
+                                          "Content-Type": "application/json",
+                                          Authorization:
+                                            "Bearer " +
+                                            localStorage.getItem("token"),
+                                        },
+                                      }
+                                    )
+                                      .then((response) => response.json())
+                                      .then((datos) => {
+                                        if (!datos.error) {
+                                          Swal.fire({
+                                            title: "¡Eliminado!",
+                                            text: datos.message,
+                                            icon: "success",
+                                            showConfirmButton: false,
+                                            showCloseButton: true,
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                            allowEnterKey: false,
+                                            stopKeydownPropagation: false,
+                                          })
+                                        } else {
+                                          throw new Error(datos.message);
+                                        }
+                                      })
+                                      .catch((error) =>{
+                                        Swal.fire({
+                                          title: "¡Error!",
+                                          text: error.message,
+                                          icon: "error",
+                                          showConfirmButton: false,
+                                          showCloseButton: true,
+                                        });
+                                      });
+                                  }
+                                });
+                              }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  : null}
               </TableBody>
             </Table>
           </div>

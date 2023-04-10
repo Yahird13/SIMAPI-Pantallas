@@ -5,42 +5,58 @@ import { Formik, Form } from "formik";
 import SimapiSelect from "../../componets/select/SimapiSelect";
 import TextField from "../../componets/inputs/TextField";
 import Swal from "sweetalert2";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { pathContext } from "../../utils/PathContext";
 
 export default function User(props) {
   const { mode } = props;
-  let user = {}
-  const [nombre, setNombre] = useState(user.nombre ? user.nombre : "");
-  const [apellidos, setApellidos] = useState(user.apellidos ? user.apellidos : "");
-  const [correo, setCorreo] = useState(user.correo ? user.correo : "");
-  const [password, setPassword] = useState(user.password ? user.password : "");
-  const [rol, setRol] = useState(user.rol ? user.rol : "");
+  let user = {};
+  const [nombre, setNombre] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [password, setPassword] = useState("");
+  const [rol, setRol] = useState("");
+  let iconShowPass = faEye;
+  let iconHidePass = faEyeSlash;
 
-  if (mode === "edit" || mode === "details") {
-    fetch(
-      `${pathContext}/api/usuarios/${localStorage.getItem("idUsuarioEdit")}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    )
-      .then((response) => {
-        return response.json()
-      })
-      .then((datos) => {
-        user = datos.data;
-        setNombre(user.nombre)
-        setApellidos(user.apellidos)
-        setCorreo(user.correo)
-        setPassword(user.password)
-        setRol(user.rol)
-        return user;
-      })
-      .catch((error) => console.log(error));
-  }
+  const [showPass, setShowPass] = useState(false);
+  const [rightIcon, setRightIcon] = useState(iconShowPass);
+
+  const handleClick = () => {
+    setShowPass(!showPass);
+    if (showPass) {
+      setRightIcon(iconShowPass);
+    } else {
+      setRightIcon(iconHidePass);
+    }
+  };
+
+  useEffect(() => {
+    if (mode === "edit" || mode === "details") {
+      fetch(
+        `${pathContext}/api/usuarios/${localStorage.getItem("idUsuarioEdit")}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((datos) => {
+          user = datos.data;
+          setNombre(user.nombre);
+          setApellidos(user.apellidos);
+          setCorreo(user.correo);
+          setPassword(user.password);
+          setRol(user.rol);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, []);
 
   return (
     <div>
@@ -92,11 +108,116 @@ export default function User(props) {
                 rol: rol,
               }}
               onSubmit={() => {
-                Swal.fire({
-                  title: "Datos",
-                  text: `Nombre: ${nombre} Apellidos: ${apellidos} Correo: ${correo} Password: ${password} Rol: ${rol}`,
-                });
-                localStorage.setItem("idUsuarioEdit", "");
+                if (mode === "edit") {
+                  fetch(
+                    `${pathContext}/api/usuarios/${localStorage.getItem(
+                      "idUsuarioEdit"
+                    )}`,
+                    {
+                      method: "PUT",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization:
+                          "Bearer " + localStorage.getItem("token"),
+                      },
+                      body: JSON.stringify({
+                        nombre: nombre,
+                        apellidos: apellidos,
+                        correo: correo,
+                        password: password,
+                        rol: rol,
+                        idInstitucion: localStorage.getItem("idInstitucion"),
+                      }),
+                    }
+                  )
+                    .then((response) => {
+                      if (!response.ok) {
+                        throw new Error("Error al editar usuario");
+                      }
+                      return response.json();
+                    })
+                    .then((datos) => {
+                      console.log(datos);
+                      if (datos.error || datos.message == null) {
+                        throw new Error(datos.message);
+                      }
+                      Swal.fire({
+                        title: "Éxito",
+                        text: datos.message,
+                        icon: "success",
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                        stopKeydownPropagation: false,
+                      }).then(() => {
+                        localStorage.removeItem("idUsuarioEdit");
+                        window.location.replace("/usuarios");
+                      });
+                    })
+                    .catch((error) => {
+                      Swal.fire({
+                        title: "Error",
+                        text: error.message,
+                        icon: "error",
+                      });
+                    });
+                } else {
+                  fetch(`${pathContext}/api/usuarios`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                    body: JSON.stringify({
+                      nombre: nombre,
+                      apellidos: apellidos,
+                      correo: correo,
+                      password: password,
+                      rol: rol,
+                      idInstitucion: localStorage.getItem("idInstitucion"),
+                    }),
+                  })
+                    .then((response) => {
+                      if (!response.ok) {
+                        throw new Error("Error al crear usuario");
+                      }
+                      return response.json();
+                    })
+                    .then((datos) => {
+                      console.log(datos);
+                      if (datos.error) {
+                        throw new Error(datos.message);
+                      } else {
+                        Swal.fire({
+                          title: "Éxito",
+                          text: datos.message,
+                          icon: "success",
+                          showConfirmButton: false,
+                          showCloseButton: true,
+                          timer: 2000,
+                          timerProgressBar: true,
+                          allowOutsideClick: false,
+                          allowEscapeKey: false,
+                          allowEnterKey: false,
+                          stopKeydownPropagation: false,
+                        }).then(() => {
+                          window.location.replace("/usuarios");
+                        });
+                      }
+                    })
+                    .catch((error) => {
+                      Swal.fire({
+                        title: "Error",
+                        text: error.message,
+                        icon: "error",
+                      });
+                      console.log(error);
+                    });
+                }
               }}
             >
               <Form>
@@ -203,11 +324,37 @@ export default function User(props) {
                   </div>
                   <div style={{ width: "80%" }}>
                     <TextField
-                      type="password"
-                      style={styles.input}
-                      value={mode === "details" ? password ? password : "●●●●●●●●●●" : password ? password : ""}
+                      type={showPass ? "text" : "password"}
+                      backgroundStyle={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
+                      required={mode === "edit" ? false : true}
+                      style={{ ...styles.input }}
+                      value={
+                        mode === "details"
+                          ? password
+                            ? password
+                            : "●●●●●●●●●●"
+                          : password
+                          ? password
+                          : ""
+                      }
                       disabled={mode === "details"}
                       onChange={(e) => setPassword(e.target.value)}
+                      rightIcon={showPass ? rightIcon : rightIcon}
+                      rightIconStyle={{
+                        height: 70,
+                        width: 70,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: mode === "details" ? "gray" : "black",
+                      }}
+                      rightIconSize={"2xl"}
+                      onClick={mode !== "details" ? handleClick : null}
                     />
                   </div>
                 </div>
@@ -236,10 +383,10 @@ export default function User(props) {
                         paddingTop: 0,
                         paddingBottom: 0,
                       }}
-                      disabled={mode === "details"}
+                      disabled={mode === "details" || mode === "edit"}
                       selectValue={rol ? rol : ""}
                       placeholder="Selecciona un rol"
-                      onChange={(e) => setRol(e.target.value)}
+                      onChange={(e) => setRol(e)}
                       options={[
                         { value: "A", label: "Administrador" },
                         { value: "E", label: "Enfermero/a" },
@@ -252,15 +399,34 @@ export default function User(props) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    justifyContent:
+                      mode === "details" ? "center" : "space-between",
                     margin: "5%",
                   }}
                 >
                   <Button
-                    text={mode === "details" ? "Atrás" : "Guardar Usuario"}
-                    style={styles.btnGuardarUsuario}
-                    type={mode === "details" ? "button" : "submit"}
-                    onClick={mode === "details" ? () => {window.location.href = "/usuarios"} : () => {}}
+                    text={"Atrás"}
+                    style={styles.btnAtras}
+                    type={"button"}
+                    onClick={() => {
+                      localStorage.removeItem("idUsuarioEdit");
+                      window.location.replace("/usuarios");
+                    }}
                   />
+                  {mode !== "details" ? (
+                    <Button
+                      text={"Guardar Usuario"}
+                      style={styles.btnGuardarUsuario}
+                      type={"submit"}
+                      onClick={
+                        mode === "details"
+                          ? () => {
+                              window.location.replace("/usuarios");
+                            }
+                          : () => {}
+                      }
+                    />
+                  ) : null}
                 </div>
               </Form>
             </Formik>
@@ -285,5 +451,11 @@ const styles = {
     border: "2px solid",
     padding: "10px",
     height: "55px",
+  },
+  btnAtras: {
+    fontSize: "30px",
+    width: "400px",
+    height: "75px",
+    backgroundColor: "#a9a9a9",
   },
 };

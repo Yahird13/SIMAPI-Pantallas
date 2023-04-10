@@ -5,8 +5,15 @@ import LogoutButton from "../buttons/LogoutButton";
 import IconContainer from "../containers/IconContainer";
 import { getContrastColor } from "../utils/ColorInvert";
 import { C_PRIMARIO } from "../colors";
+import { isUserAuthenticated } from "../../auth/TokenValidate";
 
 export default function SimapiNavbar(props) {
+
+  //useEffect(() => {
+    if (!isUserAuthenticated()) {
+      window.location.replace("/");
+    }
+  //}, []);
 
   const navbarItems = props.navbarItems;
   const textColorBackgroundInvert = getContrastColor(C_PRIMARIO);
@@ -45,6 +52,7 @@ export default function SimapiNavbar(props) {
                   <li key={index}>
                     <Link
                       to={item.path}
+                      replace
                       style={{
                         textDecoration: "none",
                         color: textColorBackgroundInvert,
@@ -68,8 +76,30 @@ export default function SimapiNavbar(props) {
       <LogoutButton
         style={styles.logoutButton}
         onClick={() => {
+          const estado = localStorage.getItem("estado");
+          const idInstitucion = localStorage.getItem("idInstitucion");
+          const logo = localStorage.getItem("logo");
+          const nombreEmpresa = localStorage.getItem("nombreEmpresa");
+          //const cantidadCamillas = localStorage.getItem("cantidadCamillas");
+          //const cantidadDeSalas = localStorage.getItem("cantidadDeSalas");
+          //const cantidadDeIslas = localStorage.getItem("cantidadDeIslas");
+          const idColores = localStorage.getItem("idColores");
+          const colorPrimario = localStorage.getItem("colorPrimario");
+          const colorSecundario = localStorage.getItem("colorSecundario");
+          const colorTerciario = localStorage.getItem("colorTerciario");
           localStorage.clear();
-          window.location.href = "/";
+          localStorage.setItem("estado", estado);
+          localStorage.setItem("idInstitucion", idInstitucion);
+          localStorage.setItem("logo", logo);
+          localStorage.setItem("nombreEmpresa", nombreEmpresa);
+          //localStorage.setItem("cantidadCamillas",cantidadCamillas);
+          //localStorage.setItem("cantidadDeSalas",cantidadDeSalas);
+          //localStorage.setItem("cantidadDeIslas",cantidadDeIslas);
+          localStorage.setItem("idColores", idColores);
+          localStorage.setItem("colorPrimario",colorPrimario);
+          localStorage.setItem("colorSecundario", colorSecundario);
+          localStorage.setItem("colorTerciario", colorTerciario);
+          window.location.replace("/admin");
         }}
       />
     </nav>

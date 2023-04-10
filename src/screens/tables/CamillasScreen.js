@@ -17,16 +17,21 @@ export default function CamillasScreen() {
 
   useEffect(() => {
     if (!isUserAuthenticated()) {
-      window.location.href = "/";
+      window.location.replace("/");
     }
 
-    fetch(`${pathContext}/api/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
+    fetch(
+      `${pathContext}/api/camillas/institucion/${localStorage.getItem(
+        "idInstitucion"
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
       .then((response) => response.json())
       .then((datos) => setCamillas(datos.data))
       .catch((error) => console.log(error));
@@ -58,8 +63,7 @@ export default function CamillasScreen() {
             justifyContent: "right",
             marginTop: "12%",
           }}
-        >
-        </div>
+        ></div>
         <div
           style={{
             borderRadius: "15px",
@@ -77,27 +81,47 @@ export default function CamillasScreen() {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       No.
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Nombre
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Expediente
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Sala
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Acciones
                     </Typography>
                   </TableCell>
@@ -108,17 +132,30 @@ export default function CamillasScreen() {
                   camillas.map((item, index) => {
                     return (
                       <TableRow key={index}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.nombre ? item.nombre : 'No asignada'}</TableCell>
-                        <TableCell>{item.numeroExpediente}</TableCell>
-                        <TableCell>Sala 3</TableCell>
                         <TableCell>
+                          <label style={{...styles.center, fontSize: "17px"}} >{index + 1}</label>
+                        </TableCell>
+                        <TableCell>
+                          <label style={{...styles.center, fontSize: "17px"}} >
+                            {item.nombre ? item.nombre : "No asignada"}
+                          </label>
+                        </TableCell>
+                        <TableCell>
+                          <label style={{...styles.center, fontSize: "17px"}} >{item.numeroExpediente}</label>
+                        </TableCell>
+                        <TableCell>
+                          <label style={{...styles.center, fontSize: "17px"}} >Sala 3</label>
+                        </TableCell>
+                        <TableCell style={{...styles.center, fontSize: "17px"}}>
                           <Button
                             text={"Editar"}
                             style={styles.btnEditarCamilla}
-                            onClick={(e) =>{
-                              localStorage.setItem("idCamillaEdit", item.idCamillas)
-                              window.location.href = "/editarCamilla"
+                            onClick={(e) => {
+                              localStorage.setItem(
+                                "idCamillaEdit",
+                                item.idCamillas
+                              );
+                              window.location.replace("/editarCamilla");
                             }}
                           />
                         </TableCell>
@@ -145,15 +182,18 @@ const styles = {
     height: "50px",
     backgroundColor: "#3fad5e",
   },
-
   btnEditarCamilla: {
     width: "100px",
     backgroundColor: "#FFFF00",
     marginRight: "10px",
   },
-
   btnEliminarCamilla: {
     width: "120px",
     backgroundColor: "#FF0000",
+  },
+  center: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 };
