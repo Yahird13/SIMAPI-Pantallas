@@ -32,6 +32,7 @@ export default function Button(props) {
         style={{ 
           ...styles.button, 
           ...props.style, 
+          fontSize: '20px',
           color: textColorBackgroundInvert, 
           transform: `scale(${scale})`, 
           transition: 'transform 0.3s ease', 
@@ -57,6 +58,6 @@ const styles = {
     fontWeight: 'bold',
     border: 'none',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    fontSize: '24px',
+    fontSize: '20px',
   }
 }

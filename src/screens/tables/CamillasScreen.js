@@ -11,12 +11,17 @@ import {
 import Button from "../../componets/buttons/Button";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
 import { pathContext } from "../../utils/PathContext";
+import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 
 export default function CamillasScreen() {
   const [camillas, setCamillas] = useState([]);
 
   useEffect(() => {
     if (!isUserAuthenticated()) {
+      if(!isInstitutionAuthenticated()){
+        window.location.replace("/");
+      }
+    } else if (localStorage.getItem('rol') !== 'A'){
       window.location.replace("/");
     }
 
@@ -50,7 +55,7 @@ export default function CamillasScreen() {
       <div
         style={{
           margin: "5%",
-          marginTop: 0,
+          marginTop: "10%",
         }}
       >
         <div
@@ -61,7 +66,6 @@ export default function CamillasScreen() {
             alignContent: "center",
             alignItems: "center",
             justifyContent: "right",
-            marginTop: "12%",
           }}
         ></div>
         <div
@@ -104,7 +108,7 @@ export default function CamillasScreen() {
                       fontWeight="bold"
                       style={styles.center}
                     >
-                      Expediente
+                      No. Expediente
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -133,20 +137,20 @@ export default function CamillasScreen() {
                     return (
                       <TableRow key={index}>
                         <TableCell>
-                          <label style={{...styles.center, fontSize: "17px"}} >{index + 1}</label>
+                          <label style={{...styles.center, fontSize: "18px"}} >{index + 1}</label>
                         </TableCell>
                         <TableCell>
-                          <label style={{...styles.center, fontSize: "17px"}} >
+                          <label style={{...styles.center, fontSize: "18px"}} >
                             {item.nombre ? item.nombre : "No asignada"}
                           </label>
                         </TableCell>
                         <TableCell>
-                          <label style={{...styles.center, fontSize: "17px"}} >{item.numeroExpediente}</label>
+                          <label style={{...styles.center, fontSize: "18px"}} >{item.numeroExpediente}</label>
                         </TableCell>
                         <TableCell>
-                          <label style={{...styles.center, fontSize: "17px"}} >Sala 3</label>
+                          <label style={{...styles.center, fontSize: "18px"}} >{item.idSala}</label>
                         </TableCell>
-                        <TableCell style={{...styles.center, fontSize: "17px"}}>
+                        <TableCell style={{...styles.center, fontSize: "18px"}}>
                           <Button
                             text={"Editar"}
                             style={styles.btnEditarCamilla}

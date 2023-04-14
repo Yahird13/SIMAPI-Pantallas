@@ -8,7 +8,7 @@ export default function CamillaContainer(props) {
   const [camillas, setCamillas] = useState([]);
 
   const fetchCamillas = () => {
-    fetch(`${pathContext}/api/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
+    fetch(`${pathContext}/api/auth/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -63,8 +63,8 @@ export default function CamillaContainer(props) {
                       Swal.fire({
                         title: "Inicie sesión",
                         html:
-                          '<input type="email" id="swal-input1" class="swal2-input" placeholder="Correo" required>' +
-                          '<input type="password" id="swal-input2" class="swal2-input" placeholder="Contraseña" required>',
+                          '<input type="email" id="swal-input1" style="font-size: 20px;" class="swal2-input" placeholder="Correo" required>' +
+                          '<input type="password" id="swal-input2" class="swal2-input" style="font-size: 20px;"  placeholder="Contraseña" required>',
                         preConfirm: () => {
                           correo = document.getElementById("swal-input1").value;
                           password = document.getElementById("swal-input2").value;
@@ -127,7 +127,16 @@ export default function CamillaContainer(props) {
                                         if (!response.ok) {
                                           throw new Error(response.statusText);
                                         } else {
-                                          //turnOffAlert();
+                                          const dateTurnOffAlert = `${new Date().getDay}/${new Date().getMonth}/${new Date().getFullYear}`;
+                                          /* fetch(`${pathContext}/api/historial`, {
+                                            method: "POST",
+                                            headers: {
+                                              "Content-Type": "application/json",
+                                              "Authorization": "Bearer " + localStorage.getItem("token"),
+                                            },
+                                            body: JSON.stringify({
+                                              idCamilla: item.idCamillas,
+                                              fechaPeticion: item.fechaPeticion */
                                         }
                                       })
                                       .catch((error) => console.log(error.message));

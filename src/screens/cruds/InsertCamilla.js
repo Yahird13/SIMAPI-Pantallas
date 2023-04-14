@@ -18,7 +18,7 @@ export default function InsertCamilla() {
         style={{
           width: "94%",
           margin: "3%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
           display: "flex",
@@ -32,7 +32,7 @@ export default function InsertCamilla() {
             <label
               style={{
                 fontStyle: "bold",
-                fontSize: "30px",
+                fontSize: "25px",
               }}
             >
               Creación de nueva Camilla
@@ -49,7 +49,7 @@ export default function InsertCamilla() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Expediente:
@@ -77,7 +77,7 @@ export default function InsertCamilla() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Paciente:
@@ -105,7 +105,7 @@ export default function InsertCamilla() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Isla:
@@ -135,7 +135,7 @@ export default function InsertCamilla() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Sala:
@@ -165,7 +165,7 @@ export default function InsertCamilla() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Encargado:
@@ -207,9 +207,9 @@ export default function InsertCamilla() {
 
 const styles = {
   btnGuardarCamilla: {
-    fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    fontSize: "20px",
+    width: "300px",
+    height: "60px",
     backgroundColor: "#3fad5e",
   },
 };

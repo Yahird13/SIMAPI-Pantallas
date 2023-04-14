@@ -72,7 +72,7 @@ export default function User(props) {
         style={{
           width: "94%",
           margin: "3%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
           display: "flex",
@@ -88,7 +88,7 @@ export default function User(props) {
             <label
               style={{
                 fontStyle: "bold",
-                fontSize: "30px",
+                fontSize: "25px",
               }}
             >
               {mode === "edit"
@@ -124,7 +124,7 @@ export default function User(props) {
                         nombre: nombre,
                         apellidos: apellidos,
                         correo: correo,
-                        password: password,
+                        password: password ? password : null,
                         rol: rol,
                         idInstitucion: localStorage.getItem("idInstitucion"),
                       }),
@@ -155,12 +155,16 @@ export default function User(props) {
                         stopKeydownPropagation: false,
                       }).then(() => {
                         localStorage.removeItem("idUsuarioEdit");
-                        window.location.replace("/usuarios");
+                        window.location.replace(
+                          localStorage.getItem("rol") === "SA"
+                            ? "/administradores"
+                            : "/usuarios"
+                        );
                       });
                     })
                     .catch((error) => {
                       Swal.fire({
-                        title: "Error",
+                        title: "Error al editar el usuario",
                         text: error.message,
                         icon: "error",
                       });
@@ -177,7 +181,7 @@ export default function User(props) {
                       apellidos: apellidos,
                       correo: correo,
                       password: password,
-                      rol: rol,
+                      rol: localStorage.getItem("rol") === 'SA' ? 'A' : rol,
                       idInstitucion: localStorage.getItem("idInstitucion"),
                     }),
                   })
@@ -205,7 +209,11 @@ export default function User(props) {
                           allowEnterKey: false,
                           stopKeydownPropagation: false,
                         }).then(() => {
-                          window.location.replace("/usuarios");
+                          if (localStorage.getItem("rol") === "SA") {
+                            window.location.replace("/instituciones");
+                          } else {
+                            window.location.replace("/usuarios");
+                          }
                         });
                       }
                     })
@@ -232,7 +240,7 @@ export default function User(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Nombre:
@@ -260,7 +268,7 @@ export default function User(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Apellidos:
@@ -288,7 +296,7 @@ export default function User(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Correo:
@@ -316,7 +324,7 @@ export default function User(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Contraseña:
@@ -370,7 +378,7 @@ export default function User(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Rol:
@@ -383,8 +391,8 @@ export default function User(props) {
                         paddingTop: 0,
                         paddingBottom: 0,
                       }}
-                      disabled={mode === "details" || mode === "edit"}
-                      selectValue={rol ? rol : ""}
+                      disabled={(mode === "details" || mode === "edit") || localStorage.getItem("rol") === "SA"}
+                      selectValue={localStorage.getItem("rol") === 'SA' ? "A" : rol ? rol : ""}
                       placeholder="Selecciona un rol"
                       onChange={(e) => setRol(e)}
                       options={[
@@ -410,7 +418,11 @@ export default function User(props) {
                     type={"button"}
                     onClick={() => {
                       localStorage.removeItem("idUsuarioEdit");
-                      window.location.replace("/usuarios");
+                      window.location.replace(
+                        localStorage.getItem("rol") === "SA"
+                          ? "/administradores"
+                          : "/usuarios"
+                      );
                     }}
                   />
                   {mode !== "details" ? (
@@ -421,7 +433,11 @@ export default function User(props) {
                       onClick={
                         mode === "details"
                           ? () => {
-                              window.location.replace("/usuarios");
+                              window.location.replace(
+                                localStorage.getItem("rol") === "SA"
+                                  ? "/administradores"
+                                  : "/usuarios"
+                              );
                             }
                           : () => {}
                       }
@@ -439,9 +455,9 @@ export default function User(props) {
 
 const styles = {
   btnGuardarUsuario: {
-    fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    fontSize: "20px",
+    width: "300px",
+    height: "60px",
     backgroundColor: "#3fad5e",
   },
   input: {
@@ -453,9 +469,9 @@ const styles = {
     height: "55px",
   },
   btnAtras: {
-    fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    fontSize: "20px",
+    width: "300px",
+    height: "60px",
     backgroundColor: "#a9a9a9",
   },
 };

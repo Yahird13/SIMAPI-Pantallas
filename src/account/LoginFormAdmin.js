@@ -33,12 +33,6 @@ export const LoginFormAdmin = () => {
   const Swal = require("sweetalert2");
 
   //useEffect(() => {
-    if (isUserAuthenticated()) {
-      window.location.replace("/inicio");
-    }
-    if(!isInstitutionAuthenticated()){
-      window.location.replace("/");
-    }
   //}, []);
 
   const initialValues = {
@@ -56,182 +50,205 @@ export const LoginFormAdmin = () => {
         margin: "1%",
       }}
     >
-    <Formik
-      initialValues={initialValues}
-      onSubmit={() => {
-        if (email === "" || password === "") {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Campos obligatorios",
-          });
-        } else {
-          fetch(`${pathContext}/api/auth/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              correo: email,
-              password: password,
-            }),
-          })
-            .then((response) => {
-              if (!response.ok) {
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Datos incorrectos",
-                });
-                throw new Error(response.statusText);
-              } else {
-                return response.json();
-              }
+      <Formik
+        initialValues={initialValues}
+        onSubmit={() => {
+          if (email === "" || password === "") {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Campos obligatorios",
+            });
+          } else {
+            fetch(`${pathContext}/api/auth/login`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                correo: email,
+                password: password,
+              }),
             })
-            .then((datos) => {
-              localStorage.setItem("correo", datos.data.correo);
-              localStorage.setItem("password", password);
-              localStorage.setItem("nombre", datos.data.nombre);
-              localStorage.setItem("apellidos", datos.data.apellidos);
-              localStorage.setItem("idUsuarioLogin", datos.data.idUsuario);
-              localStorage.setItem("rol", datos.data.rol);
-              localStorage.setItem("token", datos.data.token);
-              //localStorage.setItem("colorPrimario", datos.data.colores.colorPrimario);
-              //localStorage.setItem("colorSecundario", datos.data.colores.colorSecundario);
-              //localStorage.setItem("colorTerciario", datos.data.colores.colorTerciario);
-              window.location.replace("/inicio");
-            })
-            .catch((error) => console.log(error));
-        }
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          alignContent: "center",
+              .then((response) => {
+                if (!response.ok) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Datos incorrectos",
+                  });
+                  throw new Error(response.statusText);
+                } else {
+                  return response.json();
+                }
+              })
+              .then((datos) => {
+                if (datos.data.rol === "E") {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "No tienes permisos para acceder",
+                  });
+                  return;
+                } else {
+                  localStorage.setItem("correo", datos.data.correo);
+                  localStorage.setItem("password", password);
+                  localStorage.setItem("nombre", datos.data.nombre);
+                  localStorage.setItem("apellidos", datos.data.apellidos);
+                  localStorage.setItem("idUsuarioLogin", datos.data.idUsuario);
+                  localStorage.setItem("rol", datos.data.rol);
+                  localStorage.setItem("token", datos.data.token);
+                  if (datos.data.rol !== "SA") {
+                    localStorage.setItem("idInstitucion",datos.data.colores.idInstitucion);
+                    localStorage.setItem("logo", datos.data.logo);
+                    localStorage.setItem("idColores",datos.data.colores.idColores);
+                    localStorage.setItem("colorPrimario",datos.data.colores.colorPrimario);
+                    localStorage.setItem("colorSecundario",datos.data.colores.colorSecundario);
+                    localStorage.setItem("colorTerciario",datos.data.colores.colorTerciario);
+                  }
+                  if (datos.data.rol === "SA") {
+                    localStorage.setItem(
+                      "navbarItems",
+                      JSON.stringify([
+                        { path: "/administradores", text: "Administradores" },
+                        { path: "/instituciones", text: "Instituciones" },
+                      ])
+                    );
+                    window.location.replace("/administradores");
+                  } else {
+                    localStorage.setItem(
+                      "navbarItems",
+                      JSON.stringify([
+                        { path: "/inicio", text: "Inicio" },
+                        { path: "/camillas", text: "Camillas" },
+                        { path: "/usuarios", text: "Usuarios" },
+                        { path: "/historial", text: "Historial" },
+                      ])
+                    );
+                    window.location.replace("/inicio");
+                  }
+                }
+              })
+              .catch((error) => console.log(error));
+          }
         }}
       >
-        <Form>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "-100px",
-            }}
-          >
-            <IconContainer
-              icon={faUser}
-              size={"8x"}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Form>
+            <div
               style={{
+                display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                border: "1px solid" + C_TERCIARIO,
-                borderRadius: "50%",
-                width: 200,
-                height: 200,
-                backgroundColor: C_TERCIARIO,
+                marginBottom: "-100px",
               }}
-            />
-          </div>
+            >
+              <IconContainer
+                icon={faUser}
+                size={"8x"}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "1px solid" + C_TERCIARIO,
+                  borderRadius: "50%",
+                  width: 200,
+                  height: 200,
+                  backgroundColor: C_TERCIARIO,
+                }}
+              />
+            </div>
 
-          <div
-            style={{
-              borderRadius: "15px",
-              backgroundColor: C_PRIMARIO,
-              width: "675px",
-              height: "425px",
-            }}
-          >
-            <div style={{ paddingTop: "130px", textAlign: "center" }}>
-              <h1
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "30px",
-                  color: getContrastColor(C_PRIMARIO),
-                }}
-              >
-                Bienvenido a {localStorage.getItem("nombreEmpresa") ? localStorage.getItem("nombreEmpresa") : "tu empresa"}
-              </h1>
-            </div>
-            <div>
-              <div
-                style={{
-                  display: "flex",
-                  marginTop: "20px",
-                  justifyContent: "center",
-                }}
-              >
-                <EmailField
-                  icon={faEnvelope}
-                  backgroundColor={C_SECUNDARIO}
-                  leftIconBackgroundColor={C_TERCIARIO}
-                  rightIconBackgroundColor={C_SECUNDARIO}
-                  id={"email"}
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value); /* console.log(e.target.value) */
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "40px",
-                  paddingBottom: "40px",
-                }}
-              >
-                <PasswordField
-                  icon={faLock}
-                  backgroundColor={C_SECUNDARIO}
-                  leftIconBackgroundColor={C_TERCIARIO}
-                  rightIconBackgroundColor={C_SECUNDARIO}
-                  passIcons={[faEye, faEyeSlash]}
-                  value={password}
-                  id={"password"}
-                  onChange={(e) => {
-                    setPassword(
-                      e.target.value
-                    ); /* console.log(e.target.value) */
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "grid",
-              marginTop: "20px",
-              flexDirection: "center",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              text={"Iniciar Sesión"}
-              style={styles.btnIniciarSesion}
-              type={"submit"}
-            />
-            <Button
-              text={`Salir de ${localStorage.getItem("nombreEmpresa") ? localStorage.getItem("nombreEmpresa") : "tu empresa"}`}
+            <div
               style={{
-                backgroundColor: C_SECUNDARIO,
-                width: 423,
-                height: 84,
-                marginTop: 20,
+                borderRadius: "15px",
+                backgroundColor: C_PRIMARIO,
+                width: "675px",
+                height: "425px",
               }}
-              onClick={() => {
-                localStorage.clear();
-                window.location.replace("/");
+            >
+              <div style={{ paddingTop: "130px", textAlign: "center" }}>
+                <h1
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "30px",
+                    color: getContrastColor(C_PRIMARIO),
+                  }}
+                >
+                  Bienvenido a SIMAPI
+                </h1>
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "20px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <EmailField
+                    icon={faEnvelope}
+                    backgroundColor={C_SECUNDARIO}
+                    leftIconBackgroundColor={C_TERCIARIO}
+                    rightIconBackgroundColor={C_SECUNDARIO}
+                    id={"email"}
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(
+                        e.target.value
+                      ); /* console.log(e.target.value) */
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "40px",
+                    paddingBottom: "40px",
+                  }}
+                >
+                  <PasswordField
+                    icon={faLock}
+                    backgroundColor={C_SECUNDARIO}
+                    leftIconBackgroundColor={C_TERCIARIO}
+                    rightIconBackgroundColor={C_SECUNDARIO}
+                    passIcons={[faEye, faEyeSlash]}
+                    value={password}
+                    id={"password"}
+                    onChange={(e) => {
+                      setPassword(
+                        e.target.value
+                      ); /* console.log(e.target.value) */
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                display: "grid",
+                marginTop: "40px",
+                flexDirection: "center",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
-          </div>
-        </Form>
-      </div>
-    </Formik>
+            >
+              <Button
+                text={"Iniciar Sesión"}
+                style={styles.btnIniciarSesion}
+                type={"submit"}
+              />
+            </div>
+          </Form>
+        </div>
+      </Formik>
     </div>
   );
 };
@@ -239,7 +256,7 @@ export const LoginFormAdmin = () => {
 const styles = {
   btnIniciarSesion: {
     backgroundColor: C_PRIMARIO,
-    width: 423,
-    height: 84,
+    width: 300,
+    height: 60,
   },
 };

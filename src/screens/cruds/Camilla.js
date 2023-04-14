@@ -7,11 +7,17 @@ import TextField from "../../componets/inputs/TextField";
 import Swal from "sweetalert2";
 import { pathContext } from "../../utils/PathContext";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
+import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
+import MultiSelect from "../../componets/select/MultiSelect";
 
 export default function Camilla(props) {
 
   //useEffect(() => {
     if (!isUserAuthenticated()) {
+      if(!isInstitutionAuthenticated()){
+        window.location.replace("/");
+      }
+    } else if (localStorage.getItem('rol') !== 'A'){
       window.location.replace("/");
     }
   //}, []);
@@ -99,7 +105,7 @@ export default function Camilla(props) {
         style={{
           width: "94%",
           margin: "3%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
           display: "flex",
@@ -116,7 +122,7 @@ export default function Camilla(props) {
             <label
               style={{
                 fontStyle: "bold",
-                fontSize: "30px",
+                fontSize: "25px",
               }}
             >
               Edición de camilla
@@ -151,10 +157,10 @@ export default function Camilla(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
-                      Expediente:
+                      No. Expediente:
                     </label>
                   </div>
                   <div style={{ width: "80%" }}>
@@ -173,7 +179,7 @@ export default function Camilla(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Paciente:
@@ -195,7 +201,7 @@ export default function Camilla(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Isla:
@@ -225,7 +231,7 @@ export default function Camilla(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Sala:
@@ -255,21 +261,21 @@ export default function Camilla(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Enfermera/o:
                     </label>
                   </div>
                   <div style={{ width: "80%" }}>
-                    <SimapiSelect
+                    <MultiSelect
                       style={{
                         ...styles.input,
                         paddingTop: 0,
                         paddingBottom: 0,
                       }}
                       selectValue={enfermera ? enfermera : ""}
-                      placeholder="Selecciona una enfermera"
+                      placeholder="Selecciona un/a enfermera/o"
                       onChange={(e) => setEnfermera(e)}
                       options={enfermeras ? enfermeras : []}
                     />
@@ -282,7 +288,7 @@ export default function Camilla(props) {
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
-                        fontSize: "25px",
+                        fontSize: "20px",
                       }}
                     >
                       Estado:
@@ -348,9 +354,9 @@ export default function Camilla(props) {
 
 const styles = {
   btnGuardarCamilla: {
-    fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    fontSize: "20px",
+    width: "300px",
+    height: "60px",
     backgroundColor: "#3fad5e",
   },
   input: {
@@ -369,8 +375,8 @@ const styles = {
   },
   btnAtras: {
     fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    width: "300px",
+    height: "60px",
     //color gris
     backgroundColor: "#a9a9a9",
   },

@@ -10,6 +10,7 @@ import { C_PRIMARIO, C_SECUNDARIO, C_TERCIARIO } from './colors';
 import Button from './buttons/Button';
 import CamillaContainer from './containers/CamillaContainer';
 import SimapiSelect from './select/SimapiSelect';
+import MultiSelect from './select/MultiSelect';
 
 export default function MyNavbar(){
   return (
@@ -28,6 +29,7 @@ export default function MyNavbar(){
       <IconContainer icon={faUser} size={"5x"} style={{border: "1px solid black", borderRadius: "50%", width: 200, height: 200, backgroundColor: C_TERCIARIO}} />
       <Button text={"Hola"} style={{backgroundColor: C_PRIMARIO, width: 423, height: 84}} />
       <div style={{height: "200%", width: "100%", backgroundColor: 'black'}}></div>
+      <MultiSelect />
     </>
   );
 }

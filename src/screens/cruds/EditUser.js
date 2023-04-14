@@ -19,7 +19,7 @@ export default function EditUser() {
         style={{
           width: "94%",
           margin: "3%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
           display: "flex",
@@ -33,7 +33,7 @@ export default function EditUser() {
             <label
               style={{
                 fontStyle: "bold",
-                fontSize: "30px",
+                fontSize: "25px",
               }}
             >
               Edición de usuario
@@ -50,7 +50,7 @@ export default function EditUser() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Nombre:
@@ -78,7 +78,7 @@ export default function EditUser() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Apellidos:
@@ -106,7 +106,7 @@ export default function EditUser() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Correo:
@@ -134,7 +134,7 @@ export default function EditUser() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Contraseña:
@@ -162,7 +162,7 @@ export default function EditUser() {
               <div style={{ width: "20%" }}>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                   }}
                 >
                   Rol:
@@ -203,9 +203,9 @@ export default function EditUser() {
 
 const styles = {
   btnGuardarUsuario: {
-    fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    fontSize: "20px",
+    width: "300px",
+    height: "60px",
     backgroundColor: "#3fad5e",
   },
 };

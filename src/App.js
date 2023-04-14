@@ -16,6 +16,9 @@ import EditUser from './screens/cruds/EditUser';
 import Camilla from './screens/cruds/Camilla';
 import DetailsHistory from './screens/cruds/DetailsHistory';
 import LoginAdminScreen from './screens/LoginAdminScreen';
+import AdminsScreen from './screens/tables/AdminsScreen';
+import InstitutionScreen from './screens/tables/InstitutionScreen';
+import Institucion from './screens/cruds/Institucion';
 
 
 function App() {
@@ -31,12 +34,15 @@ function App() {
           <Route path={"/agregarUsuario"} element={<User/>}/>
           <Route path={"/editarUsuario"} element={<User mode={'edit'}/>}/>
           <Route path={"/detallesUsuario"} element={<User mode={'details'}/>}/>
-          <Route path={"/agregarCamilla"} element={<InsertCamilla/>}/>
           <Route path={"/editarCamilla"} element={<Camilla/>}/>
           <Route path={"/detallesHistorial"} element={<DetailsHistory/>}/>
-{/*           <Route path={"/crearInstitucion"} element={<____/>}/>
-          <Route path={"/editarInstitucion"} element={<____ mode={'edit'}/>}/> */}
+          <Route path={"/administradores"} element={<AdminsScreen/>}/>
+          <Route path={"/instituciones"} element={<InstitutionScreen/>}/>
+          <Route path={"/agregarInstitucion"} element={<Institucion/>}/>
+          <Route path={"/editarInstitucion"} element={<Institucion mode={'edit'}/>}/>
+          <Route path={"/detallesInstitucion"} element={<Institucion mode={'details'}/>}/>
           <Route path={"/admin"} element={<LoginAdminScreen/>}/>
+          <Route path='/pruebas' element={<Navbar/>}/>
         </Routes>
       </Router>
 

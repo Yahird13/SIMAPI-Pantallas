@@ -1,8 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SimapiNavbar from "../../componets/navbar/SimapiNavbar";
 import Button from "../../componets/buttons/Button";
+import { isUserAuthenticated } from "../../auth/TokenValidate";
+import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
+import { pathContext } from "../../utils/PathContext";
 
 export default function DetailsHistory() {
+  if (!isUserAuthenticated()) {
+    if (!isInstitutionAuthenticated()) {
+      window.location.replace("/");
+    }
+  } else if (localStorage.getItem("rol") !== "A") {
+    window.location.replace("/");
+  }
+
+  const [usuario, setUsuario] = useState("");
+  const [camilla, setCamilla] = useState("");
+
+  const historial = JSON.parse(localStorage.getItem("historial"));
+  console.log(historial);
+
+  useEffect(() => {
+    fetch(`${pathContext}/api/usuarios/${historial.idEnfermera}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((datos) => {
+        console.log(datos);
+        setUsuario(`${datos.data.nombre} ${datos.data.apellidos}`);
+      })
+      .catch((error) => console.log(error));
+
+    fetch(`${pathContext}/api/camillas/${historial.idCamilla}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((datos) => {
+        setCamilla(datos.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <div>
       <SimapiNavbar
@@ -18,7 +64,7 @@ export default function DetailsHistory() {
         style={{
           width: "94%",
           margin: "3%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
           display: "flex",
@@ -32,7 +78,7 @@ export default function DetailsHistory() {
             <label
               style={{
                 fontStyle: "bold",
-                fontSize: "30px",
+                fontSize: "25px",
               }}
             >
               Detalles de atención
@@ -50,27 +96,19 @@ export default function DetailsHistory() {
               }}
             >
               <div style={styles.divColumnLeft}>
-                <label
-                  style={styles.label}
-                >
-                  Fecha de peticion:
-                </label>
+                <label style={styles.label}>Fecha de peticion:</label>
                 <input
                   type="text"
                   style={styles.input}
+                  value={historial.fechaPeticion ? historial.fechaPeticion : ""}
                   disabled
                 />
               </div>
-              <div
-                style={styles.divColumnRight}
-              >
-                <label
-                  style={styles.label}
-                >
-                  Fecha de atencion:
-                </label>
+              <div style={styles.divColumnRight}>
+                <label style={styles.label}>Fecha de atencion:</label>
                 <input
                   type="text"
+                  value={historial.fechaAtencion ? historial.fechaAtencion : ""}
                   style={styles.input}
                   disabled
                 />
@@ -88,65 +126,23 @@ export default function DetailsHistory() {
               }}
             >
               <div style={styles.divColumnLeft}>
-                <label
-                  style={styles.label}
-                >
-                  Hora de peticion:
-                </label>
+                <label style={styles.label}>Hora de peticion:</label>
                 <input
                   type="text"
+                  value={
+                    historial.horaDePeticion ? historial.horaDePeticion : ""
+                  }
                   style={styles.input}
                   disabled
                 />
               </div>
-              <div
-                style={styles.divColumnRight}
-              >
-                <label
-                  style={styles.label}
-                >
-                  Hora de atencion:
-                </label>
+              <div style={styles.divColumnRight}>
+                <label style={styles.label}>Hora de atencion:</label>
                 <input
                   type="text"
-                  style={styles.input}
-                  disabled
-                />
-              </div>
-            </div>
-            <br />
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                marginTop: 30,
-              }}
-            >
-              <div style={styles.divColumnLeft}>
-                <label
-                  style={styles.label}
-                >
-                  Paciente:
-                </label>
-                <input
-                  type="text"
-                  style={styles.input}
-                  disabled
-                />
-              </div>
-              <div
-                style={styles.divColumnRight}
-              >
-                <label
-                  style={styles.label}
-                >
-                  Enfermera:
-                </label>
-                <input
-                  type="text"
+                  value={
+                    historial.horaDeAtencion ? historial.horaDeAtencion : ""
+                  }
                   style={styles.input}
                   disabled
                 />
@@ -164,27 +160,53 @@ export default function DetailsHistory() {
               }}
             >
               <div style={styles.divColumnLeft}>
-                <label
-                  style={styles.label}
-                >
-                  Isla:
-                </label>
+                <label style={styles.label}>Paciente:</label>
                 <input
                   type="text"
+                  value={
+                    localStorage.getItem("paciente")
+                      ? localStorage.getItem("paciente")
+                      : ""
+                  }
                   style={styles.input}
                   disabled
                 />
               </div>
-              <div
-                style={styles.divColumnRight}
-              >
-                <label
-                  style={styles.label}
-                >
-                  Sala:
-                </label>
+              <div style={styles.divColumnRight}>
+                <label style={styles.label}>Enfermera:</label>
                 <input
                   type="text"
+                  value={usuario ? usuario : ""}
+                  style={styles.input}
+                  disabled
+                />
+              </div>
+            </div>
+            <br />
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                marginTop: 30,
+              }}
+            >
+              <div style={styles.divColumnLeft}>
+                <label style={styles.label}>Isla:</label>
+                <input
+                  type="text"
+                  value={camilla.idIsla ? camilla.idIsla : ""}
+                  style={styles.input}
+                  disabled
+                />
+              </div>
+              <div style={styles.divColumnRight}>
+                <label style={styles.label}>Sala:</label>
+                <input
+                  type="text"
+                  value={camilla.idSala ? camilla.idSala : ""}
                   style={styles.input}
                   disabled
                 />
@@ -211,7 +233,7 @@ export default function DetailsHistory() {
               >
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                     width: "20%",
                   }}
                 >
@@ -219,8 +241,9 @@ export default function DetailsHistory() {
                 </label>
                 <input
                   type="text"
+                  value={historial.idCamilla ? historial.idCamilla : ""}
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                     width: "100%",
                     marginLeft: "1.5%",
                     marginRight: "2.5%",
@@ -256,9 +279,9 @@ export default function DetailsHistory() {
 
 const styles = {
   btnGuardarUsuario: {
-    fontSize: "30px",
-    width: "400px",
-    height: "75px",
+    fontSize: "20px",
+    width: "300px",
+    height: "60px",
     borderRadius: "10px",
     backgroundColor: "#3fad5e",
   },
@@ -275,13 +298,13 @@ const styles = {
     alignItems: "center",
   },
   label: {
-    fontSize: "25px",
+    fontSize: "20px",
     width: "30%",
   },
   input: {
-    fontSize: "25px",
+    fontSize: "20px",
     width: "60%",
     marginLeft: "5%",
     marginRight: "5%",
-  }
+  },
 };

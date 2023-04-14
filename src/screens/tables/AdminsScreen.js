@@ -1,75 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SimapiNavbar from "../../componets/navbar/SimapiNavbar";
-import {Table,TableHead,TableBody,TableRow,TableCell,Typography, } from "@material-ui/core"; //instalar con yarn add @material-ui/core
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
+} from "@material-ui/core";
 import Button from "../../componets/buttons/Button";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
 import { pathContext } from "../../utils/PathContext";
 import Swal from "sweetalert2";
 import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 
-export default function UsersScreen() {
+export default function AdminsScreen() {
   const [usuarios, setUsuarios] = useState([]);
 
-  //useEffect(() => {
-    if (!isUserAuthenticated()) {
-      if(!isInstitutionAuthenticated()){
-        window.location.replace("/");
-      }
-    } else if (localStorage.getItem('rol') !== 'A'){
-      window.location.replace("/");
-    }
-
-  fetch(
-    `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
-      "idInstitucion"
-    )}`,
-    {
+  const fetchAdmins = () => {
+    fetch(`${pathContext}/api/usuarios/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
-    }
-  )
-    .then((response) => response.json())
-    .then((datos) => {
-      setUsuarios(datos.data);
     })
-    .catch((error) => console.log(error));
-  //}, []);
+      .then((response) => response.json())
+      .then((datos) => {
+        const array = [];
+        datos.data.forEach((element) => {
+          if (element.rol === "A") {
+            array.push(element);
+          }
+        });
+        setUsuarios(array);
+      })
+      .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    if (!isUserAuthenticated() && localStorage.getItem("rol") !== "SA") {
+      window.location.replace("/");
+    }
+    fetchAdmins()
+  }, []);
   return (
     <div>
-      <SimapiNavbar
-        navbarItems={[
-          { path: "/inicio", text: "Inicio" },
-          { path: "/camillas", text: "Camillas" },
-          { path: "/usuarios", text: "Usuarios" },
-          { path: "/historial", text: "Historial" },
-        ]}
-      />
+      <SimapiNavbar />
       <div
         style={{
           margin: "5%",
           marginTop: "10%",
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            marginBottom: 25,
-            display: "flex",
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "right",
-          }}
-        >
-          <Button
-            text={"Agregar Usuario"}
-            style={styles.btnAgregarUsuario}
-            onClick={() => window.location.replace("/agregarUsuario")}
-          />
-        </div>
-
         <div
           style={{
             borderRadius: "15px",
@@ -132,21 +115,21 @@ export default function UsersScreen() {
                         <TableRow key={index}>
                           <TableCell>
                             <label
-                              style={{ ...styles.center, fontSize: "18px" }}
+                              style={{ ...styles.center, fontSize: "20px" }}
                             >
                               {index + 1}
                             </label>
                           </TableCell>
                           <TableCell>
                             <label
-                              style={{ ...styles.center, fontSize: "18px" }}
+                              style={{ ...styles.center, fontSize: "20px" }}
                             >
                               {`${item.nombre} ${item.apellidos}`}
                             </label>
                           </TableCell>
                           <TableCell>
                             <label
-                              style={{ ...styles.center, fontSize: "18px" }}
+                              style={{ ...styles.center, fontSize: "20px" }}
                             >
                               {item.rol === "E"
                                 ? "Enfermera/o"
@@ -156,7 +139,7 @@ export default function UsersScreen() {
                             </label>
                           </TableCell>
                           <TableCell
-                            style={{ ...styles.center, fontSize: "18px" }}
+                            style={{ ...styles.center, fontSize: "20px" }}
                           >
                             <Button
                               text={"Detalles"}
@@ -181,8 +164,7 @@ export default function UsersScreen() {
                               }}
                             />
 
-                            { item.rol !== 'A' ? 
-                            (<Button
+                            <Button
                               text={"Eliminar"}
                               style={styles.btnEliminarUsuario}
                               onClick={() => {
@@ -223,12 +205,13 @@ export default function UsersScreen() {
                                             allowEscapeKey: false,
                                             allowEnterKey: false,
                                             stopKeydownPropagation: false,
-                                          })
+                                          });
                                         } else {
                                           throw new Error(datos.message);
                                         }
+                                        fetchAdmins()
                                       })
-                                      .catch((error) =>{
+                                      .catch((error) => {
                                         Swal.fire({
                                           title: "¡Error!",
                                           text: error.message,
@@ -240,8 +223,7 @@ export default function UsersScreen() {
                                   }
                                 });
                               }}
-                            />) : null
-                            }
+                            />
                           </TableCell>
                         </TableRow>
                       );

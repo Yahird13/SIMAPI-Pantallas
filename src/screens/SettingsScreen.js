@@ -7,6 +7,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import Swal from "sweetalert2";
 import { pathContext } from "../utils/PathContext";
+import { isInstitutionAuthenticated } from "../auth/InstitutionValidate";
 
 const C_PRIMARIO = localStorage.getItem("colorPrimario");
 const C_SECUNDARIO = localStorage.getItem("colorSecundario");
@@ -27,8 +28,10 @@ export default function SettingsScreen() {
   };
 
   //useEffect(() => {
-  if (!isUserAuthenticated()) {
-    window.location.replace("/");
+  if (!isUserAuthenticated() && localStorage.getItem('rol') !== 'A') {
+    if(!isInstitutionAuthenticated()){
+      window.location.replace("/");
+    }
   }
   //}, []);
 
@@ -67,26 +70,7 @@ export default function SettingsScreen() {
         })
         .catch((error) => console.log(error));
 
-      /* fetch(`${pathContext}/api/auth/institucion`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                correo: localStorage.getItem('correo'),
-                password: localStorage.getItem('password')
-              }),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-              const datos = data.data;
-              localStorage.setItem("logo", datos.logo);
-              localStorage.setItem("nombre", datos.nombre);
-              localStorage.setItem("cantidadCamillas", datos.cantidadCamillas);
-              localStorage.setItem("cantidadDeSalas", datos.cantidadDeSalas);
-              localStorage.setItem("cantidadDeIslas", datos.cantidadDeIslas);
-            }) */
-    }, 500);
+      }, 500);
     return () => clearInterval(Interval);
   }, []);
 
@@ -167,7 +151,7 @@ export default function SettingsScreen() {
         style={{
           width: "94%",
           margin: "3%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
         }}
@@ -206,7 +190,7 @@ export default function SettingsScreen() {
               <div>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                     style: "bold",
                     marginBottom: "10px",
                     marginTop: "10px",
@@ -383,7 +367,7 @@ export default function SettingsScreen() {
               <div>
                 <label
                   style={{
-                    fontSize: "25px",
+                    fontSize: "20px",
                     style: "bold",
                     marginBottom: "10px",
                   }}

@@ -34,7 +34,7 @@ export function isUserAuthenticated() {
       localStorage.setItem("colorPrimario", colorPrimario);
       localStorage.setItem("colorSecundario", colorSecundario);
       localStorage.setItem("colorTerciario", colorTerciario);
-      window.location.replace("/admin");
+      window.location.replace("/");
       return false;
     }
   } catch (error) {

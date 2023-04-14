@@ -5,3 +5,9 @@
 .input-white::placeholder {
     color: #000000;
 }
+
+.input-number::-webkit-inner-spin-button,
+.input-number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

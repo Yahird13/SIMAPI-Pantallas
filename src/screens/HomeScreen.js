@@ -3,6 +3,7 @@ import SimapiNavbar from "../componets/navbar/SimapiNavbar";
 import CamillaContainer from "../componets/containers/CamillaContainer";
 import { isUserAuthenticated } from "../auth/TokenValidate";
 import { pathContext } from "../utils/PathContext";
+import { isInstitutionAuthenticated } from "../auth/InstitutionValidate";
 
 let lastColorPrimario = '';
 let lastColorSecundario = '';
@@ -13,7 +14,9 @@ export default function HomeScreen() {
   //})
 
   if (!isUserAuthenticated()) {
-    window.location.replace("/");
+    if(!isInstitutionAuthenticated()){
+      window.location.replace("/");
+    }
   }
 
   return (
@@ -30,7 +33,7 @@ export default function HomeScreen() {
       <div
         style={{
           margin: "5%",
-          marginTop: "12%",
+          marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",
           minHeight: 300,
