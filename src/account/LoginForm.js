@@ -17,7 +17,7 @@ export const LoginForm = () => {
   const Swal = require("sweetalert2");
 
   if (isInstitutionAuthenticated()) {
-    window.location.replace("/admin");
+    window.location.replace("/inicio");
   } else if (localStorage.getItem("rol") === "SA") {
     window.location.replace("/administradores");
   }

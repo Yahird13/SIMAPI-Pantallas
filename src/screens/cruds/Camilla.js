@@ -11,15 +11,14 @@ import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 import MultiSelect from "../../componets/select/MultiSelect";
 
 export default function Camilla(props) {
-
   //useEffect(() => {
-    if (!isUserAuthenticated()) {
-      if(!isInstitutionAuthenticated()){
-        window.location.replace("/");
-      }
-    } else if (localStorage.getItem('rol') !== 'A'){
+  if (!isUserAuthenticated()) {
+    if (!isInstitutionAuthenticated()) {
       window.location.replace("/");
     }
+  } else if (localStorage.getItem("rol") !== "A") {
+    window.location.replace("/");
+  }
   //}, []);
 
   const { mode } = props;
@@ -33,65 +32,68 @@ export default function Camilla(props) {
 
   let camilla = {};
   useEffect(() => {
-  fetch(
-    `${pathContext}/api/camillas/${localStorage.getItem("idCamillaEdit")}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    }
-  )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      camilla = data.data
-
-      fetch(`${pathContext}/api/usuarios/institucion/${localStorage.getItem("idInstitucion")}`, {
+    fetch(
+      `${pathContext}/api/camillas/${localStorage.getItem("idCamillaEdit")}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(response.statusText);
+      .then((data) => {
+        camilla = data.data;
+
+        fetch(
+          `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
+            "idInstitucion"
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
           }
-          return response.json();
-        })
-        .then((data) => {
-          let enfermeras = [];
-          data.data.forEach((element) => {
-            if (element.rol == "E") {
-              enfermeras.push({
-                value: element.idUsuario,
-                label: `${element.nombre} ${element.apellidos}`,
-              });
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(response.statusText);
             }
-          });
-          setEnfermeras(enfermeras);
-        })
-        .catch((error) => console.log(error.message));
+            return response.json();
+          })
+          .then((data) => {
+            let enfermeras = [];
+            data.data.forEach((element) => {
+              if (element.rol == "E") {
+                enfermeras.push({
+                  value: element.idUsuario,
+                  label: `${element.nombre} ${element.apellidos}`,
+                });
+              }
+            });
+            setEnfermeras(enfermeras);
+          })
+          .catch((error) => console.log(error.message));
 
-
-      setExpediente(camilla.numeroExpediente);
-      setPaciente(camilla.nombre);
-      setIsla(camilla.isla);
-      setSala(camilla.sala);
-      setEnfermera(camilla.idEnfermera);
-      setEstado(camilla.estado);
-    })
-    .catch((error) => console.log(error.message));
+        setExpediente(camilla.numeroExpediente);
+        setPaciente(camilla.nombre);
+        setIsla(camilla.isla);
+        setSala(camilla.sala);
+        setEnfermera(camilla.idEnfermera);
+        setEstado(camilla.estado);
+      })
+      .catch((error) => console.log(error.message));
   }, []);
 
   return (
-
     <div>
       <SimapiNavbar
         navbarItems={[
@@ -112,7 +114,6 @@ export default function Camilla(props) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-
         }}
       >
         <div style={{ padding: "2%", width: "100%" }}>
@@ -138,9 +139,35 @@ export default function Camilla(props) {
                 estado: estado,
               }}
               onSubmit={() => {
+                fetch(`${pathContext}/api/camillas/${localStorage.getItem('idCamillaEdit')}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                  },
+                  body: JSON.stringify({
+                    numeroExpediente: expediente,
+                    nombre: paciente,
+                    idEnfermera: {
+                      matutino: localStorage.getItem("enfermerasmatutino"),
+                      vespertino: localStorage.getItem("enfermerasvespertino"),
+                      nocturno: localStorage.getItem("enfermerasnocturno"),
+                    },
+                    estado: isla && sala ? true : false,
+                  }),
+                })
                 Swal.fire({
                   title: "Datos",
-                  text: "", //`Nombre: ${nombre} Apellidos: ${apellidos} Correo: ${correo} Password: ${password} Rol: ${rol}`,
+                  text: JSON.stringify({
+                    numeroExpediente: expediente,
+                    nombre: paciente,
+                    idEnfermera: {
+                      matutino: localStorage.getItem("enfermerasmatutino"),
+                      vespertino: localStorage.getItem("enfermerasvespertino"),
+                      nocturno: localStorage.getItem("enfermerasnocturno"),
+                    },
+                    estado: isla && sala ? true : false,
+                  }) //`Nombre: ${nombre} Apellidos: ${apellidos} Correo: ${correo} Password: ${password} Rol: ${rol}`,
                 });
                 localStorage.setItem("idCamillaEdit", "");
               }}
@@ -168,14 +195,13 @@ export default function Camilla(props) {
                       type="text"
                       style={styles.input}
                       value={expediente ? expediente : ""}
+                      required={paciente || expediente ? true: false}
                       onChange={(e) => setExpediente(e.target.value)}
                     />
                   </div>
                 </div>
                 <br />
-                <div
-                  style={styles.divRow}
-                >
+                <div style={styles.divRow}>
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
@@ -190,14 +216,13 @@ export default function Camilla(props) {
                       type="text"
                       style={styles.input}
                       value={paciente ? paciente : ""}
+                      required={paciente || expediente ? true: false}
                       onChange={(e) => setPaciente(e.target.value)}
                     />
                   </div>
                 </div>
                 <br />
-                <div
-                  style={styles.divRow}
-                >
+                <div style={styles.divRow}>
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
@@ -214,20 +239,19 @@ export default function Camilla(props) {
                         paddingTop: 0,
                         paddingBottom: 0,
                       }}
-                      selectValue={isla ? isla : ""}
+                      selectValue={isla ? isla : "1"}
+                      disabled={true}
                       placeholder="Selecciona una isla"
                       onChange={(e) => setIsla(e.target.value)}
                       options={[
-                        { value: "A", label: "Administrador" },
-                        { value: "E", label: "Enfermero/a" },
+                        { value: "1", label: "Sala 1" },
+                        { value: "2", label: "Sala 2" },
                       ]}
                     />
                   </div>
                 </div>
                 <br />
-                <div
-                  style={styles.divRow}
-                >
+                <div style={styles.divRow}>
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
@@ -244,20 +268,16 @@ export default function Camilla(props) {
                         paddingTop: 0,
                         paddingBottom: 0,
                       }}
-                      selectValue={sala ? sala : ""}
+                      selectValue={sala ? sala : "1"}
                       placeholder="Selecciona una sala"
+                      disabled={true}
                       onChange={(e) => setSala(e.target.value)}
-                      options={[
-                        { value: "A", label: "Administrador" },
-                        { value: "E", label: "Enfermero/a" },
-                      ]}
+                      options={[{ value: "1", label: "Isla1" }]}
                     />
                   </div>
                 </div>
                 <br />
-                <div
-                  style={styles.divRow}
-                >
+                <div style={styles.divRow}>
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
@@ -267,24 +287,65 @@ export default function Camilla(props) {
                       Enfermera/o:
                     </label>
                   </div>
-                  <div style={{ width: "80%" }}>
-                    <MultiSelect
-                      style={{
-                        ...styles.input,
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                      }}
-                      selectValue={enfermera ? enfermera : ""}
-                      placeholder="Selecciona un/a enfermera/o"
-                      onChange={(e) => setEnfermera(e)}
-                      options={enfermeras ? enfermeras : []}
-                    />
+                  <div
+                    style={{
+                      width: "80%",
+                      display: "flex",
+                      justifyContent: "left",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div>
+                      Turno matutino:
+                      <MultiSelect
+                        style={{
+                          ...styles.input,
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                        }}
+                        horario={"matutino"}
+                        selectValue={enfermera ? enfermera : ""}
+                        placeholder="Selecciona un/a enfermera/o"
+                        onChange={(e) => setEnfermera(e)}
+                        options={enfermeras ? enfermeras : []}
+                      />
+                    </div>
+                    <div>
+                      Turno vespertino:
+                      <MultiSelect
+                        style={{
+                          ...styles.input,
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                          marginLeft: "10px",
+                        }}
+                        horario={"vespertino"}
+                        selectValue={enfermera ? enfermera : ""}
+                        placeholder="Selecciona un/a enfermera/o"
+                        onChange={(e) => setEnfermera(e)}
+                        options={enfermeras ? enfermeras : []}
+                      />
+                    </div>
+                    <div>
+                      Turno nocturno:
+                      <MultiSelect
+                        style={{
+                          ...styles.input,
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                          marginLeft: "10px",
+                        }}
+                        horario={"nocturno"}
+                        selectValue={enfermera ? enfermera : ""}
+                        placeholder="Selecciona un/a enfermera/o"
+                        onChange={(e) => setEnfermera(e)}
+                        options={enfermeras ? enfermeras : []}
+                      />
+                    </div>
                   </div>
                 </div>
-                <br />
-                <div
-                  style={styles.divRow}
-                >
+                {/* <br />
+                <div style={styles.divRow}>
                   <div style={{ width: "20%" }}>
                     <label
                       style={{
@@ -310,7 +371,7 @@ export default function Camilla(props) {
                       ]}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div
                   style={{
                     display: "flex",

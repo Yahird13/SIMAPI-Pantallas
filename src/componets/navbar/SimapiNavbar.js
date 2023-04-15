@@ -11,7 +11,7 @@ import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 export default function SimapiNavbar(props) {
   //useEffect(() => {
   if (!isUserAuthenticated()) {
-    if(!isInstitutionAuthenticated()){
+    if (!isInstitutionAuthenticated()) {
       window.location.replace("/");
     }
   }
@@ -39,60 +39,76 @@ export default function SimapiNavbar(props) {
 
   return (
     <nav style={styles.navbar}>
-      {localStorage.getItem("rol") !== "SA" ? (
-        <IconContainer
-          style={styles.logoContainer}
-          image={logo}
-          styleText={{ fontSize: 10 }}
-        />
-      ) : null /* (
+      {
+        localStorage.getItem("rol") !== "SA" ? (
+          <IconContainer
+            style={styles.logoContainer}
+            image={logo}
+            styleText={{ fontSize: 10 }}
+          />
+        ) : null /* (
         <label>
           Bienvenido {localStorage.getItem("nombre")}
           <br />
           {localStorage.getItem("apellidos")}
         </label>
-      ) */}
-      {localStorage.getItem('rol') ?
-        localStorage.getItem("rol") !== "SA" ? (
-        <SettingsButton style={styles.settingsButton} />
-      ) : null: null}
-      <div style={styles.divLinks}>
-        <ul style={styles.ul}>
-          {navbarItems
-            ? navbarItems.map((item, index) => {
-                const isHovered = hoveredIndex === index;
-                return (
-                  <li key={index}>
-                    <Link
-                      to={item.path}
-                      replace
-                      style={{
-                        textDecoration: "none",
-                        color: textColorBackgroundInvert,
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        transform: `scale(${isHovered ? 1.1 : 1})`,
-                        transition: "transform 0.3s ease",
-                        display: "list-item",
-                      }}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      {item.text}
-                    </Link>
-                  </li>
-                );
-              })
-            : null}
-        </ul>
-      </div>
-      <LogoutButton
-        style={styles.logoutButton}
-        onClick={() => {
-          window.location.replace("/");
-          localStorage.clear();
+      ) */
+      }
+      <div
+        style={{
+          paddingRight: "50px",
+          paddingTop: "10px",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-      />-
+      >
+        {localStorage.getItem("rol") ? (
+          localStorage.getItem("rol") !== "SA" ? (
+            <SettingsButton style={styles.settingsButton} />
+          ) : null
+        ) : null}
+        <div style={styles.divLinks}>
+          <ul style={styles.ul}>
+            {navbarItems
+              ? navbarItems.map((item, index) => {
+                  const isHovered = hoveredIndex === index;
+                  return (
+                    <li key={index}>
+                      <Link
+                        to={item.path}
+                        replace
+                        style={{
+                          textDecoration: "none",
+                          color: textColorBackgroundInvert,
+                          fontWeight: "bold",
+                          fontSize: "20px",
+                          transform: `scale(${isHovered ? 1.1 : 1})`,
+                          transition: "transform 0.3s ease",
+                          display: "list-item",
+                          fontSize: '35px'
+                        }}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {item.text}
+                      </Link>
+                    </li>
+                  );
+                })
+              : null}
+          </ul>
+        </div>
+        <LogoutButton
+          style={styles.logoutButton}
+          onClick={() => {
+            window.location.replace("/");
+            localStorage.clear();
+          }}
+        />
+      </div>
     </nav>
   );
 }
