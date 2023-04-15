@@ -117,7 +117,7 @@ export const LoginForm = () => {
                           Swal.fire({
                             icon: "error",
                             title: "Sin administrador",
-                            text: "No existe ningún administrador registrado en su institución",
+                            text: "No existe ningún administrador registrado en su institución. Comuníquese con el administrador del sistema.",
                           });
                         }
                       })

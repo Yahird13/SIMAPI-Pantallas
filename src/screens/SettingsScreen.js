@@ -123,12 +123,15 @@ export default function SettingsScreen() {
       reader.readAsDataURL(file);
 
       if (file.width !== file.height) {
+        setFile(null);
+        setImageName("");
+        setImage(null);
         Swal.fire({
           title: "Atención!",
           text: "Se recomienda que la relación de aspecto de la imagen sea 1:1 (imagen cuadrada) para evitar deformaciones",
           icon: "warning",
         });
-      }
+      } 
     } else {
       setFile(null);
       setImageName("");

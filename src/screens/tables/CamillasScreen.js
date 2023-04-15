@@ -15,6 +15,8 @@ import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 
 export default function CamillasScreen() {
   const [camillas, setCamillas] = useState([]);
+  const [camillasFiltradas, setCamillasFiltradas] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     if (!isUserAuthenticated()) {
@@ -38,9 +40,32 @@ export default function CamillasScreen() {
       }
     )
       .then((response) => response.json())
-      .then((datos) => setCamillas(datos.data))
+      .then((datos) => {
+        setCamillasFiltradas(datos.data);
+        setCamillas(datos.data)
+      })
       .catch((error) => console.log(error));
   }, []);
+
+  const handleBusqueda = (e) => {
+    setBusqueda(e.target.value);
+    filtrar(e.target.value);
+  }
+
+  const filtrar = (datoFiltro) => {
+    const resultadoBusqueda = camillas.filter((camilla) => {
+      if(
+        camilla.nombre.toLowerCase().includes(datoFiltro.toLowerCase()) ||
+        camilla.numeroExpediente.toLowerCase().includes(datoFiltro.toLowerCase()) ||
+        camilla.idSala.toString().toLowerCase().includes(datoFiltro.toString().toLowerCase()) ||
+        camilla.idSala.toString().toLowerCase().includes(datoFiltro.toString().toLowerCase())
+      ){
+        return camilla
+      }
+    });
+    setCamillasFiltradas(resultadoBusqueda);
+  }
+
   return (
     <div>
       <SimapiNavbar
@@ -67,7 +92,23 @@ export default function CamillasScreen() {
             alignItems: "center",
             justifyContent: "right",
           }}
-        ></div>
+        >
+          <input
+            type="text"
+            placeholder="Buscar por nombre, expediente, isla o sala"
+            value={busqueda}
+            style={{
+              width: "50%",
+              height: "50px",
+              borderRadius: "15px",
+              border: "2px solid black",
+              paddingLeft: "10px",
+              fontSize: "18px",
+
+            }}
+            onChange={handleBusqueda}
+          />
+        </div>
         <div
           style={{
             borderRadius: "15px",
@@ -126,6 +167,15 @@ export default function CamillasScreen() {
                       fontWeight="bold"
                       style={styles.center}
                     >
+                      Isla
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      style={styles.center}
+                    >
                       Acciones
                     </Typography>
                   </TableCell>
@@ -133,7 +183,7 @@ export default function CamillasScreen() {
               </TableHead>
               <TableBody>
                 {camillas ? (
-                  camillas.map((item, index) => {
+                  camillasFiltradas.map((item, index) => {
                     return (
                       <TableRow key={index}>
                         <TableCell>
@@ -149,6 +199,9 @@ export default function CamillasScreen() {
                         </TableCell>
                         <TableCell>
                           <label style={{...styles.center, fontSize: "18px"}} >{item.idSala}</label>
+                        </TableCell>
+                        <TableCell>
+                          <label style={{...styles.center, fontSize: "18px"}} >{item.idIsla}</label>
                         </TableCell>
                         <TableCell style={{...styles.center, fontSize: "18px"}}>
                           <Button

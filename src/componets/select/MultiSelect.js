@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Select from "./Select";
 import { pathContext } from "../../utils/PathContext";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export default function MultiSelect({ horario }) {
   const [options, setOptions] = useState([]);
@@ -99,8 +101,11 @@ export default function MultiSelect({ horario }) {
 
   useEffect(() => {
     const Interval = setInterval(() => {
-      setValues([...values])
-      localStorage.setItem("enfermeras" + horario, JSON.stringify(values));
+      setValues([...values]);
+      localStorage.setItem(
+        "enfermeras" + horario,
+        JSON.stringify(values.filter(Boolean))
+      );
     }, 100);
     return () => clearInterval(Interval);
   }, [values]);
@@ -139,7 +144,7 @@ export default function MultiSelect({ horario }) {
         icon: "error",
         title: "Oops...",
         text: "Ya has seleccionado a este/a enfermero/a",
-      })
+      });
     }
   };
 
@@ -148,31 +153,103 @@ export default function MultiSelect({ horario }) {
       {values
         ? values.map((value, index) => {
             return (
-              <div key={index}>
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "55px",
+                }}
+              >
                 {/* <Select options={options ? options:""} defaultValue={value ? value:""} onChange={(event) => handleChange(event, index)} /> */}
-                <select
-                  onChange={(event) => handleChange(event, index)}
-                  value={value ? value : ""}
+                <div
+                  style={{
+                    border: "2px solid black",
+                    width: "80%",
+                    height: "100%",
+                  }}
                 >
-                  <option value="" disabled>
-                    Selecciona un/a enfermero/a
-                  </option>
-                  {options.map((option, index) => (
-                    <option key={index} value={option.value}>
-                      {option.label}
+                  <select
+                    onChange={(event) => handleChange(event, index)}
+                    value={value ? value : ""}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      border: "none",
+                      outline: "none",
+                    }}
+                  >
+                    <option value="" disabled>
+                      Selecciona un/a enfermero/a
                     </option>
-                  ))}
-                </select>
-                <button type="button" onClick={() => handleRemoveSelect(index)}>
-                  Eliminar
-                </button>
+                    {options.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div
+                  style={{
+                    width: "15%",
+                    height: "100%",
+                    padding: "5px",
+                  }}
+                >
+                  <button
+                    style={styles.buttonDelete}
+                    type="button"
+                    onClick={() => handleRemoveSelect(index)}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </div>
               </div>
             );
           })
         : null}
-      <button type="button" onClick={handleAddSelect}>
-        Agregar
-      </button>
+      <div style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        width: "80%",
+        height: "55px",
+        padding: "5px",
+      }}>
+        <button
+          style={styles.buttonAdd}
+          type="button"
+          onClick={handleAddSelect}
+        >
+          <FontAwesomeIcon icon={faAdd} />
+        </button>
+      </div>
     </div>
   );
 }
+
+const styles = {
+  buttonDelete: {
+    backgroundColor: "red",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    height: "100%",
+    width: "100%",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+  },
+  buttonAdd: {
+    backgroundColor: "#3fad5e",
+    fontWeight: "bold",
+    color: "black",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    height: "100%",
+    width: "100%",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+  },
+};

@@ -85,8 +85,8 @@ export default function Camilla(props) {
 
         setExpediente(camilla.numeroExpediente);
         setPaciente(camilla.nombre);
-        setIsla(camilla.isla);
-        setSala(camilla.sala);
+        setIsla(camilla.idIsla);
+        setSala(camilla.idSala);
         setEnfermera(camilla.idEnfermera);
         setEstado(camilla.estado);
       })
@@ -244,8 +244,7 @@ export default function Camilla(props) {
                       placeholder="Selecciona una isla"
                       onChange={(e) => setIsla(e.target.value)}
                       options={[
-                        { value: "1", label: "Sala 1" },
-                        { value: "2", label: "Sala 2" },
+                        { value: "1", label: `Isla ${isla}` },
                       ]}
                     />
                   </div>
@@ -272,7 +271,7 @@ export default function Camilla(props) {
                       placeholder="Selecciona una sala"
                       disabled={true}
                       onChange={(e) => setSala(e.target.value)}
-                      options={[{ value: "1", label: "Isla1" }]}
+                      options={[{ value: "1", label: `Sala ${sala}` }]}
                     />
                   </div>
                 </div>
@@ -295,8 +294,15 @@ export default function Camilla(props) {
                       alignItems: "center",
                     }}
                   >
-                    <div>
+                    <div 
+                    style={{
+                      width: "33%"
+                    }}>
+                      <label style={{
+                        fontSize: "20px",
+                      }}>
                       Turno matutino:
+                      </label>
                       <MultiSelect
                         style={{
                           ...styles.input,
@@ -310,8 +316,15 @@ export default function Camilla(props) {
                         options={enfermeras ? enfermeras : []}
                       />
                     </div>
-                    <div>
+                    <div
+                    style={{
+                      width: "33%"
+                    }}>
+                      <label style={{
+                        fontSize: "20px",
+                      }}>
                       Turno vespertino:
+                      </label>
                       <MultiSelect
                         style={{
                           ...styles.input,
@@ -326,8 +339,15 @@ export default function Camilla(props) {
                         options={enfermeras ? enfermeras : []}
                       />
                     </div>
-                    <div>
+                    <div
+                    style={{
+                      width: "33%"
+                    }}>
+                      <label style={{
+                        fontSize: "20px",
+                      }}>
                       Turno nocturno:
+                      </label>
                       <MultiSelect
                         style={{
                           ...styles.input,

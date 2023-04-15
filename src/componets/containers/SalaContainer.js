@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import CamillaButton from "../buttons/CamillaButton";
 import Swal from "sweetalert2";
-import SimapiSelect from "../select/SimapiSelect";
 import { pathContext } from "../../utils/PathContext";
 
-export default function CamillaContainer(props) {
+export default function SalaContainer({ idSala }) {
   const [camillas, setCamillas] = useState([]);
 
   const fetchCamillas = () => {
-    fetch(`${pathContext}/api/auth/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
+    fetch(
+      `${pathContext}/api/auth/camillas/institucion/${localStorage.getItem(
+        "idInstitucion"
+      )}`,
+      {
+        ///sala/${idSala}
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -34,18 +39,25 @@ export default function CamillaContainer(props) {
   }, [camillas]);
 
   return (
-    <div style={{margin: '3%', marginBottom: 0}}>
-      <div style={{display: 'flex', alignContent: 'right', justifyContent: 'right', marginTop: '3%'}}>
-        <SimapiSelect style={{marginRight: '5%'}}/>
-      </div>
+    <div style={{ margin: "15px", marginBottom: 0,
+      border: "1px solid black",
+    }}>
+      <label style={{
+        fontSize: "20px",
+        fontWeight: "bold",
+        textAlign: "center",
+        width: "100%",
+        display: "block",
+      }}>
+        Sala {idSala}
+      </label>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, auto)",
-          gridTemplateRows: "repeat(2, auto)",
-          gap: "auto",
-          alignItems: "center",
-          gridAutoColumns: "minmax(min-content, max-content)",
+          gridTemplateColumns: "repeat(2, auto)",
+          gridTemplateRows: "repeat(5, auto)",
+          gridColumnGap: "0px",
+          gridRowGap: "0px",
         }}
       >
         {camillas
@@ -70,7 +82,8 @@ export default function CamillaContainer(props) {
                         cancelButtonText: "Cancelar",
                         preConfirm: () => {
                           correo = document.getElementById("swal-input1").value;
-                          password = document.getElementById("swal-input2").value;
+                          password =
+                            document.getElementById("swal-input2").value;
                           if (correo === "" || password === "") {
                             Swal.showValidationMessage(
                               `Por favor, ingrese los datos`
@@ -87,7 +100,7 @@ export default function CamillaContainer(props) {
                               }),
                             })
                               .then((response) => {
-                                if(!response.ok){
+                                if (!response.ok) {
                                   Swal.fire({
                                     icon: "error",
                                     title: "Oops...",
@@ -108,7 +121,7 @@ export default function CamillaContainer(props) {
                                   throw new Error(datos.statusText);
                                 } else {
                                   console.log(datos.data);
-                                  if(datos.data.rol == 'E'){
+                                  if (datos.data.rol == "E") {
                                     fetch(
                                       `${pathContext}/api/auth/camillas/${item.idCamillas}`,
                                       {
@@ -118,7 +131,8 @@ export default function CamillaContainer(props) {
                                         },
                                         body: JSON.stringify({
                                           nombre: item.nombre,
-                                          numeroExpediente: item.numeroExpediente,
+                                          numeroExpediente:
+                                            item.numeroExpediente,
                                           idInstitucion: item.idInstitucion,
                                           idEnfermera: item.idEnfermera,
                                           estado: item.estado,
@@ -130,7 +144,11 @@ export default function CamillaContainer(props) {
                                         if (!response.ok) {
                                           throw new Error(response.statusText);
                                         } else {
-                                          const dateTurnOffAlert = `${new Date().getDay}/${new Date().getMonth}/${new Date().getFullYear}`;
+                                          const dateTurnOffAlert = `${
+                                            new Date().getDay
+                                          }/${new Date().getMonth}/${
+                                            new Date().getFullYear
+                                          }`;
                                           /* fetch(`${pathContext}/api/historial`, {
                                             method: "POST",
                                             headers: {
@@ -142,7 +160,9 @@ export default function CamillaContainer(props) {
                                               fechaPeticion: item.fechaPeticion */
                                         }
                                       })
-                                      .catch((error) => console.log(error.message));
+                                      .catch((error) =>
+                                        console.log(error.message)
+                                      );
                                   } else {
                                     Swal.fire({
                                       icon: "error",
@@ -155,7 +175,7 @@ export default function CamillaContainer(props) {
                               .catch((error) => console.log(error));
                           }
                         },
-                        preDeny: () => {}
+                        preDeny: () => {},
                       });
                     }
                   }}

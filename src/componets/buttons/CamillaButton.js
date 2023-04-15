@@ -24,15 +24,13 @@ export default function CamillaButton(props) {
         style={{ 
           ...styles.button, 
           color: estadoCamilla ? textColorBackgroundInvert: 'gray',
-          visibility:'hidden',
-          margin: "25%"}} 
+          visibility:'hidden',}} 
         onClick={props.onClick} >
           <IconContainer text={estadoCamilla ? props.textCamilla: 'No disponible'} 
           camilla={true} 
           iconColor={estadoCamilla ? 'black': 'gray'}
-          styleText={{fontSize: 15}} 
+          styleText={{fontSize: 12.5}} 
           iconCamilla={ faBedPulse }
-          size={"2x"} 
           className={estadoCamilla ? isAlertActive ? 'blink' : '': ''}
           style={{
             height: height, 
@@ -58,6 +56,6 @@ const styles = {
     fontWeight: 'bold',
     border: 'none',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    fontSize: '20px',
+    fontSize: '30px',
   }
 }
