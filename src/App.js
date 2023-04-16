@@ -40,7 +40,6 @@ function App() {
           <Route path={"/editarInstitucion"} element={<Institucion mode={'edit'}/>}/>
           <Route path={"/detallesInstitucion"} element={<Institucion mode={'details'}/>}/>
           <Route path={"/admin"} element={<LoginAdminScreen/>}/>
-          <Route path='/pruebas' element={<Navbar/>}/>
         </Routes>
       </Router>
 
