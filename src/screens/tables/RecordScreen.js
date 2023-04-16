@@ -12,17 +12,25 @@ import { isUserAuthenticated } from "../../auth/TokenValidate";
 import Button from "../../componets/buttons/Button";
 import { pathContext } from "../../utils/PathContext";
 import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
+import Loader from "../../componets/loader/Loader";
 
 export default function RecordScreen() {
   const [historial, setHistorial] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   //useEffect(() => {
   if (!isUserAuthenticated()) {
     if (!isInstitutionAuthenticated()) {
       window.location.replace("/");
+    } else{
+      window.location.replace("/inicio");
     }
   } else if (localStorage.getItem("rol") !== "A") {
-    window.location.replace("/");
+    if (localStorage.getItem("rol") === "SA") {
+      window.location.replace("/administradores");
+    } else {
+      window.location.replace("/inicio");
+    }
   }
 
   const [camillas, setCamillas] = useState([]);
@@ -35,6 +43,7 @@ export default function RecordScreen() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `${pathContext}/api/auth/camillas/institucion/${localStorage.getItem(
         "idInstitucion"
@@ -51,7 +60,8 @@ export default function RecordScreen() {
       .then((datos) => {
         setCamillas(datos.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
 
     fetch(
       `${pathContext}/api/historial/institucion/${localStorage.getItem(
@@ -71,15 +81,8 @@ export default function RecordScreen() {
   }, []);
   return (
     <div>
-      <SimapiNavbar
-        navbarItems={[
-          { path: "/inicio", text: "Inicio" },
-          { path: "/camillas", text: "Camillas" },
-          { path: "/usuarios", text: "Usuarios" },
-          { path: "/historial", text: "Historial" },
-        ]}
-      />
-
+      <SimapiNavbar/>
+      {isLoading ? (<Loader/>):(
       <div
         style={{
           margin: "5%",
@@ -188,7 +191,7 @@ export default function RecordScreen() {
             </TableBody>
           </Table>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }

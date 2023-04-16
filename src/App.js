@@ -11,8 +11,6 @@ import CamillasScreen from './screens/tables/CamillasScreen';
 import UsersScreen from './screens/tables/UsersScreen';
 import Navbar from '././componets/Navbar'
 import User from './screens/cruds/User';
-import InsertCamilla from './screens/cruds/InsertCamilla';
-import EditUser from './screens/cruds/EditUser';
 import Camilla from './screens/cruds/Camilla';
 import DetailsHistory from './screens/cruds/DetailsHistory';
 import LoginAdminScreen from './screens/LoginAdminScreen';

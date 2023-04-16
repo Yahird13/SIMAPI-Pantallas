@@ -12,21 +12,29 @@ import Button from "../../componets/buttons/Button";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
 import { pathContext } from "../../utils/PathContext";
 import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
+import Loader from "../../componets/loader/Loader";
 
 export default function CamillasScreen() {
   const [camillas, setCamillas] = useState([]);
   const [camillasFiltradas, setCamillasFiltradas] = useState([]);
   const [busqueda, setBusqueda] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!isUserAuthenticated()) {
-      if(!isInstitutionAuthenticated()){
+      if (!isInstitutionAuthenticated()) {
         window.location.replace("/");
+      } else {
+        window.location.replace("/inicio");
       }
-    } else if (localStorage.getItem('rol') !== 'A'){
-      window.location.replace("/");
+    } else if (localStorage.getItem("rol") !== "A") {
+      if (localStorage.getItem("rol") === "SA") {
+        window.location.replace("/administradores");
+      } else {
+        window.location.replace("/inicio");
+      }
     }
-
+    setIsLoading(true);
     fetch(
       `${pathContext}/api/camillas/institucion/${localStorage.getItem(
         "idInstitucion"
@@ -44,7 +52,8 @@ export default function CamillasScreen() {
         setCamillasFiltradas(datos.data);
         setCamillas(datos.data)
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const handleBusqueda = (e) => {
@@ -77,6 +86,7 @@ export default function CamillasScreen() {
           { path: "/historial", text: "Historial" },
         ]}
       />
+      {isLoading ? <Loader/> : 
       <div
         style={{
           margin: "5%",
@@ -228,7 +238,7 @@ export default function CamillasScreen() {
             </Table>
           </div>
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

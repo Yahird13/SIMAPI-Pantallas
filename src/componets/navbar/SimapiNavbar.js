@@ -7,7 +7,6 @@ import { getContrastColor } from "../utils/ColorInvert";
 import { C_PRIMARIO } from "../colors";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
 import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
-
 export default function SimapiNavbar(props) {
   //useEffect(() => {
   if (!isUserAuthenticated()) {
@@ -19,8 +18,9 @@ export default function SimapiNavbar(props) {
 
   const navbarItems = JSON.parse(localStorage.getItem("navbarItems"));
   const textColorBackgroundInvert = getContrastColor(C_PRIMARIO);
-  const [hoveredIndex, setHoveredIndex] = React.useState(-1);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [logo, setLogo] = useState(localStorage.getItem("logo"));
+  const [lastClickedLink, setLastClickedLink] = useState(null);
 
   useEffect(() => {
     const Interval = setInterval(() => {
@@ -37,23 +37,49 @@ export default function SimapiNavbar(props) {
     setHoveredIndex(-1);
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("rol") === "A") {
+      if (window.location.pathname === "/inicio") {
+        setLastClickedLink(0);
+      } else if (
+        window.location.pathname === "/camillas" ||
+        window.location.pathname === "/editarCamilla"
+      ) {
+        setLastClickedLink(1);
+      } else if (
+        window.location.pathname === "/usuarios" ||
+        window.location.pathname === "/editarUsuario" ||
+        window.location.pathname === "/detallesUsuario"
+      ) {
+        setLastClickedLink(2);
+      } else if (
+        window.location.pathname === "/historial" ||
+        window.location.pathname === "/detallesHistorial"
+      ) {
+        setLastClickedLink(3);
+      }
+    } else if (localStorage.getItem("rol") === "SA"){
+      if (window.location.pathname === "/administradores" || window.location.pathname === "/editarUsuario" || window.location.pathname === "/detallesUsuario") {
+        setLastClickedLink(0);
+      } else if (window.location.pathname === "/instituciones" || window.location.pathname === '/crearInstitucion' || window.location.pathname === "/editarInstitucion" || window.location.pathname === "/detallesInstitucion") {
+        setLastClickedLink(1);
+      }
+    } else {
+      if (window.location.pathname === "/inicio") {
+        setLastClickedLink(0);
+      }
+    }
+  }, [window.location.pathname]);
+
   return (
     <nav style={styles.navbar}>
-      {
-        localStorage.getItem("rol") !== "SA" ? (
-          <IconContainer
-            style={styles.logoContainer}
-            image={logo}
-            styleText={{ fontSize: 10 }}
-          />
-        ) : null /* (
-        <label>
-          Bienvenido {localStorage.getItem("nombre")}
-          <br />
-          {localStorage.getItem("apellidos")}
-        </label>
-      ) */
-      }
+      {localStorage.getItem("rol") !== "SA" ? (
+        <IconContainer
+          style={styles.logoContainer}
+          image={logo}
+          styleText={{ fontSize: 10 }}
+        />
+      ) : null}
       <div
         style={{
           paddingRight: "50px",
@@ -75,27 +101,35 @@ export default function SimapiNavbar(props) {
             {navbarItems
               ? navbarItems.map((item, index) => {
                   const isHovered = hoveredIndex === index;
+                  const isClicked = lastClickedLink === index;
                   return (
-                    <li key={index}>
-                      <Link
-                        to={item.path}
-                        replace
-                        style={{
-                          textDecoration: "none",
-                          color: textColorBackgroundInvert,
-                          fontWeight: "bold",
-                          fontSize: "20px",
-                          transform: `scale(${isHovered ? 1.1 : 1})`,
-                          transition: "transform 0.3s ease",
-                          display: "list-item",
-                          fontSize: '35px'
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {item.text}
-                      </Link>
-                    </li>
+                    <div
+                      key={index}
+                      className={lastClickedLink === index ? "activeLink" : ""}
+                    >
+                      <li>
+                        <Link
+                          to={item.path}
+                          replace
+                          style={{
+                            textDecoration: "none",
+                            color: textColorBackgroundInvert,
+                            textDecorationLine: isClicked
+                              ? "underline"
+                              : "none",
+                            fontWeight: "bold",
+                            transform: `scale(${isHovered ? 1.1 : 1})`,
+                            transition: "transform 0.3s ease",
+                            display: "list-item",
+                            fontSize: "25px",
+                          }}
+                          onMouseEnter={() => handleMouseEnter(index)}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          {item.text}
+                        </Link>
+                      </li>
+                    </div>
                   );
                 })
               : null}

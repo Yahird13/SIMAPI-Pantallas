@@ -5,7 +5,6 @@ export default function SimapiSelect(props) {
 
   const onChangeHandler = (e) => {
     props.onChange(e.target.value);
-    console.log({fromSimapiSelect: e.target.value})
   };
 
   return (

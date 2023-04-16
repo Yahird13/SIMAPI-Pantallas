@@ -4,12 +4,14 @@ import { pathContext } from "../../utils/PathContext";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faAdd } from "@fortawesome/free-solid-svg-icons";
+import Button from "../buttons/Button";
 
 export default function MultiSelect({ horario }) {
   const [options, setOptions] = useState([]);
   const [values, setValues] = useState([]);
   const [valuesToSave, setValuesToSave] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const fetchEnfermeras = (idEnfermeras) => {
     setLoading(true);
@@ -28,7 +30,11 @@ export default function MultiSelect({ horario }) {
           }
         })
         .catch((error) => {
-          console.log(error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error,
+          })
         });
     });
     return Promise.all(enfermerasPromises);
@@ -106,14 +112,22 @@ export default function MultiSelect({ horario }) {
         "enfermeras" + horario,
         JSON.stringify(values.filter(Boolean))
       );
+      if (values[values.length - 1] !== "") {
+        setBtnDisabled(false);
+      }
+      if (values.length===1){
+        if(values[0] === ''){
+          setBtnDisabled(true);
+        }
+      }
     }, 100);
     return () => clearInterval(Interval);
   }, [values]);
 
   const handleAddSelect = () => {
     setValues([...values, ""]);
-    console.log(values);
     localStorage.setItem("enfermeras" + horario, JSON.stringify(values));
+    setBtnDisabled(true);
   };
 
   const handleRemoveSelect = (index) => {
@@ -180,6 +194,7 @@ export default function MultiSelect({ horario }) {
                       border: "none",
                       outline: "none",
                     }}
+                    required
                   >
                     <option value="" disabled>
                       Selecciona un/a enfermero/a
@@ -198,33 +213,36 @@ export default function MultiSelect({ horario }) {
                     padding: "5px",
                   }}
                 >
-                  <button
+                  <Button
                     style={styles.buttonDelete}
                     type="button"
                     onClick={() => handleRemoveSelect(index)}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
+                    icon={faTrashCan}
+                    disabled={values.length === 1}
+                  />
                 </div>
               </div>
             );
           })
         : null}
-      <div style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        width: "80%",
-        height: "55px",
-        padding: "5px",
-      }}>
-        <button
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          width: "80%",
+          height: "55px",
+          padding: "5px",
+        }}
+      >
+        <Button
           style={styles.buttonAdd}
           type="button"
           onClick={handleAddSelect}
-        >
-          <FontAwesomeIcon icon={faAdd} />
-        </button>
+          disabled={btnDisabled}
+          icon={faAdd}
+          text="Agregar enfermero/a"
+        />
       </div>
     </div>
   );

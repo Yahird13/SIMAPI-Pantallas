@@ -16,3 +16,8 @@
         color: red;
     }
 }
+
+button:active,
+button.active {
+  opacity: 0.5;
+}

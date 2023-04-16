@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getContrastColor } from '../utils/ColorInvert';
 import IconContainer from '../containers/IconContainer';
 import { faBedPulse } from '@fortawesome/free-solid-svg-icons';
+import './style.css'
 
 export default function Button(props) {
   //const history = createBrowserHistory();
@@ -11,6 +12,7 @@ export default function Button(props) {
   const { id } = props;
   const textColorBackgroundInvert = backgroundColor ? getContrastColor( backgroundColor) : null;
   const [hovered, setHovered] = useState(false);
+  const [disabled, setDisabled] = useState(props.disabled);
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -22,12 +24,18 @@ export default function Button(props) {
 
   const scale = hovered ? 1.1 : 1;
 
+  useEffect(() => {
+    setDisabled(props.disabled)
+  }, [props.disabled])
+
 /*   const handleClick = () => {
     history.push(path);
     window.location.reload();
   }  */
   return (
         <button
+        className={disabled ? 'active' : ''}
+        disabled={disabled}
         id={id}
         style={{ 
           ...styles.button, 

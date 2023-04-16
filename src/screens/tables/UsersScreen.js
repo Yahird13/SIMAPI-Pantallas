@@ -6,19 +6,27 @@ import { isUserAuthenticated } from "../../auth/TokenValidate";
 import { pathContext } from "../../utils/PathContext";
 import Swal from "sweetalert2";
 import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
+import Loader from "../../componets/loader/Loader";
 
 export default function UsersScreen() {
   const [usuarios, setUsuarios] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  //useEffect(() => {
+  useEffect(() => {
     if (!isUserAuthenticated()) {
-      if(!isInstitutionAuthenticated()){
+      if (!isInstitutionAuthenticated()) {
         window.location.replace("/");
+      } else{
+        window.location.replace("/inicio");
       }
-    } else if (localStorage.getItem('rol') !== 'A'){
-      window.location.replace("/");
+    } else if (localStorage.getItem("rol") !== "A") {
+      if (localStorage.getItem("rol") === "SA") {
+        window.location.replace("/administradores");
+      } else {
+        window.location.replace("/inicio");
+      }
     }
-
+  setIsLoading(true);
   fetch(
     `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
       "idInstitucion"
@@ -35,18 +43,13 @@ export default function UsersScreen() {
     .then((datos) => {
       setUsuarios(datos.data);
     })
-    .catch((error) => console.log(error));
-  //}, []);
+    .catch((error) => console.log(error))
+    .finally(() => setIsLoading(false));
+  }, []);
   return (
     <div>
-      <SimapiNavbar
-        navbarItems={[
-          { path: "/inicio", text: "Inicio" },
-          { path: "/camillas", text: "Camillas" },
-          { path: "/usuarios", text: "Usuarios" },
-          { path: "/historial", text: "Historial" },
-        ]}
-      />
+      <SimapiNavbar/>
+      {isLoading ? (<Loader/>):(
       <div
         style={{
           margin: "5%",
@@ -251,7 +254,7 @@ export default function UsersScreen() {
             </Table>
           </div>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }

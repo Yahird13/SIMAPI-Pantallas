@@ -8,13 +8,21 @@ import Swal from "sweetalert2";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { pathContext } from "../../utils/PathContext";
 import { isUserAuthenticated } from "../../auth/TokenValidate";
+import Loader from "../../componets/loader/Loader";
+import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 
 export default function Institucion(props) {
   const { mode } = props;
   let institucion = {};
 
-  if (!isUserAuthenticated() && localStorage.getItem("rol") !== "SA") {
-    window.location.replace("/");
+  if (!isUserAuthenticated()) {
+    if (!isInstitutionAuthenticated()) {
+      window.location.replace("/");
+    } else {
+      window.location.replace("/inicio");
+    }
+  } else if(localStorage.getItem("rol") !== "SA"){
+    window.location.replace("/inicio");
   }
 
   const [nombre, setNombre] = useState("");
@@ -24,6 +32,7 @@ export default function Institucion(props) {
   const [cantidadDeSalas, setCantidadDeSalas] = useState(0);
   const [cantidadDeIslas, setCantidadDeIslas] = useState(0);
   const [idInstitucion, setIdInstitucion] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   let iconShowPass = faEye;
   let iconHidePass = faEyeSlash;
@@ -41,7 +50,9 @@ export default function Institucion(props) {
   };
 
   useEffect(() => {
+
     if (mode === "edit" || mode === "details") {
+      setIsLoading(true);
       fetch(
         `${pathContext}/api/institucion/${localStorage.getItem(
           "idInstitucionEdit"
@@ -66,13 +77,15 @@ export default function Institucion(props) {
           setCantidadDeIslas(institucion.cantidadDeIslas);
           setIdInstitucion(institucion.idInstitucion);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
   return (
     <div>
       <SimapiNavbar />
+      {isLoading ? (<Loader/>):(
       <div
         style={{
           width: "94%",
@@ -174,6 +187,7 @@ export default function Institucion(props) {
                           });
                         });
                     } else {
+                      setIsLoading(true);
                       localStorage.getItem("idInstitucionEdit");
                       fetch(`${pathContext}/api/institucion`, {
                         method: "POST",
@@ -241,6 +255,7 @@ export default function Institucion(props) {
                                     "idInstitucion",
                                     idInstitucion1
                                   );
+                                  setIsLoading(false)
                                   window.location.replace("/agregarUsuario");
                                 });
                               })
@@ -250,6 +265,7 @@ export default function Institucion(props) {
                                   text: error.message,
                                   icon: "error",
                                 });
+                                setIsLoading(false)
                               });
                           }
                         })
@@ -260,7 +276,7 @@ export default function Institucion(props) {
                             icon: "error",
                           });
                           console.log(error);
-                        });
+                        })
                     }
                   } else {
                     Swal.fire({
@@ -489,7 +505,8 @@ export default function Institucion(props) {
                     }}
                   />
 
-                  <Button
+                  {mode !== 'details' ?
+                    <Button
                     text={
                       mode === "edit"
                         ? "Guardar cambios"
@@ -497,13 +514,13 @@ export default function Institucion(props) {
                     }
                     style={styles.btnGuardarInstitucion}
                     type={"submit"}
-                  />
+                  />:null}
                 </div>
               </Form>
             </Formik>
           </div>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }

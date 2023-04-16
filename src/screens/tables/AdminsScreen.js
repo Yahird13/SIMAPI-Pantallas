@@ -13,11 +13,14 @@ import { isUserAuthenticated } from "../../auth/TokenValidate";
 import { pathContext } from "../../utils/PathContext";
 import Swal from "sweetalert2";
 import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
+import Loader from "../../componets/loader/Loader";
 
 export default function AdminsScreen() {
   const [usuarios, setUsuarios] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchAdmins = () => {
+    setIsLoading(true);
     fetch(`${pathContext}/api/usuarios/`, {
       method: "GET",
       headers: {
@@ -35,18 +38,26 @@ export default function AdminsScreen() {
         });
         setUsuarios(array);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }
 
   useEffect(() => {
-    if (!isUserAuthenticated() && localStorage.getItem("rol") !== "SA") {
-      window.location.replace("/");
+    if (!isUserAuthenticated()) {
+      if (!isInstitutionAuthenticated()) {
+        window.location.replace("/");
+      } else {
+        window.location.replace("/inicio");
+      }
+    } else if(localStorage.getItem("rol") !== "SA"){
+      window.location.replace("/inicio");
     }
     fetchAdmins()
   }, []);
   return (
     <div>
       <SimapiNavbar />
+      {isLoading ? (<Loader/> ) : (
       <div
         style={{
           margin: "5%",
@@ -233,7 +244,7 @@ export default function AdminsScreen() {
             </Table>
           </div>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }

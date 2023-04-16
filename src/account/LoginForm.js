@@ -111,7 +111,6 @@ export const LoginForm = () => {
                           localStorage.setItem("password", password);
                           localStorage.setItem("navbarItems", JSON.stringify([
                             { path: "/inicio", text: "Inicio" },]));
-                          console.log({navbarItems: localStorage.getItem("navbarItems")});
                           window.location.replace("/inicio");
                         } else {
                           Swal.fire({
@@ -121,7 +120,11 @@ export const LoginForm = () => {
                           });
                         }
                       })
-                      .catch((error) => console.log(error));
+                      .catch((error) => Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: error.message,
+                      }));
                   } else {
                     throw new Error(datos.message);
                   }

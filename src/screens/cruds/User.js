@@ -7,6 +7,9 @@ import TextField from "../../componets/inputs/TextField";
 import Swal from "sweetalert2";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { pathContext } from "../../utils/PathContext";
+import Loader from "../../componets/loader/Loader";
+import { isUserAuthenticated } from "../../auth/TokenValidate";
+import { isInstitutionAuthenticated } from "../../auth/InstitutionValidate";
 
 export default function User(props) {
   const { mode } = props;
@@ -21,6 +24,7 @@ export default function User(props) {
 
   const [showPass, setShowPass] = useState(false);
   const [rightIcon, setRightIcon] = useState(iconShowPass);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
     setShowPass(!showPass);
@@ -32,7 +36,16 @@ export default function User(props) {
   };
 
   useEffect(() => {
+    if (!isUserAuthenticated()) {
+      if (!isInstitutionAuthenticated()) {
+        window.location.replace("/");
+      } else {
+        window.location.replace("/inicio");
+      }
+    }
+
     if (mode === "edit" || mode === "details") {
+      setIsLoading(true);
       fetch(
         `${pathContext}/api/usuarios/${localStorage.getItem("idUsuarioEdit")}`,
         {
@@ -54,7 +67,8 @@ export default function User(props) {
           setPassword(user.password);
           setRol(user.rol);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
@@ -68,134 +82,86 @@ export default function User(props) {
           { path: "/historial", text: "Historial" },
         ]}
       />
-      <div
-        style={{
-          width: "94%",
-          margin: "3%",
-          marginTop: "10%",
-          borderRadius: "15px",
-          border: "5px solid black",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ padding: "2%", width: "100%" }}>
-          <div
-            style={{ paddingLeft: "2%", paddingTop: "1%", paddingRight: "2%" }}
-          >
-            <label
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div
+          style={{
+            width: "94%",
+            margin: "3%",
+            marginTop: "10%",
+            borderRadius: "15px",
+            border: "5px solid black",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ padding: "2%", width: "100%" }}>
+            <div
               style={{
-                fontStyle: "bold",
-                fontSize: "25px",
+                paddingLeft: "2%",
+                paddingTop: "1%",
+                paddingRight: "2%",
               }}
             >
-              {mode === "edit"
-                ? "Edición"
-                : mode === "details"
-                ? "Detalles"
-                : "Creación"}{" "}
-              de usuario
-            </label>
-            <br />
-            <Formik
-              initialValues={{
-                nombre: nombre,
-                apellidos: apellidos,
-                correo: correo,
-                password: password,
-                rol: rol,
-              }}
-              onSubmit={() => {
-                if (mode === "edit") {
-                  fetch(
-                    `${pathContext}/api/usuarios/${localStorage.getItem(
-                      "idUsuarioEdit"
-                    )}`,
-                    {
-                      method: "PUT",
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization:
-                          "Bearer " + localStorage.getItem("token"),
-                      },
-                      body: JSON.stringify({
-                        nombre: nombre,
-                        apellidos: apellidos,
-                        correo: correo,
-                        password: password ? password : null,
-                        rol: rol,
-                        idInstitucion: localStorage.getItem("idInstitucion"),
-                      }),
-                    }
-                  )
-                    .then((response) => {
-                      if (!response.ok) {
-                        throw new Error("Error al editar usuario");
+              <label
+                style={{
+                  fontStyle: "bold",
+                  fontSize: "25px",
+                }}
+              >
+                {mode === "edit"
+                  ? "Edición"
+                  : mode === "details"
+                  ? "Detalles"
+                  : "Creación"}{" "}
+                de usuario
+              </label>
+              <br />
+              <Formik
+                initialValues={{
+                  nombre: nombre,
+                  apellidos: apellidos,
+                  correo: correo,
+                  password: password,
+                  rol: rol,
+                }}
+                onSubmit={() => {
+                  if (mode === "edit") {
+                    fetch(
+                      `${pathContext}/api/usuarios/${localStorage.getItem(
+                        "idUsuarioEdit"
+                      )}`,
+                      {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        },
+                        body: JSON.stringify({
+                          nombre: nombre,
+                          apellidos: apellidos,
+                          correo: correo,
+                          password: password ? password : null,
+                          rol: rol,
+                          idInstitucion: localStorage.getItem("idInstitucion"),
+                        }),
                       }
-                      return response.json();
-                    })
-                    .then((datos) => {
-                      console.log(datos);
-                      if (datos.error || datos.message == null) {
-                        throw new Error(datos.message);
-                      }
-                      Swal.fire({
-                        title: "Éxito",
-                        text: datos.message,
-                        icon: "success",
-                        showConfirmButton: false,
-                        showCloseButton: true,
-                        timer: 2000,
-                        timerProgressBar: true,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        allowEnterKey: false,
-                        stopKeydownPropagation: false,
-                      }).then(() => {
-                        localStorage.removeItem("idUsuarioEdit");
-                        window.location.replace(
-                          localStorage.getItem("rol") === "SA"
-                            ? "/administradores"
-                            : "/usuarios"
-                        );
-                      });
-                    })
-                    .catch((error) => {
-                      Swal.fire({
-                        title: "Error al editar el usuario",
-                        text: error.message,
-                        icon: "error",
-                      });
-                    });
-                } else {
-                  fetch(`${pathContext}/api/usuarios`, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Bearer " + localStorage.getItem("token"),
-                    },
-                    body: JSON.stringify({
-                      nombre: nombre,
-                      apellidos: apellidos,
-                      correo: correo,
-                      password: password,
-                      rol: localStorage.getItem("rol") === 'SA' ? 'A' : rol,
-                      idInstitucion: localStorage.getItem("idInstitucion"),
-                    }),
-                  })
-                    .then((response) => {
-                      if (!response.ok) {
-                        throw new Error("Error al crear usuario");
-                      }
-                      return response.json();
-                    })
-                    .then((datos) => {
-                      console.log(datos);
-                      if (datos.error) {
-                        throw new Error(datos.message);
-                      } else {
+                    )
+                      .then((response) => {
+                        if (!response.ok) {
+                          throw new Error("Error al editar usuario");
+                        }
+                        return response.json();
+                      })
+                      .then((datos) => {
+                        console.log(datos);
+                        if (datos.error || datos.message == null) {
+                          throw new Error(datos.message);
+                        }
                         Swal.fire({
                           title: "Éxito",
                           text: datos.message,
@@ -209,246 +175,313 @@ export default function User(props) {
                           allowEnterKey: false,
                           stopKeydownPropagation: false,
                         }).then(() => {
-                          if (localStorage.getItem("rol") === "SA") {
-                            window.location.replace("/instituciones");
-                          } else {
-                            window.location.replace("/usuarios");
-                          }
+                          localStorage.removeItem("idUsuarioEdit");
+                          window.location.replace(
+                            localStorage.getItem("rol") === "SA"
+                              ? "/administradores"
+                              : "/usuarios"
+                          );
                         });
-                      }
-                    })
-                    .catch((error) => {
-                      Swal.fire({
-                        title: "Error",
-                        text: error.message,
-                        icon: "error",
+                      })
+                      .catch((error) => {
+                        Swal.fire({
+                          title: "Error al editar el usuario",
+                          text: error.message,
+                          icon: "error",
+                        });
                       });
-                      console.log(error);
-                    });
-                }
-              }}
-            >
-              <Form>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "30px",
-                  }}
-                >
-                  <div style={{ width: "20%" }}>
-                    <label
-                      style={{
-                        fontSize: "20px",
-                      }}
-                    >
-                      Nombre:
-                    </label>
-                  </div>
-                  <div style={{ width: "80%" }}>
-                    <TextField
-                      type="text"
-                      style={styles.input}
-                      value={nombre ? nombre : ""}
-                      disabled={mode === "details"}
-                      onChange={(e) => setNombre(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div style={{ width: "20%" }}>
-                    <label
-                      style={{
-                        fontSize: "20px",
-                      }}
-                    >
-                      Apellidos:
-                    </label>
-                  </div>
-                  <div style={{ width: "80%" }}>
-                    <TextField
-                      type="text"
-                      style={styles.input}
-                      value={apellidos ? apellidos : ""}
-                      disabled={mode === "details"}
-                      onChange={(e) => setApellidos(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div style={{ width: "20%" }}>
-                    <label
-                      style={{
-                        fontSize: "20px",
-                      }}
-                    >
-                      Correo:
-                    </label>
-                  </div>
-                  <div style={{ width: "80%" }}>
-                    <TextField
-                      type="email"
-                      style={styles.input}
-                      value={correo ? correo : ""}
-                      disabled={mode === "details"}
-                      onChange={(e) => setCorreo(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div style={{ width: "20%" }}>
-                    <label
-                      style={{
-                        fontSize: "20px",
-                      }}
-                    >
-                      Contraseña:
-                    </label>
-                  </div>
-                  <div style={{ width: "80%" }}>
-                    <TextField
-                      type={showPass ? "text" : "password"}
-                      backgroundStyle={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
-                      }}
-                      required={mode === "edit" ? false : true}
-                      style={{ ...styles.input }}
-                      value={
-                        mode === "details"
-                          ? password
-                            ? password
-                            : "●●●●●●●●●●"
-                          : password
-                          ? password
-                          : ""
-                      }
-                      disabled={mode === "details"}
-                      onChange={(e) => setPassword(e.target.value)}
-                      rightIcon={showPass ? rightIcon : rightIcon}
-                      rightIconStyle={{
-                        height: 70,
-                        width: 70,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: mode === "details" ? "gray" : "black",
-                      }}
-                      rightIconSize={"2xl"}
-                      onClick={mode !== "details" ? handleClick : null}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div style={{ width: "20%" }}>
-                    <label
-                      style={{
-                        fontSize: "20px",
-                      }}
-                    >
-                      Rol:
-                    </label>
-                  </div>
-                  <div style={{ width: "80%" }}>
-                    <SimapiSelect
-                      style={{
-                        ...styles.input,
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                      }}
-                      disabled={(mode === "details" || mode === "edit") || localStorage.getItem("rol") === "SA"}
-                      selectValue={localStorage.getItem("rol") === 'SA' ? "A" : rol ? rol : ""}
-                      placeholder="Selecciona un rol"
-                      onChange={(e) => setRol(e)}
-                      options={[
-                        { value: "A", label: "Administrador" },
-                        { value: "E", label: "Enfermero/a" },
-                      ]}
-                    />
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    justifyContent:
-                      mode === "details" ? "center" : "space-between",
-                    margin: "5%",
-                  }}
-                >
-                  <Button
-                    text={"Atrás"}
-                    style={styles.btnAtras}
-                    type={"button"}
-                    onClick={() => {
-                      localStorage.removeItem("idUsuarioEdit");
-                      window.location.replace(
-                        localStorage.getItem("rol") === "SA"
-                          ? "/administradores"
-                          : "/usuarios"
-                      );
-                    }}
-                  />
-                  {mode !== "details" ? (
-                    <Button
-                      text={"Guardar Usuario"}
-                      style={styles.btnGuardarUsuario}
-                      type={"submit"}
-                      onClick={
-                        mode === "details"
-                          ? () => {
-                              window.location.replace(
-                                localStorage.getItem("rol") === "SA"
-                                  ? "/administradores"
-                                  : "/usuarios"
-                              );
+                  } else {
+                    fetch(`${pathContext}/api/usuarios`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization:
+                          "Bearer " + localStorage.getItem("token"),
+                      },
+                      body: JSON.stringify({
+                        nombre: nombre,
+                        apellidos: apellidos,
+                        correo: correo,
+                        password: password,
+                        rol: localStorage.getItem("rol") === "SA" ? "A" : rol,
+                        idInstitucion: localStorage.getItem("idInstitucion"),
+                      }),
+                    })
+                      .then((response) => {
+                        if (!response.ok) {
+                          throw new Error("Error al crear usuario");
+                        }
+                        return response.json();
+                      })
+                      .then((datos) => {
+                        console.log(datos);
+                        if (datos.error) {
+                          throw new Error(datos.message);
+                        } else {
+                          Swal.fire({
+                            title: "Éxito",
+                            text: datos.message,
+                            icon: "success",
+                            showConfirmButton: false,
+                            showCloseButton: true,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            stopKeydownPropagation: false,
+                          }).then(() => {
+                            if (localStorage.getItem("rol") === "SA") {
+                              window.location.replace("/instituciones");
+                            } else {
+                              window.location.replace("/usuarios");
                             }
-                          : () => {}
-                      }
+                          });
+                        }
+                      })
+                      .catch((error) => {
+                        Swal.fire({
+                          title: "Error",
+                          text: error.message,
+                          icon: "error",
+                        });
+                        console.log(error);
+                      });
+                  }
+                }}
+              >
+                <Form>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "30px",
+                    }}
+                  >
+                    <div style={{ width: "20%" }}>
+                      <label
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      >
+                        Nombre:
+                      </label>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                      <TextField
+                        type="text"
+                        style={styles.input}
+                        value={nombre ? nombre : ""}
+                        disabled={mode === "details"}
+                        onChange={(e) => setNombre(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <div style={{ width: "20%" }}>
+                      <label
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      >
+                        Apellidos:
+                      </label>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                      <TextField
+                        type="text"
+                        style={styles.input}
+                        value={apellidos ? apellidos : ""}
+                        disabled={mode === "details"}
+                        onChange={(e) => setApellidos(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <div style={{ width: "20%" }}>
+                      <label
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      >
+                        Correo:
+                      </label>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                      <TextField
+                        type="email"
+                        style={styles.input}
+                        value={correo ? correo : ""}
+                        disabled={mode === "details"}
+                        onChange={(e) => setCorreo(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <div style={{ width: "20%" }}>
+                      <label
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      >
+                        Contraseña:
+                      </label>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                      <TextField
+                        type={showPass ? "text" : "password"}
+                        backgroundStyle={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%",
+                        }}
+                        required={mode === "edit" ? false : true}
+                        style={{ ...styles.input }}
+                        value={
+                          mode === "details"
+                            ? password
+                              ? password
+                              : "●●●●●●●●●●"
+                            : password
+                            ? password
+                            : ""
+                        }
+                        disabled={mode === "details"}
+                        onChange={(e) => setPassword(e.target.value)}
+                        rightIcon={showPass ? rightIcon : rightIcon}
+                        rightIconStyle={{
+                          height: 70,
+                          width: 70,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mode === "details" ? "gray" : "black",
+                        }}
+                        rightIconSize={"2xl"}
+                        onClick={mode !== "details" ? handleClick : null}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <div style={{ width: "20%" }}>
+                      <label
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      >
+                        Rol:
+                      </label>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                      <SimapiSelect
+                        style={{
+                          ...styles.input,
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                        }}
+                        disabled={
+                          mode === "details" ||
+                          mode === "edit" ||
+                          localStorage.getItem("rol") === "SA"
+                        }
+                        selectValue={
+                          localStorage.getItem("rol") === "SA"
+                            ? "A"
+                            : rol
+                            ? rol
+                            : ""
+                        }
+                        placeholder="Selecciona un rol"
+                        onChange={(e) => setRol(e)}
+                        options={[
+                          { value: "A", label: "Administrador" },
+                          { value: "E", label: "Enfermero/a" },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      justifyContent:
+                        mode === "details" ? "center" : "space-between",
+                      margin: "5%",
+                    }}
+                  >
+                    <Button
+                      text={"Atrás"}
+                      style={styles.btnAtras}
+                      type={"button"}
+                      onClick={() => {
+                        localStorage.removeItem("idUsuarioEdit");
+                        window.location.replace(
+                          localStorage.getItem("rol") === "SA"
+                            ? "/administradores"
+                            : "/usuarios"
+                        );
+                      }}
                     />
-                  ) : null}
-                </div>
-              </Form>
-            </Formik>
+                    {mode !== "details" ? (
+                      <Button
+                        text={"Guardar Usuario"}
+                        style={styles.btnGuardarUsuario}
+                        type={"submit"}
+                        onClick={
+                          mode === "details"
+                            ? () => {
+                                window.location.replace(
+                                  localStorage.getItem("rol") === "SA"
+                                    ? "/administradores"
+                                    : "/usuarios"
+                                );
+                              }
+                            : () => {}
+                        }
+                      />
+                    ) : null}
+                  </div>
+                </Form>
+              </Formik>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
