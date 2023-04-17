@@ -165,7 +165,7 @@ export default function DetailsHistory() {
                   />
                 </div>
                 <div style={styles.divColumnRight}>
-                  <label style={styles.label}>Enfermera:</label>
+                  <label style={styles.label}>Enfermero/a:</label>
                   <input
                     type="text"
                     value={historial.nombreEnfermera ? historial.nombreEnfermera : ""}

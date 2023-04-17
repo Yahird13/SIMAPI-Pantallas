@@ -68,7 +68,16 @@ export default function RecordScreen() {
       }
     )
       .then((response) => response.json())
-      .then((datos) => setHistorial(datos.data))
+      .then((datos) => {
+
+        let historial = datos.data.filter((historial) => {
+          if(historial.fechaAtencion){
+            return historial
+          }
+        });
+
+        setHistorial(historial);
+      })
       .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));
   }, []);

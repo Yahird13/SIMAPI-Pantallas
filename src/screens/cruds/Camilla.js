@@ -60,7 +60,7 @@ export default function Camilla(props) {
         camilla = data.data;
 
         fetch(
-          `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
+          `${pathContext}/api/camillas/institucion/${localStorage.getItem(
             "idInstitucion"
           )}`,
           {
@@ -154,88 +154,118 @@ export default function Camilla(props) {
                   estado: estado,
                 }}
                 onSubmit={() => {
-
-                  const camillaUpdateActiva = JSON.stringify({
-                    numeroExpediente: expediente,
-                    nombre: paciente,
-                    idInstitucion: localStorage.getItem("idInstitucion"),
-                    idIsla: isla,
-                    idSala: sala,
-                    idEnfermera: [
-                      {
-                        matutino: JSON.parse(
-                          localStorage.getItem("enfermerasmatutino")
-                        ),
-                        vespertino: JSON.parse(
-                          localStorage.getItem("enfermerasvespertino")
-                        ),
-                        nocturno: JSON.parse(
-                          localStorage.getItem("enfermerasnocturno")
-                        ),
-                      },
-                    ],
-                    estado:true,
-                    idBoton: idBoton
+                  fetch(`${pathContext}/api/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": "Bearer " + localStorage.getItem("token"),
+                    },
                   })
-
-                  const camillaUpdateInactiva = JSON.stringify({
-                    numeroExpediente: "",
-                    nombre: "",
-                    idInstitucion: localStorage.getItem("idInstitucion"),
-                    idIsla: isla,
-                    idSala: sala,
-                    idEnfermera: [
-                      {
-                        matutino: [""],
-                        vespertino: [""],
-                        nocturno: [""],
-                      },
-                    ],
-                    estado:false,
-                    idBoton: idBoton
-                  })
-
-                  const camillaUpdate = expediente && paciente ? camillaUpdateActiva : camillaUpdateInactiva;
-
-                  fetch(
-                    `${pathContext}/api/camillas/${localStorage.getItem(
-                      "idCamillaEdit"
-                    )}`,
-                    {
-                      method: "PUT",
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization:
-                          "Bearer " + localStorage.getItem("token"),
-                      },
-                      body: camillaUpdate,
-                    }
-                  )
                     .then((response) => {
+                      if (!response.ok) {
+                        throw new Error(response.statusText);
+                      }
                       return response.json();
                     })
                     .then((data) => {
-                      Swal.fire({
-                        title: "Éxito",
-                          text: data.message,
-                          icon: "success",
-                          showConfirmButton: false,
-                          showCloseButton: true,
-                          timer: 2000,
-                          timerProgressBar: true,
-                          allowOutsideClick: false,
-                          allowEscapeKey: false,
-                          allowEnterKey: false,
-                          stopKeydownPropagation: false,
-                      }).then(() => {
-                        window.location.replace("/camillas");
+                      let expExistente = 0
+                      data.data.forEach((element) => {
+                        if (element.numeroExpediente === expediente) {
+                          expExistente++;
+                        }
                       });
+
+                      if (expExistente === 0) {
+
+                        const camillaUpdateActiva = JSON.stringify({
+                          numeroExpediente: expediente,
+                          nombre: paciente,
+                          idInstitucion: localStorage.getItem("idInstitucion"),
+                          idIsla: isla,
+                          idSala: sala,
+                          idEnfermera: [
+                            {
+                              matutino: JSON.parse(
+                                localStorage.getItem("enfermerasmatutino")
+                              ),
+                              vespertino: JSON.parse(
+                                localStorage.getItem("enfermerasvespertino")
+                              ),
+                              nocturno: JSON.parse(
+                                localStorage.getItem("enfermerasnocturno")
+                              ),
+                            },
+                          ],
+                          estado:true,
+                          idBoton: idBoton
+                        })
+      
+                        const camillaUpdateInactiva = JSON.stringify({
+                          numeroExpediente: "",
+                          nombre: "",
+                          idInstitucion: localStorage.getItem("idInstitucion"),
+                          idIsla: isla,
+                          idSala: sala,
+                          idEnfermera: [
+                            {
+                              matutino: [""],
+                              vespertino: [""],
+                              nocturno: [""],
+                            },
+                          ],
+                          estado:false,
+                          idBoton: idBoton
+                        })
+      
+                        const camillaUpdate = expediente && paciente ? camillaUpdateActiva : camillaUpdateInactiva;
+      
+                        fetch(
+                          `${pathContext}/api/camillas/${localStorage.getItem(
+                            "idCamillaEdit"
+                          )}`,
+                          {
+                            method: "PUT",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization:
+                                "Bearer " + localStorage.getItem("token"),
+                            },
+                            body: camillaUpdate,
+                          }
+                        )
+                          .then((response) => {
+                            return response.json();
+                          })
+                          .then((data) => {
+                            Swal.fire({
+                              title: "Éxito",
+                                text: data.message,
+                                icon: "success",
+                                showConfirmButton: false,
+                                showCloseButton: true,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                allowEnterKey: false,
+                                stopKeydownPropagation: false,
+                            }).then(() => {
+                              window.location.replace("/camillas");
+                            });
+                          })
+                          .catch((error) => Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: error.message,
+                          }));
+                      } else {
+                        Swal.fire({
+                          icon: "error",
+                          title: "Oops...",
+                          text: "El expediente ya existe",
+                        });
+                      }
                     })
-                    .catch((error) => Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: error.message,
-                    }));
                 }}
               >
                 <Form>

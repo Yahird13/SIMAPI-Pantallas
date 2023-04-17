@@ -181,7 +181,7 @@ const styles = {
     paddingRight: "50px",
     paddingTop: "10px",
     width: "100%",
-    height: "100%",
+    height: "75%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
