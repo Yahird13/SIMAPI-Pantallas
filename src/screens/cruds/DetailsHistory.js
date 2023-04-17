@@ -30,19 +30,6 @@ export default function DetailsHistory() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${pathContext}/api/usuarios/${historial.idEnfermera}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
-      .then((response) => response.json())
-      .then((datos) => {
-        console.log(datos);
-        setUsuario(`${datos.data.nombre} ${datos.data.apellidos}`);
-      })
-      .catch((error) => console.log(error));
 
     fetch(`${pathContext}/api/camillas/${historial.idCamilla}`, {
       method: "GET",
@@ -172,11 +159,7 @@ export default function DetailsHistory() {
                   <label style={styles.label}>Paciente:</label>
                   <input
                     type="text"
-                    value={
-                      localStorage.getItem("paciente")
-                        ? localStorage.getItem("paciente")
-                        : ""
-                    }
+                    value={historial.nombrePaciente ? historial.nombrePaciente : ""}
                     style={styles.input}
                     disabled
                   />
@@ -185,7 +168,7 @@ export default function DetailsHistory() {
                   <label style={styles.label}>Enfermera:</label>
                   <input
                     type="text"
-                    value={usuario ? usuario : ""}
+                    value={historial.nombreEnfermera ? historial.nombreEnfermera : ""}
                     style={styles.input}
                     disabled
                   />
@@ -293,7 +276,7 @@ const styles = {
     width: "300px",
     height: "60px",
     borderRadius: "10px",
-    backgroundColor: "#3fad5e",
+    backgroundColor: "#a9a9a9",
   },
   divColumnLeft: {
     width: "50%",

@@ -12,6 +12,27 @@ export default function UsersScreen() {
   const [usuarios, setUsuarios] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchUsuarios = () => {
+    fetch(
+      `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
+        "idInstitucion"
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((datos) => {
+        setUsuarios(datos.data);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
+  }
+
   useEffect(() => {
     if (!isUserAuthenticated()) {
       if (!isInstitutionAuthenticated()) {
@@ -27,24 +48,7 @@ export default function UsersScreen() {
       }
     }
   setIsLoading(true);
-  fetch(
-    `${pathContext}/api/usuarios/institucion/${localStorage.getItem(
-      "idInstitucion"
-    )}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((datos) => {
-      setUsuarios(datos.data);
-    })
-    .catch((error) => console.log(error))
-    .finally(() => setIsLoading(false));
+  fetchUsuarios()
   }, []);
   return (
     <div>
@@ -227,6 +231,7 @@ export default function UsersScreen() {
                                             allowEnterKey: false,
                                             stopKeydownPropagation: false,
                                           })
+                                          fetchUsuarios()
                                         } else {
                                           throw new Error(datos.message);
                                         }
