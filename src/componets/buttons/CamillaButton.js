@@ -24,7 +24,7 @@ export default function CamillaButton(props) {
         style={{ 
           ...styles.button, 
           color: estadoCamilla ? textColorBackgroundInvert: 'gray',
-          visibility:'hidden',}} 
+          visibility: 'hidden'}} 
         onClick={props.onClick} >
           <IconContainer text={estadoCamilla ? props.textCamilla: 'No disponible'} 
           camilla={true} 
@@ -38,7 +38,9 @@ export default function CamillaButton(props) {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
-            visibility: 'visible',}}/>
+            visibility: 'visible',
+            marginLeft: '-6%',
+            }}/>
         </button>
   )
 }
