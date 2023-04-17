@@ -34,13 +34,6 @@ export default function RecordScreen() {
   }
 
   const [camillas, setCamillas] = useState([]);
-  let paciente = "";
-  const fetchCamilla = (idCamilla) => {
-    const camilla = camillas.find((c) => c.idCamillas === idCamilla);
-    if (camilla) {
-      paciente = camilla.nombre;
-    }
-  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -61,7 +54,6 @@ export default function RecordScreen() {
         setCamillas(datos.data);
       })
       .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
 
     fetch(
       `${pathContext}/api/historial/institucion/${localStorage.getItem(
@@ -77,7 +69,8 @@ export default function RecordScreen() {
     )
       .then((response) => response.json())
       .then((datos) => setHistorial(datos.data))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }, []);
   return (
     <div>
@@ -150,7 +143,6 @@ export default function RecordScreen() {
             <TableBody>
               {historial
                 ? historial.map((item, index) => {
-                    fetchCamilla(item.idCamilla);
                     return item.fechaAtencion ? (
                       <TableRow key={index}>
                         <TableCell>
@@ -170,7 +162,7 @@ export default function RecordScreen() {
                         </TableCell>
                         <TableCell>
                           <label style={{ ...styles.center, fontSize: "18px" }}>
-                            {paciente}
+                            {item.nombrePaciente}
                           </label>
                         </TableCell>
                         <TableCell style={styles.center}>
@@ -179,7 +171,6 @@ export default function RecordScreen() {
                             style={styles.btnDetallesHistorial}
                             onClick={() =>{
                               localStorage.setItem("historial", JSON.stringify(item))
-                              localStorage.setItem("paciente", paciente)
                               window.location.replace("/detallesHistorial")
                             }}
                           />
