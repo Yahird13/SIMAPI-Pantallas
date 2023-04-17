@@ -158,7 +158,6 @@ export default function User(props) {
                         return response.json();
                       })
                       .then((datos) => {
-                        console.log(datos);
                         if (datos.error || datos.message == null) {
                           throw new Error(datos.message);
                         }

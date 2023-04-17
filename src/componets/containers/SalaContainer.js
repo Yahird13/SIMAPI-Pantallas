@@ -64,6 +64,7 @@ export default function SalaContainer({ idSala }) {
             gridColumnGap: "0px",
             gridRowGap: "0px",
             alignContent: "center",
+            alignItems: "center",
             justifyContent: "space-between",
           }}
         >
