@@ -144,7 +144,7 @@ export default function User(props) {
                         body: JSON.stringify({
                           nombre: nombre,
                           apellidos: apellidos,
-                          correo: correo,
+                          correo: correo.toLowerCase(),
                           password: password ? password : null,
                           rol: rol,
                           idInstitucion: localStorage.getItem("idInstitucion"),
@@ -200,7 +200,7 @@ export default function User(props) {
                       body: JSON.stringify({
                         nombre: nombre,
                         apellidos: apellidos,
-                        correo: correo,
+                        correo: correo.toLowerCase(),
                         password: password,
                         rol: localStorage.getItem("rol") === "SA" ? "A" : rol,
                         idInstitucion: localStorage.getItem("idInstitucion"),

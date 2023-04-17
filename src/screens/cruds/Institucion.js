@@ -144,7 +144,7 @@ export default function Institucion(props) {
                           },
                           body: JSON.stringify({
                             nombre: nombre,
-                            correo: correo,
+                            correo: correo.toLowerCase(),
                             password: password ? password : null,
                             cantidadCamillas: cantidadCamillas,
                             cantidadDeSalas: cantidadDeSalas,
@@ -198,7 +198,7 @@ export default function Institucion(props) {
                         },
                         body: JSON.stringify({
                           nombre: nombre,
-                          correo: correo,
+                          correo: correo.toLowerCase(),
                           password: password,
                           cantidadDeSalas: cantidadDeSalas,
                           cantidadDeIslas: cantidadDeIslas,

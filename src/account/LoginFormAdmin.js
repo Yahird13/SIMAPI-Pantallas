@@ -66,7 +66,7 @@ export const LoginFormAdmin = () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                correo: email,
+                correo: email.toLowerCase(),
                 password: password,
               }),
             })
