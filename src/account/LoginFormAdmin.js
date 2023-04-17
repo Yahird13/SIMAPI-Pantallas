@@ -71,16 +71,8 @@ export const LoginFormAdmin = () => {
               }),
             })
               .then((response) => {
-                if (!response.ok) {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Datos incorrectos",
-                  });
-                  throw new Error(response.statusText);
-                } else {
+                console.log(response)
                   return response.json();
-                }
               })
               .then((datos) => {
                 if (datos.data.rol === "E") {
@@ -132,7 +124,7 @@ export const LoginFormAdmin = () => {
               .catch((error) => Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: error.message,
+                text: "Datos incorrectos",
               }));
           }
         }}
