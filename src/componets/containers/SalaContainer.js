@@ -76,7 +76,7 @@ export default function SalaContainer({ idSala }) {
                   return (
                     <CamillaButton
                       key={index}
-                      textCamilla={`${item.nombre}\nNumero de camilla: ${item.idBoton}`}
+                      textCamilla={`${item.nombre}\n\n(${item.idBoton})`}
                       camilla={true}
                       onClick={() => {
                         if (item.estadoAlarma) {
