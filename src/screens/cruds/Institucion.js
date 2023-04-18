@@ -139,7 +139,12 @@ export default function Institucion(props) {
               }}
               onSubmit={() => {
                 if (cantidadDeSalas > 0 && cantidadDeIslas > 0) {
-                  if (cantidadDeSalas >= cantidadDeIslas) {
+                  console.log({cantidadDeSalas: cantidadDeSalas, cantidadDeIslas: cantidadDeIslas})
+                  console.log(cantidadDeSalas >= cantidadDeIslas)
+                  parseInt(cantidadDeSalas)
+                  parseInt(cantidadDeIslas)
+                  let total = cantidadDeSalas - cantidadDeIslas;
+                  if (total >= 0) {
                     setCantidadCamillas(cantidadDeSalas * 10);
                     if (mode === "edit") {
                       fetch(
