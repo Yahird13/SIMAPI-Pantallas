@@ -47,7 +47,7 @@ export default function IconContainer(props) {
         justifyContent: "left",
       }}>
         {props.iconCamilla ? <FontAwesomeIcon icon={props.iconCamilla} className={props.className} size={props.size} style={{color: props.iconColor}}/> : null}
-        {props.text ? <p style={{...props.styleText, textAlign: "center", color: iconColor}} id={props.idText}>{props.text}</p> : null}
+        {props.text ? <p style={{...props.styleText, textAlign: "center", color: iconColor}} id={props.idText}>{props.text}<br/>{props.numeroCamilla? `(${props.numeroCamilla})` : null}</p> : null}
       </div>
     </div>
   )

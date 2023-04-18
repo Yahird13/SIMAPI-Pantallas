@@ -242,7 +242,7 @@ export default function DetailsHistory() {
                   </label>
                   <input
                     type="text"
-                    value={historial.idCamilla ? historial.idCamilla : ""}
+                    value={camilla.idBoton ? camilla.idBoton : ""}
                     style={{
                       fontSize: "20px",
                       width: "100%",

@@ -19,14 +19,15 @@ export default function CamillaButton(props) {
 
   return (
         <button
-        disabled={!estadoCamilla}
+        //disabled={!estadoCamilla}
         id={id}
         style={{ 
           ...styles.button, 
           color: estadoCamilla ? textColorBackgroundInvert: 'gray',
           visibility: 'hidden'}} 
         onClick={props.onClick} >
-          <IconContainer text={`${estadoCamilla ? `${props.textCamilla}\n`: 'No disponible'}\n(${props.numeroCamilla})`} 
+          <IconContainer text={`${estadoCamilla ? `${props.textCamilla}\n`: 'No disponible'}\n`} 
+          numeroCamilla={props.numeroCamilla}
           camilla={true} 
           iconColor={estadoCamilla ? 'black': 'gray'}
           styleText={{fontSize: 12.5}} 

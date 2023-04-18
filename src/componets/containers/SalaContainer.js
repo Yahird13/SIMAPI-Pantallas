@@ -8,6 +8,8 @@ export default function SalaContainer({ idSala }) {
   const [camillas, setCamillas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  
+
   const fetchCamillas = () => {
     if (localStorage.getItem("contadorLoaderInicio") === "0") {
       setIsLoading(true);
@@ -41,6 +43,10 @@ export default function SalaContainer({ idSala }) {
     }, 500);
     return () => clearInterval(interval);
   }, [camillas]);
+
+  useEffect(() => {
+    localStorage.removeItem("idCamillaEdit");
+  }, []);
 
   return (
     <div style={{ margin: "15px", marginBottom: 0, border: "1px solid black" }}>
@@ -176,6 +182,9 @@ export default function SalaContainer({ idSala }) {
                               }
                             },
                           });
+                        } else {
+                          localStorage.setItem("idCamillaEdit", item.idCamillas);
+                          window.location.replace("/editarCamilla");
                         }
                       }}
                       alert={item.estadoAlarma}
