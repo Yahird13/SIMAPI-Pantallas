@@ -197,7 +197,7 @@ export default function CamillasScreen() {
                     return (
                       <TableRow key={index}>
                         <TableCell>
-                          <label style={{...styles.center, fontSize: "18px"}} >{index + 1}</label>
+                          <label style={{...styles.center, fontSize: "18px"}} >{item.idBoton}</label>
                         </TableCell>
                         <TableCell>
                           <label style={{...styles.center, fontSize: "18px"}} >
