@@ -13,19 +13,19 @@ import Loader from "../../componets/loader/Loader";
 
 export default function Camilla(props) {
   //useEffect(() => {
-    if (!isUserAuthenticated()) {
-      if (!isInstitutionAuthenticated()) {
-        window.location.replace("/");
-      } else {
-        window.location.replace("/inicio");
-      }
-    } else if (localStorage.getItem("rol") !== "A") {
-      if (localStorage.getItem("rol") === "SA") {
-        window.location.replace("/administradores");
-      } else {
-        window.location.replace("/inicio");
-      }
+  if (!isUserAuthenticated()) {
+    if (!isInstitutionAuthenticated()) {
+      window.location.replace("/");
+    } else {
+      window.location.replace("/inicio");
     }
+  } else if (localStorage.getItem("rol") !== "A") {
+    if (localStorage.getItem("rol") === "SA") {
+      window.location.replace("/administradores");
+    } else {
+      window.location.replace("/inicio");
+    }
+  }
   //}, []);
 
   const { mode } = props;
@@ -88,11 +88,13 @@ export default function Camilla(props) {
               }
             });
           })
-          .catch((error) => Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: error.message,
-                      }));
+          .catch((error) =>
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: error.message,
+            })
+          );
 
         setExpediente(camilla.numeroExpediente);
         setPaciente(camilla.nombre);
@@ -101,11 +103,13 @@ export default function Camilla(props) {
         setEstado(camilla.estado);
         setIdBoton(camilla.idBoton);
       })
-      .catch((error) => Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: error.message,
-                      }))
+      .catch((error) =>
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        })
+      )
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -154,13 +158,19 @@ export default function Camilla(props) {
                   estado: estado,
                 }}
                 onSubmit={() => {
-                  fetch(`${pathContext}/api/camillas/institucion/${localStorage.getItem("idInstitucion")}`, {
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "Authorization": "Bearer " + localStorage.getItem("token"),
-                    },
-                  })
+                  fetch(
+                    `${pathContext}/api/camillas/institucion/${localStorage.getItem(
+                      "idInstitucion"
+                    )}`,
+                    {
+                      method: "GET",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization:
+                          "Bearer " + localStorage.getItem("token"),
+                      },
+                    }
+                  )
                     .then((response) => {
                       if (!response.ok) {
                         throw new Error(response.statusText);
@@ -168,15 +178,16 @@ export default function Camilla(props) {
                       return response.json();
                     })
                     .then((data) => {
-                      let expExistente = 0
-                      data.data.forEach((element) => {
-                        if (element.numeroExpediente === expediente) {
-                          expExistente++;
-                        }
-                      });
+                      let expExistente = 0;
+                      if (expediente !== "") {
+                        data.data.forEach((element) => {
+                          if (element.numeroExpediente === expediente) {
+                            expExistente++;
+                          }
+                        });
+                      }
 
                       if (expExistente === 0) {
-
                         const camillaUpdateActiva = JSON.stringify({
                           numeroExpediente: expediente,
                           nombre: paciente,
@@ -196,10 +207,10 @@ export default function Camilla(props) {
                               ),
                             },
                           ],
-                          estado:true,
-                          idBoton: idBoton
-                        })
-      
+                          estado: true,
+                          idBoton: idBoton,
+                        });
+
                         const camillaUpdateInactiva = JSON.stringify({
                           numeroExpediente: "",
                           nombre: "",
@@ -213,12 +224,15 @@ export default function Camilla(props) {
                               nocturno: [""],
                             },
                           ],
-                          estado:false,
-                          idBoton: idBoton
-                        })
-      
-                        const camillaUpdate = expediente && paciente ? camillaUpdateActiva : camillaUpdateInactiva;
-      
+                          estado: false,
+                          idBoton: idBoton,
+                        });
+
+                        const camillaUpdate =
+                          expediente && paciente
+                            ? camillaUpdateActiva
+                            : camillaUpdateInactiva;
+
                         fetch(
                           `${pathContext}/api/camillas/${localStorage.getItem(
                             "idCamillaEdit"
@@ -239,25 +253,27 @@ export default function Camilla(props) {
                           .then((data) => {
                             Swal.fire({
                               title: "Éxito",
-                                text: data.message,
-                                icon: "success",
-                                showConfirmButton: false,
-                                showCloseButton: true,
-                                timer: 2000,
-                                timerProgressBar: true,
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                allowEnterKey: false,
-                                stopKeydownPropagation: false,
+                              text: data.message,
+                              icon: "success",
+                              showConfirmButton: false,
+                              showCloseButton: true,
+                              timer: 2000,
+                              timerProgressBar: true,
+                              allowOutsideClick: false,
+                              allowEscapeKey: false,
+                              allowEnterKey: false,
+                              stopKeydownPropagation: false,
                             }).then(() => {
                               window.location.replace("/camillas");
                             });
                           })
-                          .catch((error) => Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: error.message,
-                          }));
+                          .catch((error) =>
+                            Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: error.message,
+                            })
+                          );
                       } else {
                         Swal.fire({
                           icon: "error",
@@ -265,7 +281,7 @@ export default function Camilla(props) {
                           text: "El expediente ya existe",
                         });
                       }
-                    })
+                    });
                 }}
               >
                 <Form>

@@ -102,43 +102,76 @@ export default function SalaContainer({ idSala }) {
                                 );
                               } else {
                                 setIsLoading(true);
-                                fetch(
-                                  `${pathContext}/api/alarma/deactivate/${item.idCamillas}`,
-                                  {
-                                    method: "POST",
-                                    headers: {
-                                      "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                      correo: correo.toLowerCase(),
-                                      password: password,
-                                    }),
-                                  }
-                                )
+                                fetch(`${pathContext}/api/auth/login`, {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    correo: correo,
+                                    password: password,
+                                  })
+                                })
                                   .then((response) => {
                                     if (!response.ok) {
-                                      Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: "Datos incorrectos",
-                                      });
                                       throw new Error(response.statusText);
-                                    } else {
-                                      return response.json();
                                     }
+                                    return response.json();
                                   })
-                                  .then((datos) => {
-                                    if (!datos.error) {
-                                        setIsLoading(false)
+                                  .then((data) => {
+                                    if(data.data.rol === 'E'){
+                                      fetch(
+                                        `${pathContext}/api/alarma/deactivate/${item.idCamillas}`,
+                                        {
+                                          method: "POST",
+                                          headers: {
+                                            "Content-Type": "application/json",
+                                          },
+                                          body: JSON.stringify({
+                                            correo: correo.toLowerCase(),
+                                            password: password,
+                                          }),
+                                        }
+                                      )
+                                        .then((response) => {
+                                          if (!response.ok) {
+                                            Swal.fire({
+                                              icon: "error",
+                                              title: "Oops...",
+                                              text: "Datos incorrectos",
+                                            });
+                                            throw new Error(response.statusText);
+                                          } else {
+                                            return response.json();
+                                          }
+                                        })
+                                        .then((datos) => {
+                                          if (!datos.error) {
+                                              setIsLoading(false)
+                                          } else {
+                                            Swal.fire({
+                                              icon: "error",
+                                              title: "Oops...",
+                                              text: "Datos incorrectos",
+                                            });
+                                          }
+                                        })
+                                        .catch((error) => console.log(error))
                                     } else {
                                       Swal.fire({
                                         icon: "error",
                                         title: "Oops...",
-                                        text: "Datos incorrectos",
+                                        text: "No tiene permisos para desactivar la alarma",
                                       });
                                     }
                                   })
-                                  .catch((error) => console.log(error))
+                                  .catch((error) =>
+                                    Swal.fire({
+                                      icon: "error",
+                                      title: "Oops...",
+                                      text: "Algo salió mal!",
+                                    })
+                                  )
                               }
                             },
                           });
