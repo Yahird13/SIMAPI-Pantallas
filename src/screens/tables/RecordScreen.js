@@ -76,7 +76,7 @@ export default function RecordScreen() {
           }
         });
 
-        setHistorial(historial);
+        setHistorial(historial.reverse());
       })
       .catch((error) => console.log(error))
       .finally(() => setIsLoading(false));

@@ -120,6 +120,9 @@ export default function MultiSelect({ horario }) {
           setBtnDisabled(true);
         }
       }
+      if(values.length===options.length){
+        setBtnDisabled(true);
+      }
     }, 100);
     return () => clearInterval(Interval);
   }, [values]);
