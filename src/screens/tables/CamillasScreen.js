@@ -89,7 +89,7 @@ export default function CamillasScreen() {
       {isLoading ? <Loader/> : 
       <div
         style={{
-          margin: "5%",
+          margin: "3%",
           marginTop: "10%",
         }}
       >

@@ -87,7 +87,7 @@ export default function RecordScreen() {
       {isLoading ? (<Loader/>):(
       <div
         style={{
-          margin: "5%",
+          margin: "3%",
           marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",

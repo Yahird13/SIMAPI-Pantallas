@@ -20,12 +20,17 @@ export default function DetailsHistory() {
       window.location.replace("/inicio");
     }
   }
+  if (!localStorage.getItem("historial")) {
+    if (localStorage.getItem("rol") === "A") {
+      window.location.replace("/inicio");
+    }
+  }
 
   const [usuario, setUsuario] = useState("");
   const [camilla, setCamilla] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const historial = JSON.parse(localStorage.getItem("historial"));
+  const historial = localStorage.getItem("historial") ? JSON.parse(localStorage.getItem("historial")): {};
   console.log(historial);
 
   useEffect(() => {
@@ -159,7 +164,9 @@ export default function DetailsHistory() {
                   <label style={styles.label}>Paciente:</label>
                   <input
                     type="text"
-                    value={historial.nombrePaciente ? historial.nombrePaciente : ""}
+                    value={
+                      historial.nombrePaciente ? historial.nombrePaciente : ""
+                    }
                     style={styles.input}
                     disabled
                   />
@@ -168,7 +175,9 @@ export default function DetailsHistory() {
                   <label style={styles.label}>Enfermero/a:</label>
                   <input
                     type="text"
-                    value={historial.nombreEnfermera ? historial.nombreEnfermera : ""}
+                    value={
+                      historial.nombreEnfermera ? historial.nombreEnfermera : ""
+                    }
                     style={styles.input}
                     disabled
                   />
@@ -258,9 +267,12 @@ export default function DetailsHistory() {
               }}
             >
               <Button
-                text={"Regresar"}
+                text={"Atrás"}
                 style={styles.btnGuardarUsuario}
-                onClick={() => window.location.replace("/historial")}
+                onClick={() => {
+                  localStorage.removeItem("historial")
+                  window.location.replace("/historial")
+                }}
               />
             </div>
           </div>

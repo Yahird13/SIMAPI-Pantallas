@@ -25,6 +25,16 @@ export default function Institucion(props) {
     window.location.replace("/inicio");
   }
 
+  if(mode === "edit" || mode === "details"){
+    if(!localStorage.getItem("idInstitucionEdit")){
+      if(localStorage.getItem("rol") === "SA"){
+        window.location.replace("/administradores");
+      } else {
+        window.location.replace("/inicio");
+      }
+    }
+  }
+
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
@@ -70,6 +80,7 @@ export default function Institucion(props) {
         })
         .then((datos) => {
           institucion = datos.data;
+          console.log(institucion)
           setNombre(institucion.nombre);
           setCorreo(institucion.correo);
           setCantidadCamillas(institucion.cantidadCamillas);
@@ -275,8 +286,8 @@ export default function Institucion(props) {
                             text: error,
                             icon: "error",
                           });
-                          console.log(error);
-                        })
+                          setIsLoading(false)
+                        });
                     }
                   } else {
                     Swal.fire({
@@ -427,7 +438,7 @@ export default function Institucion(props) {
                       type="number"
                       style={styles.input}
                       value={cantidadDeSalas ? cantidadDeSalas : ""}
-                      disabled={mode === "details"}
+                      disabled={mode === "details" || mode === "edit"}
                       onChange={(e) => setCantidadDeSalas(e.target.value)}
                     />
                   </div>
@@ -455,7 +466,7 @@ export default function Institucion(props) {
                       type="number"
                       style={styles.input}
                       value={cantidadDeIslas ? cantidadDeIslas : ""}
-                      disabled={mode === "details"}
+                      disabled={mode === "details" || mode === "edit"}
                       onChange={(e) => setCantidadDeIslas(e.target.value)}
                     />
                   </div>

@@ -1,1 +1,1 @@
-export const pathContext = 'http://54.85.25.230:8080'
+export const pathContext = 'http://localhost:8080'

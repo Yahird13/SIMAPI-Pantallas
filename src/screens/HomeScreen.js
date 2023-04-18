@@ -21,8 +21,9 @@ export default function HomeScreen() {
     if (!isInstitutionAuthenticated()) {
       window.location.replace("/");
     }
+  } else if (localStorage.getItem("rol") === "SA") {
+    window.location.replace("/administradores");
   }
-
   useEffect(() => {
     setIsLoading(true);
     fetch(
@@ -76,7 +77,7 @@ export default function HomeScreen() {
       {isLoading ? (<Loader/>): (
       <div
         style={{
-          margin: "5%",
+          margin: "3%",
           marginTop: "10%",
           borderRadius: "15px",
           border: "5px solid black",

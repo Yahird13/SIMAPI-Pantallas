@@ -10,6 +10,7 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { pathContext } from "../utils/PathContext";
 import { isInstitutionAuthenticated } from "../auth/InstitutionValidate";
+import { isUserAuthenticated } from "../auth/TokenValidate";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +21,10 @@ export const LoginForm = () => {
     window.location.replace("/inicio");
   } else if (localStorage.getItem("rol") === "SA") {
     window.location.replace("/administradores");
+  }
+
+  if(isUserAuthenticated && (localStorage.getItem("rol") === "A" || localStorage.getItem("rol") === "SA")){
+    window.location.replace("/admin");
   }
 
   const initialValues = {

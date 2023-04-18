@@ -35,6 +35,20 @@ export const LoginFormAdmin = () => {
   //useEffect(() => {
   //}, []);
 
+  if (isUserAuthenticated()) {
+    if(localStorage.getItem("rol") === "A"){
+      window.location.replace("/inicio");
+    } else if(localStorage.getItem("rol") === "SA"){
+      window.location.replace("/administradores");
+    } else {
+      window.location.replace("/");
+    }
+  }
+
+  if(isInstitutionAuthenticated() && !isUserAuthenticated()){
+    window.location.replace("/");
+  } 
+
   const initialValues = {
     email: "",
     password: "",

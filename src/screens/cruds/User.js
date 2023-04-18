@@ -42,6 +42,17 @@ export default function User(props) {
       } else {
         window.location.replace("/inicio");
       }
+    } else if (localStorage.getItem("rol") === "SA") {
+      if(!localStorage.getItem("idUsuarioEdit") && !localStorage.getItem("idInstitucion")){
+        console.log("falta idUsuarioEdit o idInstitucion")
+       //window.location.replace("/administradores");
+      }
+    }
+    if(!localStorage.getItem("idUsuarioEdit")){
+      if (localStorage.getItem("rol") === "A") {
+        console.log("falta idUsuarioEdit")
+        //window.location.replace("/inicio");
+      }
     }
 
     if (mode === "edit" || mode === "details") {

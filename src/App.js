@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';//npm install react-router-dom
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';//npm install react-router-dom
 
 
 //PANTALLAS PARA PRUEBAS
@@ -40,6 +40,7 @@ function App() {
           <Route path={"/editarInstitucion"} element={<Institucion mode={'edit'}/>}/>
           <Route path={"/detallesInstitucion"} element={<Institucion mode={'details'}/>}/>
           <Route path={"/admin"} element={<LoginAdminScreen/>}/>
+          <Route path='*' element={<Navigate to={"/"}/>}/>
         </Routes>
       </Router>
 

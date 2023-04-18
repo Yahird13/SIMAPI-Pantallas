@@ -56,7 +56,7 @@ export default function UsersScreen() {
       {isLoading ? (<Loader/>):(
       <div
         style={{
-          margin: "5%",
+          margin: "3%",
           marginTop: "10%",
         }}
       >

@@ -138,6 +138,7 @@ export default function SimapiNavbar(props) {
         <LogoutButton
           style={styles.logoutButton}
           onClick={() => {
+            localStorage.clear();
             window.location.replace("/");
             localStorage.clear();
           }}

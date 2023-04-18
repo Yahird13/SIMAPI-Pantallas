@@ -26,6 +26,10 @@ export default function Camilla(props) {
       window.location.replace("/inicio");
     }
   }
+
+  if(!localStorage.getItem("idCamillaEdit")){
+      window.location.replace("/inicio");
+  }
   //}, []);
 
   const { mode } = props;
@@ -182,7 +186,9 @@ export default function Camilla(props) {
                       if (expediente !== "") {
                         data.data.forEach((element) => {
                           if (element.numeroExpediente === expediente) {
-                            expExistente++;
+                            if (element.idCamillas !== localStorage.getItem("idCamillaEdit")) {
+                              expExistente++;
+                            }
                           }
                         });
                       }
@@ -264,6 +270,7 @@ export default function Camilla(props) {
                               allowEnterKey: false,
                               stopKeydownPropagation: false,
                             }).then(() => {
+                              localStorage.removeItem("idCamillaEdit");
                               window.location.replace("/camillas");
                             });
                           })
