@@ -126,7 +126,16 @@ export default function RecordScreen() {
                     fontWeight="bold"
                     style={styles.center}
                   >
-                    Hora
+                    Hora petición
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    style={styles.center}
+                  >
+                    Hora atención
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -167,6 +176,11 @@ export default function RecordScreen() {
                         <TableCell>
                           <label style={{ ...styles.center, fontSize: "18px" }}>
                             {item.horaDePeticion}
+                          </label>
+                        </TableCell>
+                        <TableCell>
+                          <label style={{ ...styles.center, fontSize: "18px" }}>
+                            {item.horaDeAtencion}
                           </label>
                         </TableCell>
                         <TableCell>
